@@ -279,16 +279,16 @@ E-mail: \href{mailto:galit.ashkenazi@gmail.com}{galit.ashkenazi@gmail.com}\\
 \end{theorem}
 
 \begin{question}
-	8 books are to be arranged on 2 shelves, of capacities 3 and 5 respectively.
-	Out of the 8 books, 2 books are special.
+	$8$ books are to be arranged on $2$ shelves, of capacities $3$ and $5$ respectively.
+	Out of the $8$ books, $2$ books are special.
 	Find the probability that the two special books end up on the same shelf.
 \end{question}
 
 \begin{solution}
 	Let the special books be placed first.\\
-	If the first special book is placed on the longer shelf, then it has 5 available positions, and the second special book has 4 available positions.\\
-	If the first special book is placed on the shorter shelf, then it has 3 available positions, and the second special book has 2 available positions.\\
-	In either case, the number of ways of arranging the remaining 6 books in the remaining positions is $6!$.\\
+	If the first special book is placed on the longer shelf, then it has $5$ available positions, and the second special book has $4$ available positions.\\
+	If the first special book is placed on the shorter shelf, then it has $3$ available positions, and the second special book has $2$ available positions.\\
+	In either case, the number of ways of arranging the remaining $6$ books in the remaining positions is $6!$.\\
 	Therefore, the total number of arrangements satisfying the conditions is $(5 \cdot 4 \cdot 6! + 3 \cdot 2 \cdot 6!)$.
 	The total number of arrangements is $8!$.
 	Therefore, the required probability is $\frac{5 \cdot 4 \cdot 6! + 3 \cdot 2 \cdot 6!}{8!}$.
@@ -296,8 +296,8 @@ E-mail: \href{mailto:galit.ashkenazi@gmail.com}{galit.ashkenazi@gmail.com}\\
 
 \begin{solution}
 	Let the places for the special books be allotted first.\\
-	If the first special book is assigned a place on the longer shelf, then it has 5 available positions, and the second special book has 4 available positions.\\
-	If the first special book is assigned a place on the shorter shelf, then it has 3 available positions, and the second special book has 2 available positions.\\
+	If the first special book is assigned a place on the longer shelf, then it has $5$ available positions, and the second special book has $4$ available positions.\\
+	If the first special book is assigned a place on the shorter shelf, then it has $3$ available positions, and the second special book has $2$ available positions.\\
 	The total number of arrangements is $8!$.
 	Therefore, the required probability is $\frac{5 \cdot 4 + 3 \cdot 2}{8 \cdot 7}$.
 \end{solution}
@@ -307,6 +307,80 @@ E-mail: \href{mailto:galit.ashkenazi@gmail.com}{galit.ashkenazi@gmail.com}\\
 	If the special books are to be placed on the shorter shelf, the possible combinations are $\binom{3}{2}$.\\
 	To total possible arrangements are $\binom{8}{2}$.\\
 	Therefore, the required probability is $\frac{\binom{5}{2} + \binom{3}{2}}{\binom{8}{2}}$.
+\end{solution}
+
+\begin{question}
+	Ben is going to celebrate the beginning of the year of the dragon.
+	He lives close to two pubs.
+	The probability that he would go to pub A is $0.5$ and the probability that the would go to pub B is $0.4$.
+	In addition, the probability that he would go to at least one of the two venues is $0.8$.
+	\begin{enumerate}
+		\item What is the sample space?
+		\item What is the probability that he would go to both pubs?
+		\item What is the probability that he would go to exactly one pub?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let $A$ be the event that he would go to pub $A$, and let $B$ be the event that he goes to pub $B$.
+			Therefore,
+			\begin{align*}
+				S & = \left\{ A \cap B^{\comp} , A^{\comp} \cap B , A \cap B , A^{\comp} \cap B^{\comp} \right\}
+			\end{align*}
+		\item
+			The probability that he would go to both pubs is
+			\begin{align*}
+				\prob(A \cap B) & = \prob(A) + \prob(B) - \prob(A \cup B) \\
+                                                & = 0.5 + 0.4 - 0.8                       \\
+                                                & = 0.1
+			\end{align*}
+		\item
+			The probability that he would go to exactly one pub is
+			\begin{align*}
+				\prob\left( (A \cup B) \setminus (A \cap B) \right) & = \prob(A \cup B) - \prob(A \cap B) \\
+                                                                                    & = 0.8 - 0.1                         \\
+                                                                                    & = 0.7
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	A lady crosses three traffic signals, with red and green lights only, on the way to her dog's hairdresser.\\
+	The probabilities of encountering $0$, $1$, and $2$ red lights are $0.4$, $0.1$, $0.2$ respectively.\\
+	Find the probabilities of
+	\begin{enumerate}
+		\item Encountering at least one red light.
+		\item Encountering at least one green light.
+		\item Encountering an odd number of red lights.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The required probability is
+			\begin{align*}
+				\prob(\text{$1$ red}) + \prob(\text{$2$ red}) + \prob(\text{$3$ red}) & = 1 - \prob(\text{$0$ red}) \\
+                                                                                                      & = 1 - 0.4                   \\
+                                                                                                      & = 0.6
+			\end{align*}
+		\item
+			The required probability is
+			\begin{align*}
+				\prob(\text{$1$ green}) + \prob(\text{$2$ green}) + \prob(\text{$3$ green}) & = \prob(\text{$0$ red}) + \prob(\text{$1$ red}) + \prob(\text{$2$ red}) \\
+                                                                                                            & = 0.4 + 0.1 + 0.2                                                       \\
+                                                                                                            & = 0.7
+			\end{align*}
+		\item
+			The required probability is
+			\begin{align*}
+				\prob(\text{$1$ red}) + \prob(\text{$3$ red}) & = 1 - \prob(\text{$0$ red}) - \prob(\text{$2$ red}) \\
+                                                                              & = 1 - 0.4 - 0.2                                     \\
+                                                                              & = 0.4
+			\end{align*}
+	\end{enumerate}
 \end{solution}
 
 \end{document}

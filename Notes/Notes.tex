@@ -1,0 +1,312 @@
+\documentclass[titlepage, fleqn, a4paper, 12pt, twoside]{article}
+\usepackage{geometry}
+\usepackage{exsheets} %question and solution environments
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{esint} %integral signs
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, angles, quotes, spy}
+\usepackage{graphicx} %inserting graphics
+\usepackage{epstopdf} %converting and inserting eps graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate, enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{microtype} %micro-typography
+\usepackage{todonotes}
+\usepackage{booktabs}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{law}{Law}
+\newtheorem{axiom}{Axiom}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\renewcommand{\marginfont}{\scriptsize \color{blue}}
+
+\renewcommand{\tilde}{\widetilde}
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\SetupExSheets{solution/print = true} %prints all solutions by default
+
+%opening
+\title{Introduction to Probability and Statistics}
+\author{Aakash Jog}
+\date{2015-16}
+
+\begin{document}
+
+\pagenumbering{roman}
+\begin{titlepage}
+\newgeometry{margin=0cm}
+\maketitle
+\end{titlepage}
+\restoregeometry
+%\setlength{\mathindent}{0pt}
+
+\blfootnote
+{	
+	\begin{figure}[H]
+		\includegraphics[height = 12pt]{cc.pdf}
+		\includegraphics[height = 12pt]{by.pdf}
+		\includegraphics[height = 12pt]{nc.pdf}
+		\includegraphics[height = 12pt]{sa.pdf}
+	\end{figure}
+	This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-nc-sa/4.0/}.
+} %CC-BY-NC-SA license
+
+\tableofcontents
+
+\clearpage
+\section{Lecturer Information}
+
+\textbf{Dr. Galit Ashkenazi-Golan}\\
+~\\
+E-mail: \href{mailto:galit.ashkenazi@gmail.com}{galit.ashkenazi@gmail.com}\\
+
+\section{Recommended Reading}
+
+\begin{enumerate}
+	\item Sheldon M. Ross: A First Course in Probability Pearson Prenticce Hall, 8th Edition, 2010.
+	\item Bertsekas, Dimitri P. and Tsitsikis, John N., Introduction to Probability. Athena Science, 2nd editions, 2008.
+	\item Montgomery, D.C and Runger, G.C. and Hubele, N.F. Engineering Statistics. Wiley \& Sons, NY, 4th Edition, 2007.
+\end{enumerate}
+
+\clearpage
+\pagenumbering{arabic}
+
+\part{Basics of Probability}
+
+\section{Terminology}
+
+\begin{definition}[Experiment]
+	A situation with uncertain results is called an experiment.
+\end{definition}
+
+\begin{definition}[Sample space]
+	The set of all possible outcomes of an experiment is called the sample space.
+	It is denoted by $\Omega$ or $S$.
+\end{definition}
+
+\begin{definition}[Event]
+	Any subset $A$ of the sample space is called an event.
+\end{definition}
+
+\begin{definition}[Intersection of sets]
+	Let $A$ and $B$ be two events of sample space $\Omega$.
+	The set of all outcomes that are both in $A$ and $B$ is called the intersection of $A$ and $B$.
+	It is denoted by $A \cap B$.
+\end{definition}
+
+\begin{definition}[Union of sets]
+	Let $A$ and $B$ be two events of sample space $\Omega$.
+	The set of all outcomes that are in either of $A$ and $B$ is called the union of $A$ and $B$.
+	It is denoted by $A \cup B$.
+\end{definition}
+
+\begin{definition}[Complement of set]
+	Let $A$ be an event of sample space $\Omega$.
+	The set of all outcomes that are not in $A$, but are in $\Omega$ is called the complement of $A$.
+	It is denoted by $\overline{A}$ or $A^{\comp}$.
+\end{definition}
+
+\begin{definition}[Mutually exclusive events]
+	Two events $A$ and $B$ are said to be mutually exclusive, if
+	\begin{align*}
+		A \cap B & = \emptyset
+	\end{align*}
+\end{definition}
+
+\section{Basic Laws}
+
+\begin{law}[Commutative Laws]
+	\begin{align*}
+		A \cup B & = B \cup A \\
+		A \cap B & = B \cap A
+	\end{align*}
+\end{law}
+
+\begin{law}[Associative Laws]
+	\begin{align*}
+		(A \cup B) \cup C & = A \cup (B \cup C) \\
+		(A \cap B) \cap C & = A \cap (B \cap C)
+	\end{align*}
+\end{law}
+
+\begin{law}[Distributive Laws]
+	\begin{align*}
+		(A \cup B) \cap C & = (A \cap C) \cup (B \cap C) \\
+		(A \cap B) \cup C & = (A \cup C) \cap (B \cup C)
+	\end{align*}
+\end{law}
+
+\begin{law}[De Morgan's Laws]
+	\begin{align*}
+		\overline{A_1 \cup \dots \cup A_n} & = \overline{A_1} \cap \dots \cap \overline{A_n} \\
+		\overline{A_1 \cap \dots \cap A_n} & = \overline{A_1} \cup \dots \cup \overline{A_n}
+	\end{align*}
+\end{law}
+
+\begin{proof}
+	\begin{gather*}
+		\omega \in \overline{A_a \cup \dots \cup A_n}\\
+		\iff \omega \notin A_ \cup \dots \cup A_n\\
+		\iff \omega \notin A_1 \text{ and } \dots \text{ and } \omega \notin A_n\\
+		\iff \omega \in \overline{A_1} \text{ and } \dots \text{ and } \omega \in \overline{A_n}\\
+		\iff \omega \in \overline{A_1} \cap \dots \cap \overline{A_n}
+	\end{gather*}
+	Similarly,
+	\begin{gather*}
+		\omega \in \overline{A_a \cap \dots \cap A_n}\\
+		\iff \omega \notin A_ \cap \dots \cap A_n\\
+		\iff \omega \notin A_1 \text{ or } \dots \text{ or } \omega \notin A_n\\
+		\iff \omega \in \overline{A_1} \text{ or } \dots \text{ or } \omega \in \overline{A_n}\\
+		\iff \omega \in \overline{A_1} \cup \dots \cup \overline{A_n}
+	\end{gather*}
+\end{proof}
+
+\section{Axioms of Probability}
+
+\begin{definition}[Probability]
+	The probability of an event $E$ is defined to be a function which satisfies the three basic axioms.
+	It is denoted by $P(E)$.
+	\begin{axiom}
+		\begin{equation*}
+			0 \le \prob(E) \le 1
+		\end{equation*}
+	\end{axiom}
+	
+	\begin{axiom}
+		\begin{align*}
+			\prob(\Omega) & = 1
+		\end{align*}
+	\end{axiom}
+	
+	\begin{axiom}
+		For any sequence of mutually exclusive events $A_1$, $\dots$,
+		\begin{align*}
+			\prob\left( \bigcup\limits_{i = 1}^{\infty} A_i \right) & = \sum\limits_{i = 1}^{\infty} \prob(A_i)
+		\end{align*}
+	\end{axiom}
+\end{definition}
+
+\begin{theorem}
+	\begin{align*}
+		\prob(\emptyset) & = 0
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	For a finite collection of mutually exclusive event $A_1$, $\dots$, $A_n$,
+	\begin{align*}
+		\prob\left( \bigcup\limits_{i = 1}^{n} A_i \right) & = \sum\limits_{i = 1}^{n} \prob(A_i)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	\begin{align*}
+		\prob\left( \overline{A} \right) & = 1 - \prob(A)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		A \cap \overline{A} & = \emptyset
+	\end{align*}
+	Therefore, $A$ and $\overline{A}$ are mutually exclusive.
+	Therefore,
+	\begin{align*}
+		\prob(A) + \prob\left( \overline{A} \right) & = \prob\left( A \cup \overline{A} \right) \\
+                                                            & = \prob(\Omega)                           \\
+                                                            & = 1                                       \\
+		\therefore \prob\left( \overline{A} \right) & = 1 - \prob(A)
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	\begin{align*}
+		\prob(A \cup B) & = \prob(A) + \prob(B) - \prob(A \cap B)
+	\end{align*}
+\end{theorem}
+
+\begin{definition}[Symmetric sample spaces]
+	A sample space is said to be symmetric if the probabilities of all $\omega \in \Omega$ are the same.
+\end{definition}
+
+\section{Basics of Combinatorics}
+
+\begin{theorem}
+	The number of combinations of $k$ objects out of $n$, without repetition is
+	\begin{align*}
+		\binom{n}{k} & = \comb{n}{k} \\
+                             & = \frac{n!}{(n - k)! k!}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	\begin{align*}
+		\perm{n}{k} & = k! \comb{n}{k} \\
+                            & = \frac{n!}{(n - k)!}
+	\end{align*}
+	The number of permutations of $k$ objects out of $n$, without repetition is
+\end{theorem}
+
+\begin{question}
+	8 books are to be arranged on 2 shelves, of capacities 3 and 5 respectively.
+	Out of the 8 books, 2 books are special.
+	Find the probability that the two special books end up on the same shelf.
+\end{question}
+
+\begin{solution}
+	Let the special books be placed first.\\
+	If the first special book is placed on the longer shelf, then it has 5 available positions, and the second special book has 4 available positions.\\
+	If the first special book is placed on the shorter shelf, then it has 3 available positions, and the second special book has 2 available positions.\\
+	In either case, the number of ways of arranging the remaining 6 books in the remaining positions is $6!$.\\
+	Therefore, the total number of arrangements satisfying the conditions is $(5 \cdot 4 \cdot 6! + 3 \cdot 2 \cdot 6!)$.
+	The total number of arrangements is $8!$.
+	Therefore, the required probability is $\frac{5 \cdot 4 \cdot 6! + 3 \cdot 2 \cdot 6!}{8!}$.
+\end{solution}
+
+\begin{solution}
+	Let the places for the special books be allotted first.\\
+	If the first special book is assigned a place on the longer shelf, then it has 5 available positions, and the second special book has 4 available positions.\\
+	If the first special book is assigned a place on the shorter shelf, then it has 3 available positions, and the second special book has 2 available positions.\\
+	The total number of arrangements is $8!$.
+	Therefore, the required probability is $\frac{5 \cdot 4 + 3 \cdot 2}{8 \cdot 7}$.
+\end{solution}
+
+\begin{solution}
+	If the special books are to be placed on the longer shelf, the possible combinations are $\binom{5}{2}$.\\
+	If the special books are to be placed on the shorter shelf, the possible combinations are $\binom{3}{2}$.\\
+	To total possible arrangements are $\binom{8}{2}$.\\
+	Therefore, the required probability is $\frac{\binom{5}{2} + \binom{3}{2}}{\binom{8}{2}}$.
+\end{solution}
+
+\end{document}

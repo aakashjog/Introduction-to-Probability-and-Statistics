@@ -383,4 +383,312 @@ E-mail: \href{mailto:galit.ashkenazi@gmail.com}{galit.ashkenazi@gmail.com}\\
 	\end{enumerate}
 \end{solution}
 
+\begin{question}
+	$5$ cards are taken out randomly from a $52$ card deck.
+	Consider the following events.
+	\begin{enumerate}
+		\item $A$: All cards are with numbers higher than $10$.
+		\item $B$: All cards are hearts.
+		\item $C$: All cards have different numbers.
+		\item $D$: All cards are consecutive numbers.
+	\end{enumerate}
+	Assuming ace to have value $1$, find the probabilities of $A$, $B$, $C$, and $D$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		|\Omega| & = \binom{52}{5}
+	\end{align*}
+	There are $12$ cards with numbers higher than $10$.
+	Therefore,
+	\begin{align*}
+		|A| & = \binom{12}{5}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A) & = \frac{|A|}{|\Omega|} \\
+                         & = \frac{\binom{12}{5}}{\binom{52}{5}}
+	\end{align*}
+	There are $13$ heart cards.
+	Therefore,
+	\begin{align*}
+		|B| & = \binom{13}{5}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(B) & = \frac{|B|}{|\Omega|} \\
+                         & = \frac{\binom{13}{5}}{\binom{52}{5}}
+	\end{align*}
+	The number of ways of selecting $5$ different numbers out of $13$ is $\binom{13}{5}$.
+	For each of the selected number, there are $4$ cards, of which exactly one has to be selected.
+	Therefore,
+	\begin{align*}
+		|C| & = \binom{13}{5} 4^5
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(C) & = \frac{\binom{13}{5} 4^5}{\binom{52}{5}}
+	\end{align*}
+	There are $9$ sequences of consecutive numbers.
+	Each of the numbers have $4$ corresponding cards each.
+	Therefore,
+	\begin{align*}
+		|D| & = 9 \cdot 4^5
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(D) & = \frac{9 \cdot 4^5}{\binom{52}{3}}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A die is tossed $3$ times.
+	Consider the following events.
+	\begin{enumerate}
+		\item $A$: The sum of all three numbers is even.
+	\end{enumerate}
+	Find the probability of $A$.
+\end{question}
+
+\begin{solution}
+	Every time the die is rolled, there as $6$ possible outcomes.
+	Therefore,
+	\begin{align*}
+		|\Omega| & = 6^3
+	\end{align*}
+	For the sum of three numbers to be even, exactly $0$ or $2$ of them must be odd.\\
+	There is $1$ combination for all three numbers to be even.
+	Each of these even numbers has $3$ options.
+	Therefore, the total number of combinations following the restriction in $3^3$.\\
+	There are $3$ combinations for exactly $2$ numbers to be odd.
+	Each of the odd numbers has $3$ option, and the even number has $3$ options.
+	Therefore, the total number of combinations following the restriction in $3^3$.\\
+	Therefore,
+	\begin{align*}
+		|A| & = 4 \cdot 3^3
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A) & = \frac{4 \cdot 3^3}{6^3}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	There are $n$ students in a classroom.
+	Assuming $365$ days in a year, what is the probability that at least two of them share the same birthday, ignoring the year?
+\end{question}
+
+\begin{solution}
+	There are $\binom{365}{1}$ options for each person's birthday.
+	Therefore,
+	\begin{align*}
+		|\Omega| & = 365^n
+	\end{align*}
+	Let $A$ be the event that everyone has distinct birthdays.\\
+	If $n > 365$, at least two persons must share a birthday.\\
+	If $n \le 365$,
+	\begin{align*}
+		|A| & = \perm{365}{n}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A) & = \frac{\perm{365}{n}}{365^n} \\
+                         & = \frac{\frac{365!}{(365 - n)!}}{365^n}
+	\end{align*}
+	Therefore, the probability of at least two persons sharing a birthday is
+	\begin{align*}
+		\prob\left( \overline{A} \right) & = 1 - \prob(A) \\
+                                                 & = 1 - \frac{\frac{365!}{(365 - n)!}}{365^n}
+	\end{align*}
+\end{solution}
+
+\section{Conditional Probability}
+
+\begin{definition}
+	For two events $A$ and $B$ in sample space $\Omega$, where $\prob(B) > 0$, the conditional probability, i.e. the probability that $A$ will occur after $B$ has already occurred is defined as
+	\begin{align*}
+		\prob(A|B) & = \frac{\prob(A \cap B)}{\prob(B)}
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	A die is rolled once.
+	Consider the following events.
+	\begin{enumerate}
+		\item $A$: The result is even.
+		\item $B$: The result is higher than $3$.
+	\end{enumerate}
+	What is the probability that the result is even, if it is known that result is higher than $3$?
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\prob(A|B) & = \frac{\prob(A \cap B)}{\prob(B)}                                                   \\
+                           & = \frac{\prob\left( \{2,4,6\} \cap \{4,5,6\} \right)}{\prob\left( \{4,5,6\} \right)} \\
+                           & = \frac{\prob\left( \{4,6\} \right)}{\prob\left( \{4,5,6\} \right)}                  \\
+                           & = \frac{\frac{1}{3}}{\frac{1}{2}}                                                    \\
+                           & = \frac{2}{3}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A coin is flipped twice.
+	What is the probability of getting `Heads' on both flips, given that the first flip results in `Heads'.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\Omega & = \left\{ (H,H),(H,T),(T,H),(T,T) \right\}
+	\end{align*}
+	Let $A$ be the event of getting two `Heads'.
+	Therefore,
+	\begin{align*}
+		A & = \left\{ (H,H) \right\}
+	\end{align*}
+	Let $B$ be the event that the first flip results in `Heads'.
+	Therefore,
+	\begin{align*}
+		B & = \left\{ (H,T),(H,H) \right\}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A|B) & = \frac{\prob(A \cap B)}{\prob(B)} \\
+                           & = \frac{\frac{1}{4}}{\frac{1}{2}}  \\
+                           & = \frac{1}{2}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A coin is flipped twice.
+	What is the probability of getting `Heads' on both flips, given that at least one flip results in `Heads'.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\Omega & = \left\{ (H,H),(H,T),(T,H),(T,T) \right\}
+	\end{align*}
+	Let $A$ be the event of getting two `Heads'.
+	Therefore,
+	\begin{align*}
+		A & = \left\{ (H,H) \right\}
+	\end{align*}
+	Let $B$ be the event that at least one flip results in `Heads'.
+	Therefore,
+	\begin{align*}
+		B & = \left\{ (H,T),(T,H),(H,H) \right\}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A|B) & = \frac{\prob(A \cap B)}{\prob(B)} \\
+                           & = \frac{\frac{1}{4}}{\frac{3}{4}}  \\
+                           & = \frac{1}{3}
+	\end{align*}
+\end{solution}
+
+\begin{theorem}
+	\begin{align*}
+		\prob(A_1 \cap \dots \cap A_n) & = \prod\limits_{k = 1}^{n} \prob\left( A_k | \bigcap\limits_{l = 1}^{k - 1} A_l \right)
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	A deck of cards is randomly divided into four stacks of $13$ cards each.
+	Find the probability that each stack has exactly one ace.
+\end{question}
+
+\begin{solution}
+	Let $A_1$ be the event that $\mathtt{A}\spadesuit$ is in any one of the stacks.
+	Therefore,
+	\begin{align*}
+		\prob(A_1) & = 1
+	\end{align*}
+	Let $A_2$ be the event that $\mathtt{A}\spadesuit$ and $\mathtt{A}\heartsuit$ are in different stacks.
+	Therefore,
+	\begin{align*}
+		\prob(A_2 | A_1) & = \frac{\prob(A_1 \cap A_2)}{\prob(A_1)} \\
+                                 & = \frac{39}{51}
+	\end{align*}
+	Let $A_3$ be the event that $\mathtt{A}\spadesuit$, $\mathtt{A}\heartsuit$, and $\mathtt{A}\diamondsuit$ are in different stacks.
+	Therefore,
+	\begin{align*}
+		\prob(A_3 | A_1 \cap A_2) & = \frac{\prob(A_1 \cap A_2 \cap A_3)}{\prob(A_1 \cap A_2)} \\
+                                          & = \frac{26}{50}
+	\end{align*}
+	Let $A_4$ be the event that $\mathtt{A}\spadesuit$, $\mathtt{A}\heartsuit$, $\mathtt{A}\diamondsuit$, and $\mathtt{A}\clubsuit$ are in different stacks.
+	Therefore,
+	\begin{align*}
+		\prob(A_4 | A_1 \cap A_2 \cap A_3) & = \frac{\prob(A_1 \cap A_2 \cap A_3 \cap A_4)}{\prob(A_1 \cap A_2 \cap A_3)} \\
+                                                   & = \frac{13}{49}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A_1 \cap A_2 \cap A_3 \cap A_4) & = \prob(A_1) \prob(A_2 | A_1) \prob(A_3 | A_1 \cap A_2) \prob(A_4 | A_1 \cap A_2 \cap A_3) \\
+                                                      & = (1) \left( \frac{39}{51} \right) \left( \frac{26}{50} \right) \left( \frac{13}{49} \right)
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A deck of cards is randomly divided into four stacks of $13$ cards each.
+	Find the probability, using combinatorics, that each stack has exactly one ace.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		|\Omega| & = \binom{52}{13} \binom{39}{13} \binom{26}{13} \binom{13}{13}
+	\end{align*}
+	Let $A$ be the event that each stack has exactly one ace.
+	Therefore, each stack has one ace, and $12$ non-ace cards.
+	Therefore, 
+	\begin{align*}
+		|A| & = \left( \binom{4}{1} \binom{48}{12} \right) \left( \binom{3}{1} \binom{36}{12} \right) \left( \binom{2}{1} \binom{24}{12} \right) \left( \binom{1}{1} \binom{12}{12} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A) & = \frac{|A|}{|\Omega|} \\
+                         & = \frac{\left( \binom{4}{1} \binom{48}{12} \right) \left( \binom{3}{1} \binom{36}{12} \right) \left( \binom{2}{1} \binom{24}{12} \right) \left( \binom{1}{1} \binom{12}{12} \right)}{\binom{52}{13} \binom{39}{13} \binom{26}{13} \binom{13}{13}}
+	\end{align*}
+\end{solution}
+
+\section{Bayes' Theorem}
+
+\begin{definition}[Division]
+	A set of events $A_1,\dots,A_n$ is called a division of the sample space $\Omega$, if
+	\begin{align*}
+		\bigcup\limits_{k = 1}^{n} A_k & = \Omega
+	\end{align*}
+	and
+	\begin{align*}
+		A_i \cap A_j & = \emptyset
+	\end{align*}
+	for $i \neq j$.
+\end{definition}
+
+\begin{theorem}[Bayes' Theorem]
+	Given a division $A_1,\dots,A_n$ of the sample space $\Omega$, and an event $B$ in $\Omega$,
+	\begin{align*}
+		\prob(B) & = \sum\limits_{i = 1}^{n} \prob(A_i) \prob(B|A_i)
+	\end{align*}
+	\label{thm:Bayes_Theorem}
+\end{theorem}
+
+\begin{question}
+	A chocolate factory has three production lines.\\
+	$50\%$ of the production is milk chocolate, out of which $1\%$ is defective.\\
+	$30\%$ of the production is dark chocolate, out of which $2\%$ is defective.\\
+	$20\%$ of the production is white chocolate, out of which $0.5\%$ is defective.\\
+	If a chocolate bar is picked randomly, what is the probability that it is defective?
+\end{question}
+
+\begin{solution}
+	Let $A_1$, $A_2$, $A_3$ be the events that selected chocolate bar is made of milk, dark, white chocolate, respectively.\\
+	Let $B$ be the event that the selected chocolate bar is defective.\\
+	Therefore,
+	\begin{align*}
+		\prob(B) & = \sum\limits_{i = 1}^{3} \prob(A_i) \prob(B|A_1)                                          \\
+                         & = \left( (0.5) (0.01) \right) + \left( (0.3) (0.02) \right) + \left( (0.2) (0.005) \right) \\
+                         & = 0.005 + 0.006 + 0.001                                                                    \\
+                         & = 0.012
+	\end{align*}
+\end{solution}
+
 \end{document}

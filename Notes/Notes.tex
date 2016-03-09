@@ -56,6 +56,17 @@
 
 \SetupExSheets{solution/print = true} %prints all solutions by default
 
+\newtoggle{paper}
+
+\toggletrue{paper}
+
+\iftoggle{paper}{
+
+}{
+	\usepackage{setspace}
+	\doublespacing
+}
+
 %opening
 \title{Introduction to Probability and Statistics}
 \author{Aakash Jog}
@@ -506,6 +517,72 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 		\prob\left( \overline{A} \right) & = 1 - \prob(A) \\
                                                  & = 1 - \frac{\frac{365!}{(365 - n)!}}{365^n}
 	\end{align*}
+\end{solution}
+
+\begin{question}
+	A president, a treasurer, and a secretary, all different, are to be chosen from a club consisting of $10$ people.
+	How many different choices of office bearers are possible if
+	\begin{enumerate}
+		\item There are no restrictions.
+		\item A and B cannot serve together.
+		\item C and D can serve together or not at all.
+		\item E must be an officer.
+		\item F can serve only if he is the president.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The total possible combinations are $\perm{10}{3}$.
+		\item
+			If neither A nor B are office bearers, there are $\perm{8}{3}$ possible combinations.\\
+			If one of A and B is an office bearer, there are three possible posts for the selected person.
+			The number of combinations for the rest of the posts are $\perm{8}{2}$.
+			Therefore, the total number of combinations are $\perm{8}{3} + 3 \perm{8}{2}$.
+		\item
+			If both C and D are chosen, the number of combinations are $3 \cdot 2 \cdot \perm{8}{1}$.
+			If neither C nor D are chosen, the number of combinations are $\perm{8}{3}$.
+			Therefore, the total number of combinations are $3 \cdot 2 \cdot \comb{8}{1} + \perm{8}{3}$.
+		\item
+			There are three possible posts for E.
+			Therefore, the total number of combinations are $3 \cdot \perm{9}{2}$.
+		\item
+			If F is the president, the number of combinations are $\perm{9}{2}$.
+			If F is not the president, the number of combinations are $\perm{9}{3}$.
+			Therefore, the total number of combinations are $\perm{9}{2} + \perm{9}{3}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	$a$ different balls are divided randomly into $n$ different cells.
+	Find the probability that all cells are non-empty when
+	\begin{enumerate}
+		\item $a = n$
+		\item $a = n + 1$
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				|S| & = n^a \\
+                                    & = n^n
+			\end{align*}
+			If all cells are to be non-empty, the number of combinations are $n!$.
+			Therefore, the probability is $\frac{n!}{n^n}$.
+		\item
+			\begin{align*}
+				|S| & = n^a \\
+                                    & = n^{n + 1}
+			\end{align*}
+			The number of combinations to select $2$ balls is $\binom{n + 1}{2}$.
+			Let these two balls be glued together and be treated as one.\\
+			The number of arrangements of these $n$ balls are $n!$.\\
+			Therefore, the total number of combinations are $\binom{n + 1}{2} n!$.\\
+			Therefore, the probability is $\frac{\binom{n + 1}{2}}{n!}$.
+	\end{enumerate}
 \end{solution}
 
 \section{Conditional Probability}

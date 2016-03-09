@@ -1,0 +1,333 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+\usepackage{exsheets}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+\usepackage{algpseudocode} %algorithms
+\usepackage{algorithm} %algorithms
+\usepackage{booktabs}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title
+[
+	Introduction to Probability and Statistics : Assignment 1
+]
+{
+	Introduction to Probability and Statistics\\
+	Assignment 1
+}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{9}{3}{2016}}
+
+\begin{document}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	In a certain class, the following groups were defined.
+	\begin{enumerate}
+		\item A: Hebrew speaking students
+		\item B: English speaking students
+		\item C: Yiddish speaking students
+	\end{enumerate}
+	Use the union, intersection, and complement actions to describe the following groups.
+	\begin{enumerate}
+		\item Students who speak all three languages.
+		\item Students who speak exactly one language.
+		\item Students who speak at least one of the languages.
+		\item Students who do not speak Hebrew.
+		\item Students who speak exactly two languages.
+		\item Students who speak at least two languages.
+	\end{enumerate}
+	Which of the following groups are mutually exclusive?
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}
+		\item $A \cap B \cap C$
+		\item $\left( A \cap B^{\comp} \cap C^{\comp} \right) \cup \left( A^{\comp} \cap B \cap C^{\comp} \right) \cup \left( A^{\comp} \cap B^{\comp} \cap C \right)$
+		\item $A \cup B \cup C$
+		\item $A^{\comp}$
+		\item $\left( A^{\comp} \cap B \cap C \right) \cup \left( A \cap B^{\comp} \cap C \right) \cup \left( A \cap B \cap C^{\comp} \right)$
+		\item $(A \cap B) \cup (B \cap C) \cup (C \cap A)$
+	\end{enumerate}
+	The following pairs of groups are mutually exclusive.
+	\begin{enumerate}
+		\item $1$, $2$
+		\item $1$, $5$
+		\item $1$, $4$
+		\item $2$, $5$
+		\item $2$, $6$
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	A series of ten coin flips is performed.
+	The possible results of each flip are `Head' or `Tail'.
+	Describe with words the complement of each of the following events.
+	\begin{enumerate}
+		\item `Head' appeared at least $6$ times.
+		\item `Head' appeared no more than $4$ times.
+		\item `Head' never appeared.
+		\item In the first two flips, `Head' appeared.
+		\item Number of `Head's is greater than the number of `Tail's.
+		\item Less than $8$ `Tails' appeared.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}
+		\item `Head' appeared at most $5$ times.
+		\item `Head' appeared more than $4$ times.
+		\item `Head' appeared at least once.
+		\item In the first two flips, `Tail' appeared at least once.
+		\item Number of `Head's is less than or equal to the number of `Tail's.
+		\item $8$ or more `Tails' appeared.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	Let $A$ and $B$ be events such that
+	\begin{align*}
+		\prob(A)        & = \frac{3}{5} \\
+		\prob(B)        & = \frac{1}{3} \\
+		\prob(A \cap B) & = \frac{1}{10}
+	\end{align*}
+	Calculate
+	\begin{enumerate}
+		\item $\prob(A \cup B)$
+		\item $\prob\left( A^{\comp} \cap B^{\comp} \right)$
+		\item $\prob\left( A^{\comp} \cup B^{\comp} \right)$
+		\item $\prob\left( A \cap B^{\comp} \right)$
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				\prob(A \cup B) & = \prob(A) + \prob(B) - \prob(A \cap B)    \\
+                                                & = \frac{3}{5} + \frac{1}{3} - \frac{1}{10} \\
+                                                & = \frac{5}{6}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob\left( A^{\comp} \cap B^{\comp} \right) & = \prob\left( (A \cup B)^{\comp} \right) \\
+                                                                             & = 1 - \prob(A \cup B)                    \\
+                                                                             & = 1 - \frac{5}{6}                        \\
+                                                                             & = \frac{1}{6}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob\left( A^{\comp} \cup B^{\comp} \right) & = \prob\left( (A \cap B)^{\comp} \right) \\
+                                                                             & = 1 - \prob(A \cap B)                    \\
+                                                                             & = 1 - \frac{1}{10}                       \\
+                                                                             & = \frac{9}{10}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob\left( A \cap B^{\comp} \right) & = \prob(A) - \prob(A \cap B) \\
+                                                                     & = \frac{3}{5} - \frac{1}{10} \\
+                                                                     & = \frac{1}{2}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	A cafeteria offers a three-course meal consisting of an entree, a starch, and a dessert.
+	The possible choices are given in the following table.
+	\begin{table}
+		\centering
+		\begin{tabular}{l l}
+			\toprule
+			Course & Choices\\
+			\midrule
+			Entree & Chicken or roast beef\\
+			Starch & Pasta or rice or potatoes\\
+			Dessert & Ice cream or jello or apple pie or a peach\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	A person is to choose one course from each category.
+	\begin{enumerate}
+		\item
+			How many outcomes are in the sample space?
+		\item
+			Let $A$ be the event that ice cream is chosen.
+			How many outcomes are in $A$?
+		\item
+			Let $B$ be the event that chicken is chosen.
+			How many outcomes are in $B$?
+		\item
+			List all the outcomes in the event $A B$.
+		\item
+			Let $C$ be the event that rice is chosen.
+			How many outcomes are in $C$?
+		\item
+			List all the outcomes in the event $A B C$.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				|S| & = \comb{2}{1} \cdot \comb{3}{1} \cdot \comb{4}{1} \\
+                                    & = 2 \cdot 3 \cdot 4                               \\
+                                    & = 24
+			\end{align*}
+		\item
+			\begin{align*}
+				|A| & = \comb{2}{1} \cdot \comb{3}{1} \\
+                                    & = 2 \cdot 3                     \\
+                                    & = 6
+			\end{align*}
+		\item
+			\begin{align*}
+				|B| & = \comb{3}{1} \cdot \comb{4}{1} \\
+                                    & = 3 \cdot 4                     \\
+                                    & = 12
+			\end{align*}
+		\item
+			$A \cap B$ is the event in which chicken and ice cream are chosen.
+			Therefore, the outcomes are
+			\begin{table}
+				\centering
+				\begin{tabular}{l l l}
+					\toprule
+					Entree & Starch & Dessert\\
+					\midrule
+					Chicken & Pasta & Ice cream\\
+					Chicken & Rice & Ice cream\\
+					Chicken & Potatoes & Ice cream\\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		\item
+			\begin{align*}
+				|C| & = \comb{2}{1} \cdot \comb{4}{1} \\
+                                    & = 2 \cdot 4                     \\
+                                    & = 8
+			\end{align*}
+		\item
+			$A \cap B \cap C$ is the event in which chicken, rice, and ice cream are chosen.
+			Therefore, the only outcome is
+			\begin{table}
+				\centering
+				\begin{tabular}{l l l}
+					\toprule
+					Entree & Starch & Dessert\\
+					\midrule
+					Chicken & Rice & Ice cream\\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	A customer visiting the suit department of a certian store will purchase a suit with probability $0.22$, a shirt with probability $0.30$, and a tie with probability $0.28$.
+	The customer wil purchase both a suit and a shirt with probability $0.11$, both a suit an a tie with probability $0.14$, and both a shirt and a tie with probability $0.10$.
+	A customer will purchase all three items with probability $0.06$.\\
+	Find the probability that a customer purchases
+	\begin{enumerate}
+		\item None of these items.
+		\item Exactly one of these items?
+	\end{enumerate}
+	Answer the questions both with the inclusion-exclusion identity, and a Venn diagram.
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let $A$ be the event that a customer buys a suit.\\
+			Let $B$ be the event that a customer buys a shirt\\
+			Let $C$ be the event that a customer buys a tie.\\
+			Therefore,
+			\begin{align*}
+				\prob\left( (A \cup B \cup C)^{\comp} \right) & = \quad 1                                                                   \\
+                                                                              & \quad - \left( \prob(A) + \prob(B) + \prob(C) \right)                       \\
+                                                                              & \quad - \left( -\prob(A \cap B) - \prob(B \cap C) - \prob(C \cap A) \right) \\
+                                                                              & \quad - \left( \prob(A \cap B \cap C) \right)                               \\
+                                                                              & = 1 - (0.22 + 0.30 + 0.28 - 0.11 - 0.14 - 0.10 + 0.06)                      \\
+                                                                              & = 1 - (0.51)                                                                \\
+                                                                              & = 0.49
+			\end{align*}
+		\item
+			Let the required outcome be $D$.
+			Therefore,
+			\begin{align*}
+				\prob(D) & = \prob\left( \left( A \setminus (B \cup C) \right) \cup \left( B \setminus (C \cup A) \right) \cup \left( C \setminus (A \cup B) \right) \right) \\
+                                         & = \prob(A \cup B \cup C) - \prob(A \cap B) - \prob(B \cap C) - \prob(C \cap A) + 2 \prob(A \cap B \cap C)                                         \\
+                                         & = 0.51 - 0.11 - 0.14 - 0.10 + 2 (0.06)                                                                                                            \\
+                                         & = 0.28
+			\end{align*}
+	\end{enumerate}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale = 0.8]
+			\def\R{3};
+
+			\draw (-2.5*\R,-2.5*\R) rectangle (2.5*\R,2.5*\R);
+
+			\draw (90:{\R - 1}) circle (\R);
+			\draw (210:{\R - 1}) circle (\R);
+			\draw (330:{\R - 1}) circle (\R);
+
+			\node at (90:{2 * \R}) {$A$};
+			\node at (210:{2 * \R}) {$B$};
+			\node at (330:{2 * \R}) {$C$};
+
+			\node at (90:{\R}) {$0.03$};
+			\node at (210:{\R}) {$0.15$};
+			\node at (330:{\R}) {$0.10$};
+
+			\node at (150:{\R - 1}) {$0.05$};
+			\node at (270:{\R - 1}) {$0.07$};
+			\node at (30:{\R - 1}) {$0.07$};
+
+			\node at (0:0) {$0.06$};
+		\end{tikzpicture}
+	\end{figure}
+\end{solution}
+
+\end{document}

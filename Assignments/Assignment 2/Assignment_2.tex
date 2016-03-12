@@ -1,0 +1,287 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+\usepackage{exsheets}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+\usepackage{algpseudocode} %algorithms
+\usepackage{algorithm} %algorithms
+\usepackage{booktabs}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title
+[
+	Introduction to Probability and Statistics : Assignment 2
+]
+{
+	Introduction to Probability and Statistics\\
+	Assignment 2
+}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{16}{3}{2016}}
+
+\begin{document}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	If $4$ Americans, $3$ French people, and $3$ British people are to be seated in a row, how many seating arrangements are possible when people of the same nationality must sit next to each other?
+	Assume that people of the same nationality are not identical.
+\end{question}
+
+\begin{solution}
+	The number of ways to seat $4$ Americans together is $4!$.\\
+	The number of ways to seat $3$ French people together is $3!$.\\
+	The number of ways to seat $3$ British people together is $3!$.\\
+	The number of ways to arrange these groups is $3!$.
+	Therefore, the total number of seating arrangements is $4! 3! 3! 3!$.
+\end{solution}
+
+\begin{question}
+	From $10$ married couples, we want to select a group of $6$ people that is not allowed to contain a married couple.
+	\begin{enumerate}
+		\item How many choices exist?
+		\item How many choices exist if the group must also consist of $3$ men and $3$ women?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The number of choices to select $6$ couples from $10$ is $\comb{10}{6}$.\\
+			The number of choices to select $1$ person from each of these $6$ couples is $2^6$.\\
+			Therefore, the total number of choices are $\comb{10}{6} 2^6$
+		\item
+			The number of choices to select $6$ couples from $10$ is $\comb{10}{6}$.\\
+			The number of choices to select $3$ couples from which the men will be selected is $\comb{6}{3}$.\\
+			Therefore, the total number of choices are $\comb{10}{6} \comb{6}{3}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	If there are no restrictions on where the digits and letters are placed, how many many $8$-character license plates, consisting of $5$ letters and $3$ digits are possible if no repetitions of letters or digits are allowed?
+	What if the $3$ digits must be consecutive?
+\end{question}
+
+\begin{solution}
+	The number of options to select the $5$ letters is $\comb{26}{5}$.\\
+	The number of options to select the $3$ letters is $\comb{10}{3}$.\\
+	If there are no restrictions on the positions, the number of arrangements of these $8$ characters is $8!$.
+	Therefore, the total number of possible license plates is $\comb{26}{5} \comb{10}{3} 8!$.\\
+	If the $3$ digits must be consecutive, the number of arrangements of the digits is $3!$.
+	The number of ways of arrangements of the letters, and the consecutive three digits, is $6!$.
+	Therefore, the total number of possible license plates is $\comb{26}{5} \comb{10}{3} 3! 6!$.\\
+\end{solution}
+
+\begin{question}
+	An urn contains $20$ balls: $8$ black, $7$ red, and $5$ white.
+	If $8$ balls are randomly selected, calculate the following probabilities.
+	\begin{enumerate}
+		\item $6$ black and $2$ white balls were selected.
+		\item $3$ black, $2$ red, and $3$ white balls were selected.
+		\item At least $1$ white ball was selected.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The total number of ways to select $8$ balls is $\comb{20}{8}$.\\
+			The possible number of ways of selecting $6$ black balls from $8$ is $\comb{8}{6}$.\\
+			The possible number of ways of selecting $2$ white balls from $5$ is $\comb{8}{6}$.\\
+			Therefore, the probability is $\frac{\comb{8}{6} \comb{5}{2}}{\comb{20}{8}}$.
+		\item
+			The total number of ways to select $8$ balls is $\comb{20}{8}$.\\
+			The possible number of ways of selecting $3$ black balls from $8$ is $\comb{8}{3}$.\\
+			The possible number of ways of selecting $2$ red balls from $7$ is $\comb{7}{2}$.\\
+			The possible number of ways of selecting $3$ white balls from $5$ is $\comb{5}{3}$.\\
+			Therefore, the probability is $\frac{\comb{8}{3} \comb{7}{2} \comb{5}{3}}{\comb{20}{8}}$.
+		\item
+			The total number of ways to select $8$ balls is $\comb{20}{8}$.\\
+			The possible number of ways of selecting $8$ balls from $8$ black and $7$ red balls is $\comb{15}{8}$.\\
+			Therefore, the probability of selecting $0$ white balls is $\frac{\comb{15}{8}}{\comb{20}{8}}$.\\
+			Therefore, the probability of selecting at least $1$ white ball is $1 - \frac{\comb{15}{8}}{\comb{20}{8}}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	In a state lottery, a player must choose $8$ of the numbers from $1$ to $40$.
+	The lottery commission then performs an experiment that selects $8$ of these $40$ numbers.
+	Assuming that the choice of the lottery commission is equally likely to be any of the $\binom{40}{8}$ combinations, find the probabilities that a player has
+	\begin{enumerate}
+		\item all $8$ of the numbers selected by the lottery commission.
+		\item $7$ of the numbers selected by the lottery commission.
+		\item at least $6$ of the numbers selected by the lottery commission.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The number of combinations with all of the $8$ selected numbers is $1$.\\
+			Therefore the probability is $\frac{1}{\comb{40}{8}}$.
+		\item
+			The number of ways to choose $1$ of the non-selected numbers is $\frac{32}{1}$.\\
+			The number of ways to choose $7$ of the selected numbers is $\comb{8}{7}$.\\
+			Therefore, the number of ways to choose $7$ of the selected numbers is $\comb{32}{1} \comb{8}{7}$.\\
+			Therefore, the probability is $\frac{\comb{32}{1} \comb{8}{7}}{\comb{40}{8}}$.
+		\item
+			The number of ways to choose $2$ of the non-selected numbers is $\frac{32}{2}$.\\
+			The number of ways to choose $6$ of the selected numbers is $\comb{8}{6}$.\\
+			Therefore, the number of ways to choose $6$ of the selected numbers is $\comb{32}{2} \comb{8}{6}$.\\
+			The number of ways to choose $7$ of the selected numbers is $\comb{32}{1} \comb{8}{7}$.\\
+			The number of ways to choose $8$ of the selected numbers is $1$.\\
+			Therefore the number of ways to choose at least $6$ of the selected numbers is $\comb{32}{2} \comb{8}{6} + \comb{32}{1} \comb{8}{7} + 1$.\\
+			Therefore, the probability is $\frac{\comb{32}{2} \comb{8}{6} + \comb{32}{1} \comb{8}{7} + 1}{\comb{40}{8}}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	$10$ married couples randomly select their seats around a round table.
+	Find the following probabilities.
+	\begin{enumerate}
+		\item All couples sit next to each other.
+		\item Only $9$ couples sit next to each other.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The total possible number of arrangements is $19!$.\\
+			The number of ways to arrange each couple amongst themselves is $2!$.
+			Therefore, the number of ways to arrange all $10$ couples, amongst themselves, is $2^{10}$.\\
+			The number of ways to arrange all couples, grouped together, is $9!$.\\
+			Therefore, the total number of arrangements is $2^{10} 9!$.\\
+			Therefore, the probability is $\frac{2^{10} 9!}{19!}$.
+		\item
+			The total possible number of arrangements is $19!$.\\
+			The number of ways to select the couple which would not sit together is $\comb{10}{1}$.
+			The number of ways to arrange the remaining $9$ couples is $2^9 8!$.\\
+			The number of positions available for the first member of the selected couple, between two of the other couples, is $9$.
+			The number of positions available for the second member of the selected couple, between two of the other couples, is $8$.
+			Therefore, the total number of arrangements is $10 \cdot 2^9 8! \cdot 9 \cdot 8$.
+			Therefore, the probability is $\frac{10 \cdot 2^9 8! \cdot 9 \cdot 8}{19!}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	In a factory, each worker was randomly allocated a phone extension with $5$ digits.
+	The first digit in a manager's number is $0$, and in a non-manager worker is different than $0$.
+	Find the probabilities of the following events for a manager, and for a non-manager worker.
+	\begin{enumerate}
+		\item $E_1$: The number has a digit which repeats.
+		\item $E_2$: The digit $3$ appears in the number.
+		\item $E_3$: The number is divisible by $5$.
+		\item $E_4$: The number is a palindrome.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{enumerate}
+				\item
+					For a manager, the total possible number of extensions is $10^4$.\\
+					The number of extensions with no repeating digits is $\perm{9}{4}$.\\
+					Therefore, the probability of a manager's extension having no repeating digits is $\frac{\perm{9}{4}}{10^4}$.\\
+					Therefore, the probability of a manager's extension having at least one repeating digit is $1 - \frac{\perm{9}{4}}{10^4}$.
+				\item
+					For a worker, the total possible number of extensions is $9 \cdot 10^4$.\\
+					The number of extensions with no repeating digits is $\comb{9}{1} \perm{9}{4}$.\\
+					Therefore, the probability of a worker's extension having no repeating digits is $\frac{\comb{9}{1} \perm{9}{4}}{9 \cdot 10^4}$.\\
+					Therefore, the probability of a worker's extension having at least one repeating digit is $1 - \frac{\comb{9}{1} \perm{9}{4}}{9 \cdot 10^4}$.
+			\end{enumerate}
+		\item
+			\begin{enumerate}
+				\item
+					For a manager, the total possible number of extensions is $10^4$.\\
+					The number of possible positions for the digit $3$ are $4$.\\
+					The number of options for the remaining digits is $10^3$.\\
+					Therefore, the total number of extensions with at least one $3$ is $4 \cdot 10^3$.\\
+					Therefore, the probability of a manager's extension having $3$ is $\frac{4 \cdot 10^3}{10^4}$.
+				\item
+					For a worker, the total possible number of extensions is $9 \cdot 10^4$.\\
+					The number of possible positions for the digit $3$ are $4$.\\
+					The number of options for the remaining digits is $10^3$.\\
+					Therefore, the total number of extensions with at least one $3$ is $9 \cdot 4 \cdot 10^3$.\\
+					Therefore, the probability of a worker's extension having $3$ is $\frac{9 \cdot 4 \cdot 10^3}{9 \cdot 10^4}$.
+			\end{enumerate}
+		\item
+			\begin{enumerate}
+				\item
+					For a manager, the total possible number of extensions is $10^4$.\\
+					For the extension number to be divisible by $5$, the number of options for the last digit are $2$.\\
+					The number of options for the remaining digits is $10^3$.\\
+					Therefore, the total number of extension numbers divisible by $5$ is $2 \cdot 10^3$.\\
+					Therefore, the probability of a manager's extension number being divisible is $\frac{2 \cdot 10^3}{10^4}$.
+				\item
+					For a worker, the total possible number of extensions is $9 \cdot 10^4$.\\
+					For the extension number to be divisible by $5$, the number of options for the last digit are $2$.\\
+					The number of options for the remaining digits is $10^3$.\\
+					Therefore, the total number of extension numbers divisible by $5$ is $2 \cdot 10^3$.\\
+					Therefore, the probability of a worker's extension number being divisible is $\frac{2 \cdot 10^3}{9 \cdot 10^4}$.
+			\end{enumerate}
+		\item
+			\begin{enumerate}
+				\item
+					For a manager, the total possible number of extensions is $10^4$.\\
+					For the extension number to be a palindrome, the fourth digit and the fifth digit must be the same as the second digit and the first digit respectively.
+					Therefore, the extension is determined by the first three digits only.\\
+					For a manager, the number of options for the first digit is $1$.\\
+					The number of options for the second digit is $10$.\\
+					The number of options for the third digit is $10$.\\
+					Therefore, the number of possible extensions is $1 \cdot 10 \cdot 10$.\\
+					Therefore, the probability is $\frac{1 \cdot 10 \cdot 10}{10^4}$.
+				\item
+					For a worker, the total possible number of extensions is $9 \cdot 10^4$.\\
+					For the extension number to be a palindrome, the fourth digit and the fifth digit must be the same as the second digit and the first digit respectively.
+					Therefore, the extension is determined by the first three digits only.\\
+					For a manager, the number of options for the first digit is $9$.\\
+					The number of options for the second digit is $10$.\\
+					The number of options for the third digit is $10$.\\
+					Therefore, the number of possible extensions is $9 \cdot 10 \cdot 10$.\\
+					Therefore, the probability is $\frac{9 \cdot 10 \cdot 10}{9 \cdot 10^4}$.
+			\end{enumerate}
+	\end{enumerate}
+\end{solution}
+
+\end{document}

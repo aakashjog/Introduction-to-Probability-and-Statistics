@@ -20,6 +20,7 @@
 \usepackage{microtype} %micro-typography
 \usepackage{todonotes}
 \usepackage{booktabs}
+\usepackage{xspace}
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
 
@@ -51,8 +52,17 @@
 
 \DeclareMathOperator{\prob}{\mathrm{P}}
 
+\DeclareMathOperator{\cdf}{\mathrm{cdf}}
+
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\newcommand{\A}{\text{Alice}\xspace}
+\newcommand{\B}{\text{Bob}\xspace}
+\newcommand{\C}{\text{Charlie}\xspace}
+\newcommand{\D}{\text{David}\xspace}
+\newcommand{\E}{\text{Eve}\xspace}
+\newcommand{\F}{\text{Frank}\xspace}
 
 \SetupExSheets{solution/print = true} %prints all solutions by default
 
@@ -773,5 +783,327 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
                          & = 0.012
 	\end{align*}
 \end{solution}
+
+\begin{question}
+	In a certain stage of a criminal investigation, the inspector in charge is $60\%$ convinced of the guilt of a certain suspect.
+	Suppose that a new piece of evidence which shows that the criminal is bald, is uncovered.
+	If $20\%$ of the population is bald, and if the suspect is bald, how certain should that inspector be of the guilt of the suspect?
+\end{question}
+
+\begin{solution}
+	Let $G$ be the event that the suspect is guilty.\\
+	Let $B$ be the event that the suspect is bald.\\
+	Therefore, the event that the suspect is both bald and guilty, is $G|C$.\\
+	Therefore,
+	\begin{align*}
+		\prob(G|B) & = \frac{\prob(G \cap B)}{\prob(B)} \\
+                           & = \frac{0.6}{(1) (0.6) + (0.4) (0.2)}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	What is the probability that when a deck of cards is dealt in a game of bridge, the $\heartsuit$s will be dealt such that \A gets $3$, \B gets $4$, \C gets $2$, \D gets $4$.
+\end{question}
+
+\begin{solution}
+	Let $E_{\A}$ be the event of \A getting the required number of $\heartsuit$s.\\
+	Let $E_{\B}$ be the event of \B getting the required number of $\heartsuit$s.\\
+	Let $E_{\C}$ be the event of \C getting the required number of $\heartsuit$s.\\
+	Let $E_{\D}$ be the event of \D getting the required number of $\heartsuit$s.\\
+	Therefore,
+	\begin{align*}
+		\prob(E_{\A})                                & = \frac{\comb{13}{3} \comb{39}{10}}{\comb{52}{13}} \\
+		\prob(E_{\B}|E_{\A})                         & = \frac{\comb{10}{4} \comb{29}{9}}{\comb{39}{13}}  \\
+		\prob(E_{\C}|E_{\A} \cap E_{\B})             & = \frac{\comb{6}{2} \comb{20}{11}}{\comb{26}{13}}  \\
+		\prob(E_{\D}|E_{\A} \cap E_{\B} \cap E_{\C}) & = \frac{\comb{4}{4} \comb{9}{9}}{\comb{13}{13}}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(E_{\A} \cap E_{\B} \cap E_{\C} \cap E_{\D}) & = \quad \prob(E_{\A})                                     \\
+                                                                  & \quad \times \prob(E_{\B}|E_{\A})                         \\
+                                                                  & \quad \times \prob(E_{\C}|E_{\A} \cap E_{\B})             \\
+                                                                  & \quad \times \prob(E_{\D}|E_{\A} \cap E_{\B} \cap E_{\C}) \\
+                                                                  & = \frac{\comb{13}{3} \comb{39}{10}}{\comb{52}{13}} \frac{\comb{10}{4} \comb{29}{9}}{\comb{39}{13}} \frac{\comb{6}{2} \comb{20}{11}}{\comb{26}{13}} \frac{\comb{4}{4} \comb{9}{9}}{\comb{13}{13}}
+	\end{align*}
+\end{solution}
+
+\section{Independent Events}
+
+\begin{definition}[Two independent events]
+	Two events, $A$ and $B$, are said to be independent if
+	\begin{align*}
+		\prob(A \cap B) & = \prob(A) \prob(B)
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	\begin{align*}
+		\prob(A|B) & = \prob(A)
+	\end{align*}
+	if and only if $A$ and $B$ are independent.
+\end{theorem}
+
+\begin{theorem}
+	If $A$ and $B$ are independent, then so are $\overline{A}$ and $B$, $A$ and $\overline{B}$, $\overline{A}$ and $\overline{B}$
+\end{theorem}
+
+\begin{question}
+	Two fair dice are rolled.\\
+	Let $A$ be the event that the sum of the results of the dice is $6$.\\
+	Let $B$ be the event that the result of the first die is $4$.\\
+	Let $C$ be the event that the sum of the results of the dice is $7$.\\
+	Which of the possible pairs of the events are independent?
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\prob(A)        & = \frac{5}{36} \\
+		\prob(B)        & = \frac{1}{6}  \\
+		\prob(C)        & = \frac{6}{36} \\
+		\prob(A \cap B) & = \frac{1}{36} \\
+		\prob(B \cap C) & = \frac{1}{36} \\
+		\prob(A \cap C) & = 0
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A \cap B) & \neq \prob(A) \prob(B) \\
+		\prob(B \cap C) & = \prob(B) \prob(C)    \\
+		\prob(C \cap A) & \neq \prob(C) \prob(A)
+	\end{align*}
+	Therefore, only $B$ and $C$ are independent.
+\end{solution}
+
+\begin{question}
+	There are $10$ books in a library, $8$ of type $A$ and $2$ of type $B$.
+	On a day when one of the books is missing, \A enters the library, randomly takes a book, reads it and returns it.
+	After \A returns the book, \B enters the library and randomly takes a book.\\
+	Let $E$ be the event that \A took a book of type $A$.\\
+	Let $F$ be the event that \B took a book of type $A$.\\
+	Are $E$ and $F$ independent?
+\end{question}
+
+\begin{solution}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[grow=down]%, sloped]
+		\tikzstyle{node} = [text width=4em, text centered]
+		\tikzstyle{prob} = [left]
+		\tikzstyle{level 1}=[level distance=2.5cm, sibling distance=20em]
+		\tikzstyle{level 2}=[level distance=2.5cm, sibling distance=10em]
+		\tikzstyle{level 3}=[level distance=2.5cm, sibling distance=5em]
+		important/.style={draw=red,line width=1.5pt,edge={red,line width=1.5pt,draw}},
+		\coordinate
+			child
+			{
+				node[node] {Book of type $A$ missing}
+					child
+					{
+						node[node] {\A takes book $A$}
+						child
+						{
+							node[node] {\B takes book $A$}
+							edge from parent
+							node[prob] {$\frac{7}{9}$}
+						}
+						child
+						{
+							node[node] {\B takes book $B$}
+							edge from parent
+							node[prob] {$\frac{2}{9}$}
+						}
+						edge from parent 
+						node[prob] {$\frac{7}{9}$}
+					}
+					child
+					{
+						node[node] {\A takes book $B$}
+						child
+						{
+							node[node] {\B takes book $A$}
+							edge from parent
+							node[prob] {$\frac{7}{9}$}
+						}
+						child
+						{
+							node[node] {\B takes book $B$}
+							edge from parent
+							node[prob] {$\frac{2}{9}$}
+						}
+						edge from parent 
+						node[prob] {$\frac{2}{9}$}
+					}
+				edge from parent 
+				node[prob] {$\frac{8}{10}$}
+			}
+			child
+			{
+				node[node] {Book of type $B$ missing}
+					child
+					{
+						node[node] {\A takes book $A$}
+						child
+						{
+							node[node] {\B takes book $A$}
+							edge from parent
+							node[prob] {$\frac{8}{9}$}
+						}
+						child
+						{
+							node[node] {\B takes book $B$}
+							edge from parent
+							node[prob] {$\frac{1}{9}$}
+						}
+						edge from parent 
+						node[prob] {$\frac{8}{9}$}
+					}
+					child
+					{
+						node[node] {\A takes book $B$}
+						child
+						{
+							node[node] {\B takes book $A$}
+							edge from parent
+							node[prob] {$\frac{8}{9}$}
+						}
+						child
+						{
+							node[node] {\B takes book $B$}
+							edge from parent
+							node[prob] {$\frac{1}{9}$}
+						}
+						edge from parent 
+						node[prob] {$\frac{1}{9}$}
+					}
+				edge from parent 
+				node[prob] {$\frac{2}{10}$}
+			};
+		\end{tikzpicture}
+	\end{figure}
+	\begin{align*}
+		\prob(E) & = \left( \frac{8}{10} \right) \left( \frac{7}{9} \right) + \left( \frac{2}{10} \right) \left( \frac{8}{9} \right)                                                                                                                                                                                                                               \\
+                         & = \frac{8}{10}                                                                                                                                                                                                                                                                                                                                  \\
+		\prob(F) & = \left( \frac{2}{10} \right) \left( \frac{8}{9} \right) \left( \frac{8}{9} \right) + \left( \frac{2}{10} \right) \left( \frac{1}{9} \right) \left( \frac{8}{9} \right) + \left( \frac{8}{10} \right) \left( \frac{7}{9} \right) \left( \frac{7}{9} \right) + \left( \frac{8}{10} \right) \left( \frac{2}{9} \right) \left( \frac{7}{9} \right) \\
+                         & = \frac{8}{10}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(E \cap F) & = \left( \frac{2}{10} \right) \left( \frac{8}{9} \right) \left( \frac{8}{9} \right) + \left( \frac{8}{10} \right) \left( \frac{7}{9} \right) \left( \frac{7}{9} \right) \\
+                                & \neq \prob(E) \prob(F)
+	\end{align*}<++>
+	Therefore, the events are not independent.
+\end{solution}
+
+\begin{definition}
+	Three events, $A$, $B$, and $C$, are said to be independent if
+	\begin{align*}
+		\prob(A \cap B \cap C) & = \prob(A) \prob(B) \prob(C) \\
+		\prob(A \cap B)        & = \prob(A) \prob(B)          \\
+		\prob(B \cap C)        & = \prob(B) \prob(C)          \\
+		\prob(C \cap A)        & = \prob(C) \prob(A)
+	\end{align*}
+\end{definition}
+
+\clearpage
+\part{Random Variables}
+
+\section{Random Variables}
+
+\begin{definition}[Random variable]
+	A function $X : \Omega \to \mathbb{R}$ which maps points from the sample space to the real line is called a random variable.
+\end{definition}
+
+\begin{question}
+	Three balls are to be randomly selected, without replacement, from an urn containing $20$ balls numbered $1$ to $20$.
+	If \A bets that at least one of the balls drawn has a number as large as or larger than $17$, what is the probability that \A wins the bet?
+\end{question}
+
+\begin{solution}
+	Let $X$ be the largest number selected.\\
+	Therefore, $X$ is a random variable which has a value from $\{3,\dots,20\}$.\\
+	Let the value of the highest valued ball be $i$.
+	Therefore, the number of ways to select the remaining two balls is $\comb{i - 1}{2}$.\\
+	Therefore, the probability of the value of the highest valued ball being $i$ is
+	\begin{align*}
+		\prob(X = i) & = \frac{\comb{i - 1}{2}}{\comb{20}{3}}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X \ge 17) & = \prob(X = 17) + \prob(X = 18) + \prob(X = 19) + \prob(X = 20) \\
+                                & = \frac{\comb{16}{2} + \comb{17}{2} + \comb{18}{2} + \comb{19}{2}}{\comb{20}{3}}
+	\end{align*}
+\end{solution}
+
+\begin{definition}
+	The function
+	\begin{align*}
+		F(x) = \prob(X \le x)
+	\end{align*}
+	for $-\infty < x \le x$, is called the cumulative distribution function of the variable $X$.
+\end{definition}
+
+\begin{question}
+	Let $X$ be the result of a die roll.
+	Plot the cumulative distribution function of $X$.
+\end{question}
+
+\begin{solution}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale = 1.5]
+			\def\xMIN{-1};
+			\def\xMAX{7};
+			\def\yMIN{-1};
+			\def\yMAX{2};
+
+			\begin{scope}[stealth-stealth]
+				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$x$};
+				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\cdf(X)$};
+			\end{scope}
+
+			\begin{scope}
+				\draw (-\xMIN,0) -- (1,0);
+				\draw (1,0) circle (1pt);
+			\end{scope}
+
+			\begin{scope}
+				\begin{scope}
+					\filldraw (1,1/6) circle (1pt);
+					\draw (1,1/6) -- (2,1/6);
+					\draw (2,1/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (2,2/6) circle (1pt);
+					\draw (2,2/6) -- (3,2/6);
+					\draw (3,2/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (3,3/6) circle (1pt);
+					\draw (3,3/6) -- (4,3/6);
+					\draw (4,3/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (4,4/6) circle (1pt);
+					\draw (4,4/6) -- (5,4/6);
+					\draw (5,4/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (5,5/6) circle (1pt);
+					\draw (5,5/6) -- (6,5/6);
+					\draw (6,5/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (6,6/6) circle (1pt);
+					\draw (6,6/6) -- (\xMAX,6/6);
+				\end{scope}
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Cumulative Distribution Function for a Die Roll}
+		\label{fig:Cumulative_Distribution_Function_for_a_Die_Roll}
+	\end{figure}
+\end{solution}
+
+\begin{definition}[Discrete random variable]
+	A random variable that can have at most a countable number of possible values is said to be discrete.
+\end{definition}
 
 \end{document}

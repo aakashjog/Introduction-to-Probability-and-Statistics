@@ -56,6 +56,8 @@
 
 \DeclareMathOperator{\var}{\mathrm{V}}
 
+\DeclareMathOperator{\sd}{\mathrm{\sigma}}
+
 \DeclareMathOperator{\cdf}{\mathrm{cdf}}
 
 \DeclareMathOperator{\bin}{\mathrm{Bin}}
@@ -1338,6 +1340,82 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
                               & = a^2 \var(x)
 	\end{align*}
 \end{proof}
+
+\begin{question}
+	You have a coin with probability $p$ of getting `Heads'.
+	You flip this coin twice.\\
+	For each flip, if the result is `Heads', you win $\$30$.
+	If the result is `Tails', you lose $\$20$.\\
+	Let $X$ be your profit in the game.
+	\begin{enumerate}
+		\item What is the sample space?
+		\item Describe the probability mass function of $X$.
+		\item Describe the cumulative distribution function of $X$.
+		\item What is the expected value of $X$?
+		\item What is the value of $p$ upto which you would agree to participate in the game?
+		\item What is $\var(X)$?
+		\item What is $\sd(X)$?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				S & = \left\{ (30 + 30) , (30 - 20) , (-20 - 20) \right\} \\
+                                  & = \left\{ 60 , 10 , -40 \right\}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X = x) &=
+					\begin{cases}
+						p^2         & ;\quad x = 60  \\
+						2 p (1 - p) & ;\quad x = 10  \\
+						(1 - p)^2   & ;\quad x = -40 \\
+					\end{cases}
+			\end{align*}
+		\item
+			\begin{align*}
+				\cdf(X) &=
+					\begin{cases}
+						0                             & ;\quad x < -40        \\
+						(1 - p)^2                     & ;\quad -40 \le x < 10 \\
+						(1 - p)^2 + 2 p (1 - p)       & ;\quad 10 \le x < 60  \\
+						(1 - p)^2 + 2 p (1 - p) + p^2 & ;\quad x \le 60       \\
+					\end{cases}
+			\end{align*}
+		\item
+			\begin{align*}
+				\expct[X] & = (-40) (1 - p)^2 + (10) \left( 2 p (1 - p) \right) + (60) \left( p^2 \right) \\
+                                          & = 100p - 40
+			\end{align*}
+		\item
+			The game should be played as long as the expected value of $X$ is non negative.\\
+			Therefore,
+			\begin{align*}
+				\expct[X]             & \ge 0 \\
+				\therefore 100 p - 40 & \ge 0 \\
+				\therefore p          & \ge 0.4
+			\end{align*}
+		\item
+			\begin{align*}
+				\expct\left[ x^2 \right] & = (-40)^2 (1 - p)^2 + (10)^2 2 p (1 - p) + (60)^2 p^2 \\
+                                                         & = 5000 p^2 - 3000 p + 1600                            \\
+				\expct[x]^2              & = (100 p - 40)^2                                      \\
+                                                         & = 10000 p^2 - 8000 p + 1600
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\var(X) & = \expct\left[ X^2 \right] - \expct[X]^2 \\
+                                        & = 5000 p (1 - p)
+			\end{align*}
+		\item
+			\begin{align*}
+				\sd(X) & = \sqrt{\var(X)} \\
+                                       & = \sqrt{5000 p (1 - p)}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
 
 \clearpage
 \part{Special Distributions}

@@ -1,0 +1,237 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+\usepackage{exsheets}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+\usepackage{algpseudocode} %algorithms
+\usepackage{algorithm} %algorithms
+\usepackage{booktabs}
+\usepackage{xspace}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\newcommand{\A}{\text{Alice}\xspace}
+\newcommand{\B}{\text{Bob}\xspace}
+\newcommand{\C}{\text{Charlie}\xspace}
+\newcommand{\D}{\text{David}\xspace}
+\newcommand{\E}{\text{Eve}\xspace}
+\newcommand{\F}{\text{Frank}\xspace}
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title
+[
+	Introduction to Probability and Statistics : Assignment 3
+]
+{
+	Introduction to Probability and Statistics\\
+	Assignment 3
+}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{23}{3}{2016}}
+
+\begin{document}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	You ask your neighbour to water a sickly plant while you are on vacation.\\
+	Without water, it will die with probability $0.8$.\\
+	With water, it will die with probability $0.15$.\\
+	You are $90\%$ certain that your neighbour will remember to water the plant.\\
+	\begin{enumerate}
+		\item What is the probability that the plant will be alive when you return?
+		\item If the plant is dead upon your return, what is the probability that your neighbour forgot to water it?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			The probability of the plant being alive is $(0.9) (0.85) + (0.1) (0.2)$.\\
+			Therefore, the probability of the plant being alive is $0.785$.
+		\item
+			The total probability that the plant will be dead is $0.215$.\\
+			The probability that the plant will be dead and the neighbour watered it is $(0.9) (0.15)$.\\
+			The probability that the plant will be dead and the neighbour did not water it is $(0.1) (0.8)$.
+			Therefore, if the plant is dead, the probability that the neighbour did not water it is $\frac{0.08}{0.215}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	Six balls are to be randomly chosen from an urn containing $8$ red, $10$ green, and $12$ blue balls.
+	\begin{enumerate}
+		\item What is the probability that at least one red ball is chosen?
+		\item Given that no red balls are chosen, what is the conditional probability that there are exactly $2$ green balls among the $6$ chosen balls?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}
+		\item
+			The total number of ways to choose $6$ balls is $\comb{30}{6}$.\\
+			The number of ways to choose $0$ red balls is $\comb{22}{6}$.\\
+			Therefore, the probability of selecting $0$ red balls is $\frac{\comb{22}{6}}{\comb{30}{6}}$.
+			Therefore, the probability of selecting at least $1$ red ball is $1 - \frac{\comb{22}{6}}{\comb{30}{6}}$.
+		\item
+			If $0$ red balls are chosen and exactly $2$ green balls are chosen, the remaining $4$ balls must be blue.\\
+			Therefore, the number of ways of choosing $2$ green balls and $4$ blue balls is $\comb{10}{2} \comb{12}{4}$.\\
+			The total number of ways to choose $6$ non-red balls is $\comb{22}{6}$.\\
+			Therefore, the probability is $\frac{\comb{10}{2} \comb{12}{4}}{\comb{22}{6}}$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	A coin having probability $0.8$ of landing on `Heads' is flipped.
+	\A observes the result, and rushes off to tell \B.
+	However, with probability $0.4$, \A will have forgotten the result by the time she reaches \B.
+	If \A has forgotten, then rather than admitting this to \B, she is equally likely to tell \B that the coin landed on `Heads' or that it landed on `Tails'.
+	If she does remember, she tells \B the correct result.
+	\begin{enumerate}
+		\item What is the probability that \B is told that the coin landed on heads?
+		\item What is the probability that \B is told the correct result?
+		\item Given that \B is told that the coin landed on heads, what is the probability that it did in fact land on `Heads'?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			If \A forgets the result, the probability that \B is told that the result is `Heads' is $0.5$.\\
+			If \A remembers the result, the probability that \B is told that the result is `Heads' is $0.8$\\
+			Therefore, the total probability that \B is told that the result is `Heads' is $(0.4) (0.5) + (0.6) (0.8)$.
+			Therefore, the probability is $0.68$.
+		\item
+			The probability that \B is told the correct result if \A remembers the result is $1$.\\
+			The probability that \B is told the correct result if \A forgets the result is $0.5$.\\
+			Therefore, the probability that \B is told the correct result is $(0.6) (1) + (0.4) (0.5)$
+			Therefore, the probability is $0.8$.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	In the urn, there are $5$ red and $4$ white balls.
+	You sequentially draw $3$ balls randomly without replacement.
+	What is the probability that all balls are white?
+\end{question}
+
+\begin{solution}
+	The total number of ways to select $3$ balls from the urn is $\comb{9}{3}$.\\
+	The number of ways to select $3$ white balls from $4$ white balls is $\comb{4}{3}$.\\
+	Therefore, the probability is $\frac{\comb{4}{3}}{\comb{9}{3}}$.
+\end{solution}
+
+\begin{question}
+	Let $A$ and $B$ be events having positive probability.
+	State whether each of the following statements is necessarily true, necessarily false, or possibly true.
+	\begin{enumerate}
+		\item If $A$ and $B$ are mutually exclusive, then they are independent.
+		\item If $A$ and $B$ are independent, then they are mutually exclusive.
+		\item $\prob(A) = \prob(B) = 0.6$, and $A$ and $B$ are mutually exclusive.
+		\item $\prob(A) = \prob(B) = 0.6$, and $A$ and $B$ are independent.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}
+		\item
+			If $A$ and $B$ are mutually exclusive,
+			\begin{align*}
+				\prob(A \cap B) &= 0
+			\end{align*}
+			$A$ and $B$ can be independent if and only if
+			\begin{align*}
+				\prob(A \cap B) &= \prob(A) \prob(B)\\
+				\iff 0 &= \prob(A) \prob(B)
+			\end{align*}
+			However, as $A$ and $B$ have positive probability, this statement is necessarily false.
+		\item
+			If $A$ and $B$ are independent,
+			\begin{align*}
+				\prob(A \cap B) &= \prob(A) \prob(B)\\
+				\therefore \prob(A \cap B) &> 0
+			\end{align*}
+			$A$ and $B$ can be mutually exclusive if and only if
+			\begin{align*}
+				\prob(A) \prob(B) &= 0\\
+				\iff \prob(A \cap B) &= 0
+			\end{align*}
+			However, as $A$ and $B$ have positive probability, this statement is necessarily false.
+		\item
+			$A$ and $B$ are mutually exclusive if and only if
+			\begin{align*}
+				\prob(A) + \prob(B) &\le 1\\
+				\iff 0.6 + 0.6 &\le 1
+			\end{align*}
+			Therefore, this statement is necessarily false.
+		\item
+			$A$ and $B$ are independent if and only if
+			\begin{align*}
+				\prob(A) \prob(B) &= \prob(A \cap B)\\
+				\iff (0.6) (0.6) &= \prob(A \cap B)\\
+				\iff \prob(A \cap B) &= 0.36
+			\end{align*}
+			Therefore, this statement is possibly true.
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	Arrange the following from most likely to occur to least likely to occur.
+	\begin{enumerate}
+		\item A fair coin lands on `Heads'.
+		\item Three independent trials, each of which is a success with probability $0.8$, all result in successes.
+		\item Seven independent trials, each of which is a success with probability $0.9$, all result in successes.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	The probability that a fair coin lands on `Heads' is $0.5$.\\
+	The probability that three independent trials with probability of success $0.8$ all result in successes is $(0.8)^3$.
+	Therefore, the probability is $0.512$.\\
+	The probability that seven independent trials with probability of success $0.9$ all result in successes is $(0.9)^7$.
+	Therefore, the probability is $0.4782969$.\\
+	Therefore, the descending order of probabilities is
+	\begin{enumerate}
+		\item Three independent trials, each of which is a success with probability $0.8$, all result in successes.
+		\item A fair coin lands on `Heads'.
+		\item Seven independent trials, each of which is a success with probability $0.9$, all result in successes.
+	\end{enumerate}
+\end{solution}
+
+\end{document}

@@ -52,7 +52,13 @@
 
 \DeclareMathOperator{\prob}{\mathrm{P}}
 
+\DeclareMathOperator{\expct}{\mathrm{E}}
+
+\DeclareMathOperator{\var}{\mathrm{V}}
+
 \DeclareMathOperator{\cdf}{\mathrm{cdf}}
+
+\DeclareMathOperator{\bin}{\mathrm{Bin}}
 
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
@@ -1006,7 +1012,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 \clearpage
 \part{Random Variables}
 
-\section{Random Variables}
+\section{Discrete Random Variables}
 
 \begin{definition}[Random variable]
 	A function $X : \Omega \to \mathbb{R}$ which maps points from the sample space to the real line is called a random variable.
@@ -1033,10 +1039,12 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 \end{solution}
 
-\begin{definition}
+\section{Cumulative Distribution Function}
+
+\begin{definition}[Cumulative distribution function]
 	The function
 	\begin{align*}
-		F(x) = \prob(X \le x)
+		F(x) & = \prob(X \le x)
 	\end{align*}
 	for $-\infty < x \le x$, is called the cumulative distribution function of the variable $X$.
 \end{definition}
@@ -1102,8 +1110,292 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{figure}
 \end{solution}
 
+\section{Probability Mass Function}
+
 \begin{definition}[Discrete random variable]
 	A random variable that can have at most a countable number of possible values is said to be discrete.
 \end{definition}
+
+\begin{definition}[Probability mass function]
+	A function which gives the probability of a discrete random variable $X$ having value $x$ is called the probability mass function of $X$.
+	It is denoted as $\prob(X = x)$.
+\end{definition}
+
+\begin{question}
+	The probability mass function of a random variable $X$ is given by
+	\begin{align*}
+		\prob(X = i) & = \frac{c \lambda^i}{i!}
+	\end{align*}
+	where $i \in \mathbb{W}$, and $\lambda > 0$.\\
+	Find
+	\begin{enumerate}
+		\item $\prob(X = 0)$
+		\item $\prob(X > 2)$
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				\sum\limits_{i = 0}^{\infty} \prob(X = i)                      & = 1 \\
+				\therefore \sum\limits_{i = 0}^{\infty} \frac{c \lambda^i}{i!} & = 1 \\
+				\therefore c \sum\limits_{i = 0}^{\infty} \frac{\lambda^i}{i!} & = 1 \\
+				\therefore c e^{\lambda}                                       & = 1 \\
+				\therefore c                                                   & = e^{-\lambda}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X = i) & = \frac{e^{-\lambda} \lambda^i}{i!}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X = 0) & = \frac{e^{-\lambda} \lambda^0}{0!} \\
+                                             & = e^{-\lambda}
+			\end{align*}
+		\item
+			\begin{align*}
+				\sum\limits_{i = 0}^{\infty} \prob(X = i)                      & = 1 \\
+				\therefore \sum\limits_{i = 0}^{\infty} \frac{c \lambda^i}{i!} & = 1 \\
+				\therefore c \sum\limits_{i = 0}^{\infty} \frac{\lambda^i}{i!} & = 1 \\
+				\therefore c e^{\lambda}                                       & = 1 \\
+				\therefore c                                                   & = e^{-\lambda}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X = i) & = \frac{e^{-\lambda} \lambda^i}{i!}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X > 2) & = 1 - \prob(X \le 2)                             \\
+                                             & = 1 - \prob(X = 2) - \prob(X = 1) - \prob(X = 0) \\
+                                             & = 1 - \frac{e^{-\lambda} \lambda^2}{2!} - \frac{e^{-\lambda} \lambda^1}{1!} - \frac{e^{-\lambda} \lambda^0}{0!}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{definition}
+	If $X$ is a discrete random variable having a probability mass function $P(X = x)$, then the expectation or the expected value of $X$ is defined to be
+	\begin{align*}
+		\expct[X] & = \sum\limits_{\left\{ x | \prob(X = x) > 0 \right\}} x \prob(X = x)
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	Find $\expct[X]$ where $X$ is the outcome of rolling a fair die.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\expct[x] & = \sum\limits_{x = 1}^{6} \frac{1}{6} x \\
+                          & = 3.5
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A class of $120$ students is driven in $3$ buses to a symphonic perfomance.
+	There are $36$ students in the first bus, $14$ in the second, and $44$ in the third bus.
+	When the buses arrive, a student is randomly chosen.
+	Let $X$ denote the number of students on the bus of the chosen student.
+	Find $\expct[X]$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\prob(X = 36) & = \frac{36}{120} \\
+		\prob(X = 40) & = \frac{40}{120} \\
+		\prob(X = 44) & = \frac{44}{120}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = 36 \left( \frac{36}{120} \right) + 40 \left( \frac{40}{120} \right) + 44 \left( \frac{44}{120} \right) \\
+                          & = 40.2667
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	$X$ has the following distribution.
+	\begin{align*}
+		\prob(X = -1) & = 0.2 \\
+		\prob(X = 0)  & = 0.5 \\
+		\prob(X = 1)  & = 0.3
+	\end{align*}
+	Find $\expct\left[ x^2 \right]$.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		Y & = X^2
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(Y = 0) & = \prob(X = 0)                 \\
+                             & = 0.5                          \\
+		\prob(Y = 1) & = \prob(X = -1) + \prob(X = 1) \\
+                             & = 0.5
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[Y] & = \expct\left[ X^2 \right] \\
+                          & = (0) (0.5) + (1) (0.5)    \\
+                          & = 0.5
+	\end{align*}
+\end{solution}
+
+\begin{theorem}
+	If $X$ is a discrete random variable that takes on one of the values $x_i$, where $i \in \mathbb{N}$, with probability mass function $\prob(X = x_i)$.
+	Then, for any real valued function $g$,
+	\begin{align*}
+		\expct\left[ g(x) \right] & = \sum\limits_{i} g(x_i) \prob(x = x_i)
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	A product that is sold seasonally yeilds a net profit of $b$ for each unit sold and a net loss of $l$ for each unit left unsold when the season ends.
+	The number of units of the product that are sold at a specific store during any season is a random variable $X$, with probability mass function such that
+	\begin{align*}
+		\prob(X = i) & = \prob(i)
+	\end{align*}
+	where $i \in \mathbb{N}$.
+	If the store must stock this product in advance, determine the number of units the store should stock, so as to maximize its profit.
+\end{question}
+
+\begin{solution}
+	Let the number of units sold by $X$.\\
+	Let the number of units stocked by $s$.\\
+	Therefore, the total profit is
+	\begin{align*}
+		\pi(s) &=
+			\begin{cases}
+				b X - (s - X) l & ;\quad X \le s \\
+				b s             & ;\quad X > s   \\
+			\end{cases}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ \pi(s) \right] & = \sum\limits_{i = 0}^{s} \left( b i - (s - i) l \right) \prob(X = i) + \sum\limits_{i = s + 1}^{\infty} s b \prob(X = i)                                 \\
+                                            & = (b + l) \sum\limits_{i = 0}^{s} i \prob(X = i) - s l \sum\limits_{i = 0}^{s} \prob(X = i) + s b \left( 1 - \sum\limits_{i = 0}^{s} \prob(X = i) \right) \\
+                                            & = (b + l) \sum\limits_{i = 0}^{s} i \prob(X = i) - (b + l) s \sum\limits_{i = 0}^{s} \prob(X = i) + s b                                                   \\
+                                            & = s b + (b + l) \sum\limits_{i = 0}^{s} (i - s) \prob(X = i)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ \pi(s + 1) \right] & = b (s + 1) + (b + l) \sum\limits_{i = 0}^{s + 1} (i - s - 1) \prob(X = i) \\
+                                                & = b (s + 1) + (b + l) \sum\limits_{i = 0}^{s} (i - s - 1) \prob(X = i)     \\
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ \pi(s + 1) \right] - \expct\left[ \pi(s) \right] & = b - (b + l) \sum\limits_{i = 0}^{s} \prob(X = i)
+	\end{align*}
+	Therefore, increasing the stock is profitable when
+	\begin{align*}
+		\sum\limits_{i = 0}^{s} \prob(X = i) & < \frac{b}{b + l}
+	\end{align*}
+\end{solution}
+
+\section{Variance}
+
+\begin{definition}[Variance]
+	The variance of a random variable $X$ is defined to be
+	\begin{align*}
+		\var(x) & = \expct\left[ \left( X - \expct[X] \right)^2 \right] \\
+                        & = \expct\left[ X^2 \right] - \expct[X]^2
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	Calculate $\var(X)$ where $X$ represents the outcome of rolling a fair die.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\expct[X]                & = \sum\limits_{x = 1}^{6} \frac{1}{6} x   \\
+                                         & = \frac{7}{2}                             \\
+		\expct\left[ X^2 \right] & = \sum\limits_{x = 1}^{6} \frac{1}{6} x^2 \\
+                                         & = \frac{91}{6}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) & = \expct\left[ X^2 \right] - \expct[X]^2 \\
+                        & = \frac{91}{6} - \frac{49}{4}            \\
+                        & = \frac{35}{12}
+	\end{align*}
+\end{solution}
+
+\begin{theorem}
+	\begin{align*}
+		\var(a X + b) & = a^2 \var(X)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\var(a X + b) & = \expct\left[ \left( a X + b - \expct[a X + b] \right)^2 \right] \\
+                              & = \expct\left[ \left( a X + b - a \expct[X] - b \right)^2 \right] \\
+                              & = \expct\left[ a^2 \left( X - \expct[X] \right)^2 \right]         \\
+                              & = a^2 \expct\left[ \left( x - \expct[x] \right)^2 \right]         \\
+                              & = a^2 \var(x)
+	\end{align*}
+\end{proof}
+
+\clearpage
+\part{Special Distributions}
+
+\section{Bernoulli and Binomial Random Variables}
+
+\begin{definition}[Bernoulli random variable]
+	A random variable $X$ is said to be a Bernoulli random variable if its probability mass function is given by
+	\begin{align*}
+		\prob(X = 0) & = 1 - p \\
+		\prob(X = 1) & = p
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	For a Bernoulli random variable,
+	\begin{align*}
+		\expct[x] & = p \\
+		\var(x)   & = p (1 - p)
+	\end{align*}
+\end{theorem}
+
+\begin{definition}[Binomial random variable]
+	Consider $n$ independent trials, each of which has a probability of success $p$, and probability of failure $1 - p$.
+	If $X$ represents the number of successes that occur in the $n$ trials, then $X$ is said to be a binomial random variable with parameters $(n,p)$.
+	It is denoted as
+	\begin{align*}
+		X & \sim \bin(n,p)
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	For a binomial random variable,
+	\begin{align*}
+		X & \sim \bin(n,p)
+	\end{align*}
+	the probability mass function is
+	\begin{align*}
+		\prob(X = i) & = \comb{n}{i} p^i (1 - p)^{n - i}
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	A die is rolled $5$ times.
+	What is the probability that the result is $6$, $3$ times?
+\end{question}
+
+\begin{solution}
+	Let $X$ be the number of times $6$ appears.\\
+	Therefore,
+	\begin{align*}
+		X &\sim \bin\left( 5,\frac{1}{6} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X = i)            & = \comb{n}{i} p^i (1 - p)^{n - i} \\
+		\therefore \prob(X = 3) & = \comb{5}{3} \left( \frac{1}{6} \right)^3 \left( \frac{5}{6} \right)^3
+	\end{align*}
+\end{solution}
 
 \end{document}

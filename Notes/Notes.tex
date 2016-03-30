@@ -62,6 +62,10 @@
 
 \DeclareMathOperator{\bin}{\mathrm{Bin}}
 
+\DeclareMathOperator{\poi}{\mathrm{Poi}}
+
+\DeclareMathOperator{\geo}{\mathrm{Geo}}
+
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
 
@@ -542,10 +546,10 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	How many different choices of office bearers are possible if
 	\begin{enumerate}
 		\item There are no restrictions.
-		\item A and B cannot serve together.
-		\item C and D can serve together or not at all.
-		\item E must be an officer.
-		\item F can serve only if he is the president.
+		\item \A and \B cannot serve together.
+		\item \C and \D can serve together or not at all.
+		\item \E must be an officer.
+		\item \F can serve only if he is the president.
 	\end{enumerate}
 \end{question}
 
@@ -554,20 +558,20 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 		\item
 			The total possible combinations are $\perm{10}{3}$.
 		\item
-			If neither A nor B are office bearers, there are $\perm{8}{3}$ possible combinations.\\
-			If one of A and B is an office bearer, there are three possible posts for the selected person.
+			If neither \A nor \B are office bearers, there are $\perm{8}{3}$ possible combinations.\\
+			If one of \A and \B is an office bearer, there are three possible posts for the selected person.
 			The number of combinations for the rest of the posts are $\perm{8}{2}$.
 			Therefore, the total number of combinations are $\perm{8}{3} + 3 \perm{8}{2}$.
 		\item
-			If both C and D are chosen, the number of combinations are $3 \cdot 2 \cdot \perm{8}{1}$.
-			If neither C nor D are chosen, the number of combinations are $\perm{8}{3}$.
+			If both \C and \D are chosen, the number of combinations are $3 \cdot 2 \cdot \perm{8}{1}$.
+			If neither \C nor \D are chosen, the number of combinations are $\perm{8}{3}$.
 			Therefore, the total number of combinations are $3 \cdot 2 \cdot \comb{8}{1} + \perm{8}{3}$.
 		\item
-			There are three possible posts for E.
+			There are three possible posts for \E.
 			Therefore, the total number of combinations are $3 \cdot \perm{9}{2}$.
 		\item
-			If F is the president, the number of combinations are $\perm{9}{2}$.
-			If F is not the president, the number of combinations are $\perm{9}{3}$.
+			If \F is the president, the number of combinations are $\perm{9}{2}$.
+			If \F is not the president, the number of combinations are $\perm{9}{3}$.
 			Therefore, the total number of combinations are $\perm{9}{2} + \perm{9}{3}$.
 	\end{enumerate}
 \end{solution}
@@ -1475,5 +1479,378 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 		\therefore \prob(X = 3) & = \comb{5}{3} \left( \frac{1}{6} \right)^3 \left( \frac{5}{6} \right)^3
 	\end{align*}
 \end{solution}
+
+\begin{question}
+	A player bets on a number from $1$ to $6$, both including.
+	Three dice are then rolled.
+	If the number bet on by the player appears $i$ times where $i = 1,2,3$, he wins $i$ units.
+	If the number bet on by the player does not appear on any of the dice, he loses $1$ unit.\\
+	A game is considered to be fair if the expected value for the player is at least $0$.
+	Is this game fair towards the player?
+\end{question}
+
+\begin{solution}
+	Let $X$ be the player's winnings.\\
+	Let $Y$ be the number of times the number the player bet on appeared.
+	Therefore,
+	\begin{align*}
+		Y & \sim \bin\left( 3,\frac{1}{6} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X = -1) & = \prob(Y = 0)                                                          \\
+                              & = \comb{3}{0} \left( \frac{1}{6} \right)^0 \left( \frac{5}{6} \right)^3 \\
+                              & = \frac{125}{216}                                                       \\
+		\prob(X = 1)  & = \prob(Y = 1)                                                          \\
+                              & = \comb{3}{1} \left( \frac{1}{6} \right)^1 \left( \frac{5}{6} \right)^2 \\
+                              & = \frac{75}{216}                                                        \\
+		\prob(X = 2)  & = \prob(Y = 2)                                                          \\
+                              & = \comb{3}{2} \left( \frac{1}{6} \right)^2 \left( \frac{5}{6} \right)^1 \\
+                              & = \frac{15}{216}                                                        \\
+		\prob(X = 3)  & = \prob(Y = 3)                                                          \\
+                              & = \comb{3}{3} \left( \frac{1}{6} \right)^3 \left( \frac{5}{6} \right)^0 \\
+                              & = \frac{1}{216}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = (-1) \left( \frac{125}{216} \right) + (1) \left( \frac{75}{216} \right) + (2) \left( \frac{15}{216} \right) + (3) \left( \frac{1}{216} \right) \\
+                          & = -\frac{17}{216}
+	\end{align*}
+	Therefore, as the expected value of the winnings is less than $0$, the game is not fair towards the player.
+\end{solution}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \bin(n,p) \\
+		Y & \sim \bin(n - 1,p)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct\left[ X^k \right] & = n p \expct\left[ (Y + 1)^{k - 1} \right]
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ X^k \right] & = \sum\limits_{i = 0}^{n} i_k \comb{n}{i} p^i (1 - p)^{n - i} \\
+                                         & = \sum\limits_{i = 1}^{n} i_k \comb{n}{i} p^i (1 - p)^{n - i} \\
+                                         & = n p \sum\limits_{i = 1}^{n} i^{k - 1} \comb{n - 1}{i - 1} p^{i - 1} (1 - p)^{n - 1}
+	\end{align*}
+	Let
+	\begin{align*}
+		j = i - 1
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ X^k \right] & = n p \sum\limits_{j = 0}^{n - 1} (j + 1)^{k - 1} \comb{n - 1}{j} p^j (1 - p)^{n - 1 - j} \\
+                                         & = \prob(Y = j)                                                                            \\
+                                         & = n p \expct\left[ (Y + 1)^{k - 1} \right]
+	\end{align*}
+\end{proof}
+
+\section{Poisson Random Variables}
+
+\begin{definition}[Poisson Random Variables]
+	A random variable $X$ that takes on whole number values is said to be a Poisson random variable with parameter $\lambda$ if for some $\lambda > 0$,
+	\begin{align*}
+		\prob(X = i) & = \frac{e^{-\lambda} \lambda^i}{i!}
+	\end{align*}
+	where $i \in \mathbb{W}$.\\
+	It is denoted as
+	\begin{align*}
+		X & \sim \poi(p)
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \bin(n,p)
+	\end{align*}
+	If $n \to \infty$, the probability distribution of $X$ is a Poisson distribution.
+\end{theorem}
+
+\begin{proof}
+	Let
+	\begin{align*}
+		X & \sim \bin(n,p)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X = i) & = \comb{n}{i} p^i (1 - p)^{n - i} \\
+                             & = \frac{n!}{(n - i)! i!} p^i (1 - p)^{n - i}
+	\end{align*}
+	Let
+	\begin{align*}
+		\lambda & = n p
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X = i)                                       & = \frac{n!}{(n - i)! i!} \left( \frac{\lambda}{n} \right)^i \left( 1 - \frac{\lambda}{n} \right)^{n - i}                                               \\
+                                                                   & = \frac{(n) (n - 1) \dots (n - i + 1)}{n^i} \frac{\lambda^i}{i!} \frac{\left( 1 - \frac{\lambda}{n} \right)^2}{\left( 1 - \frac{\lambda}{n} \right)^i} \\
+		\therefore \lim\limits_{n \to \infty} \prob(X = i) & = \frac{\lambda^i e^{-\lambda}}{i!}
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \poi(\lambda)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] & = \lambda
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct[X] & = \sum\limits_{i = 0}^{\infty} i \frac{e^{-\lambda} \lambda^i}{i!} \\
+                          & = \lambda \sum\limits_{i = 1}^{\infty} \frac{e^{-\lambda} \lambda^{i - 1}}{(i - 1)!}
+	\end{align*}
+	Let
+	\begin{align*}
+		j & = i - 1
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = \lambda \sum\limits_{j = 0}^{\infty} \frac{e^{-\lambda} \lambda^j}{j!}
+	\end{align*}
+	As $\sum\limits_{j = 0}^{\infty} \frac{e^{-\lambda} \lambda^j}{j!}$ represents the total probability of $X$,
+	\begin{align*}
+		\sum\limits_{j = 0}^{\infty} \frac{e^{-\lambda} \lambda^j}{j!} & = 1
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = \lambda
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & = \poi(\lambda)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\var(X) & = \lambda
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ X^2 \right] & = \sum\limits_{i = 0}^{\infty} i^2 \frac{e^{-\lambda} \lambda^i}{i!} \\
+                                         & = \lambda \sum\limits_{i = 1}^{\infty} i \frac{e^{-\lambda} \lambda^{i - 1}}{(i - 1)!}
+	\end{align*}
+	Let
+	\begin{align*}
+		j & = i - 1
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ X^2 \right] & = \lambda \sum\limits_{j = 0}^{\infty} (j + 1) \frac{e^{-\lambda} \lambda^j}{j!}                                                                           \\
+                                         & = \lambda \left( \sum\limits_{j = 0}^{\infty} j \frac{e^{-\lambda} \lambda^j}{j!} + \sum\limits_{j = 0}^{\infty} \frac{e^{-\lambda} \lambda^j}{j!} \right) \\
+                                         & = \lambda \left( \expct\left[ \poi(\lambda) \right] + \sum\limits_{j = 0}^{\infty} \prob\left( \poi(\lambda) = j \right) \right)                           \\
+                                         & = \lambda (\lambda + 1)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) & = \expct\left[ X^2 \right] - \expct[X]^2 \\
+                        & = \lambda
+	\end{align*}
+\end{proof}
+
+\begin{question}
+	Consider an experiment that consists of counting the number of $\alpha$ particles given off in a second by a gram of radioactive material.
+	If it is known that on average, $3.2$ such $\alpha$ particles are emitted, what is the probability that no more than $2$ $\alpha$ particles will be emitted?
+\end{question}
+
+\begin{solution}
+	Let $X$ be the number of $\alpha$ particles emitted.
+	Therefore,
+	\begin{align*}
+		X & \sim \poi(3.2)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X \le 2) & = \prob(X = 0) + \prob(X = 1) + \prob(X = 2)                                                    \\
+                               & = \frac{e^{-3.2} \lambda^0}{0!} + \frac{e^{-3.2} \lambda^1}{1!} + \frac{e^{-3.2} \lambda^2}{2!} \\
+                               & \approx 0.3799
+	\end{align*}
+\end{solution}
+
+\subsection{Assumptions for Poisson Distributions for Events Over a Period of Time}
+
+\begin{enumerate}
+	\item The probability that an event occurs in an interval of length $h$ is $\lambda h + \mathrm{o}(h)$.
+	\item For a small enough $h$, the probability that two or more events occur in an interval of length $h$ is small, i.e. is $\mathrm{o}(h)$.
+	\item The number of events in intervals that are not overlapping are independent.
+\end{enumerate}
+
+\begin{question}
+	Consider that earthquakes occur with the assumptions of Poisson distributions, with $\lambda = 2$, and with a week as a unit of time.
+	\begin{enumerate}
+		\item Find the probability that at least three earthquakes occur during the next two weeks.
+		\item Given that three earthquakes occurred in the last four weeks, what is the probability that exactly one of them occurred in the last week.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let $X$ be the number of earthquakes occurring in two weeks.
+			Therefore,
+			\begin{align*}
+				X & \sim \poi(4)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X \ge 3) & = 1 - \left( \prob(X = 0) + \prob(X = 1) + \prob(X = 2) \right)                            \\
+                                               & = 1 - \left( \frac{e^{-4} 4^0}{0!} + \frac{e^{-4} 4^1}{1!} + \frac{e^{-4} 4^2}{21} \right) \\
+                                               & = 1 - 13 e^{-4}
+			\end{align*}
+		\item
+			Let $Y$ be the number of earthquakes in the last four weeks.\\
+			Let $Z_1$ be the number of earthquakes in the first three of the last four weeks.\\
+			Let $Z_2$ be the number of earthquakes in the last week.\\
+			Therefore,
+			\begin{align*}
+				Y   & \sim \poi(8) \\
+				Z_1 & \sim \poi(6) \\
+				Z_2 & \sim \poi(2)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(Z_2 = 1 | Y = 3) & = \frac{\prob(Z_2 = 1 \cap Y = 3)}{\prob(Y = 3)} \\
+                                                       & = \frac{\prob(Z_2 = 1 \cap Z_1 = 2)}{\prob(Y = 3)}
+			\end{align*}
+			Therefore, as $Z_1$ and $Z_2$ belong to non-overlapping intervals, the events $Z_2 = 1$ and $Z_1 = 2$ are independent.
+			Therefore,
+			\begin{align*}
+				\prob(Z_2 = 1 | Y = 3) & = \frac{\prob(Z_2 = 1) \prob(Z_1 = 2)}{\prob(Y = 3)}                        \\
+                                                       & = \frac{\frac{e^{-2} 2^1}{1!} \frac{e^{-6} 6^2}{2!}}{\frac{e^{-8} 8^3}{3!}} \\
+                                                       & = \left( \comb{3}{1} \right) \left( \frac{2}{8} \right)^1 \left( \frac{6}{8} \right)^2
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\section{Geometric Random Variables}
+
+\begin{definition}[Geometric random variable]
+	Suppose that independent trials, each having probability of success $0 < p < 1$, are performed until a success occurs.
+	If $X$ is the number of trials required, then $X$ is said to have a geometric distribution.
+	It is denoted as
+	\begin{align*}
+		X & \sim \geo(p)
+	\end{align*}
+	The probability distribution if $X$ is
+	\begin{align*}
+		\prob(X = n) & = (1 - p)^{n - 1} p
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	\A eats cookies one after another until she finds and a chocolate cookie.
+	For each cookie, the probability of the cookie being a chocolate cookie is $\frac{1}{10}$.
+	\begin{enumerate}
+		\item What is the probability that \A eats more than $3$ cookies?
+		\item Given that \A has already eaten $5$ cookies, and has not found a chocolate cookie, what is the probability that she will eat at least $8$ more cookies?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				\prob(X > 3) & = \sum\limits_{k = 4}^{\infty} \prob(X = k)                                                                                          \\
+                                             & = \sum\limits_{k = 4}^{\infty} \left( 1 - \frac{1}{10} \right)^{k - 1} \left( \frac{1}{10} \right)                                   \\
+                                             & = \left( 1 - \frac{1}{10} \right)^3 \sum\limits_{j = 1}^{\infty} \left( 1 - \frac{1}{10} \right)^{j - 1} \left( \frac{1}{10} \right) \\
+                                             & = \left( \frac{9}{10} \right)^3 \left( \frac{1}{10} \right) \left( \frac{1}{1 - \frac{9}{10}} \right)                                \\
+                                             & = \left( \frac{9}{10} \right)^3
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X \ge 13 | X > 5) & = \prob(X > 12 | X > 5)                                                  \\
+                                                        & = \frac{\prob(X > 12 \cap X > 5)}{\prob(X > 5)}                          \\
+                                                        & = \frac{\prob(X > 12)}{\prob(X > 5)}                                     \\
+                                                        & = \frac{\left( \frac{9}{10} \right)^{12}}{\left( \frac{9}{10} \right)^5} \\
+                                                        & = \left( \frac{9}{10} \right)^7                                          \\
+                                                        & = \prob(X > 7)
+			\end{align*}
+			Therefore, the fact that \A has already eaten $5$ cookies does not affect the probability of her eating at least $8$ more cookies.
+	\end{enumerate}
+\end{solution}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \geo(p)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] & = \frac{1}{p}
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct[X] & = \sum\limits_{i = 1}^{\infty} i (1 - p)^{i - 1} p
+	\end{align*}
+	Let
+	\begin{align*}
+		q & = 1 - p
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X]                    & = \sum\limits_{i = 1}^{\infty} i q^{i - 1} p                                                  \\
+                                             & = \sum\limits_{i = 1}^{\infty} (i - 1 + 1) q^{i - 1} p                                        \\
+                                             & = \sum\limits_{i = 1}^{\infty} (i - 1) q^{i - 1} p + \sum\limits_{i = 1}^{\infty} q^{i - 1} p \\
+                                             & = \sum\limits_{i = 1}^{\infty} (i - 1) q^{i - 1} p + \frac{p}{1 - q}                          \\
+                                             & = \sum\limits_{i = 1}^{\infty} (i - 1) q^{i - 1} p + \frac{p}{1 - (1 - p)}                    \\
+                                             & = \sum\limits_{i = 1}^{\infty} (i - 1) q^{i - 1} p + 1                                        \\
+                                             & = \sum\limits_{j = 0}^{\infty} j q^j p + 1                                                    \\
+                                             & = q \sum\limits_{j = 0}^{\infty} j q^{j - 1} p + 1                                            \\
+                                             & = q \expct[X] + 1                                                                             \\
+		\therefore \expct[X] (1 - q) & = 1                                                                                           \\
+		\therefore \expct[X]         & = \frac{1}{1 - q}                                                                             \\
+                                             & = \frac{1}{p}
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \geo(p)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\var(X) & = \frac{1 - p}{p^2}
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	Let
+	\begin{align*}
+		q & = 1 - p
+	\end{align*}
+	\begin{align*}
+		\expct\left[ X^2 \right]              & = \sum\limits_{i = 1}^{\infty} i^2 q^{i - 1} p                                                                                                       \\
+                                                      & = \sum\limits_{i = 1}^{\infty} (i - 1 + i)^2 q^{i - 1} p                                                                                             \\
+                                                      & = \sum\limits_{i = 1}^{\infty} (i - 1)^2 q^{i - 1} p + \sum\limits_{i = 1}^{\infty} 2 (i - 1) q^{i - 1} p + \sum\limits_{i = 1}^{\infty} q^{i - 1} p \\
+                                                      & = \sum\limits_{j = 0}^{\infty} j^2 q^j p + 2 \sum\limits_{j = 1}^{\infty} j q^j p + 1                                                                \\
+                                                      & = q \expct\left[ X^2 \right] + 2 q \expct[X] + 1                                                                                                     \\
+		\therefore p \expct\left[ X^2 \right] & = \frac{2 q}{p} + 1                                                                                                                                  \\
+		\therefore \expct\left[ X^2 \right]   & = \frac{2 q + p}{p^2}                                                                                                                                \\
+                                                      & = \frac{q + 1}{p^2}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) & = \expct\left[ X^2 \right] - \expct[X]^2 \\
+                        & = \frac{q + 1}{p^2} - \frac{1}{p^2}      \\
+                        & = \frac{q}{p^2}                          \\
+                        & = \frac{1 - p}{p^2}
+	\end{align*}
+\end{proof}
 
 \end{document}

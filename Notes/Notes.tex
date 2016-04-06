@@ -58,7 +58,7 @@
 
 \DeclareMathOperator{\sd}{\mathrm{\sigma}}
 
-\DeclareMathOperator{\cdf}{\mathrm{cdf}}
+\DeclareMathOperator{\pdf}{\mathrm{F}}
 
 \DeclareMathOperator{\bin}{\mathrm{Bin}}
 
@@ -66,8 +66,14 @@
 
 \DeclareMathOperator{\geo}{\mathrm{Geo}}
 
+\DeclareMathOperator{\nb}{\mathrm{NB}}
+
+\DeclareMathOperator{\hg}{\mathrm{HG}}
+
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\newcommand*{\cdf}[1]{\mathrm{F}_{#1}}
 
 \newcommand{\A}{\text{Alice}\xspace}
 \newcommand{\B}{\text{Bob}\xspace}
@@ -1016,7 +1022,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 \end{definition}
 
 \clearpage
-\part{Random Variables}
+\part{Discrete Random Variables}
 
 \section{Discrete Random Variables}
 
@@ -1043,77 +1049,6 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 		\prob(X \ge 17) & = \prob(X = 17) + \prob(X = 18) + \prob(X = 19) + \prob(X = 20) \\
                                 & = \frac{\comb{16}{2} + \comb{17}{2} + \comb{18}{2} + \comb{19}{2}}{\comb{20}{3}}
 	\end{align*}
-\end{solution}
-
-\section{Cumulative Distribution Function}
-
-\begin{definition}[Cumulative distribution function]
-	The function
-	\begin{align*}
-		F(x) & = \prob(X \le x)
-	\end{align*}
-	for $-\infty < x \le x$, is called the cumulative distribution function of the variable $X$.
-\end{definition}
-
-\begin{question}
-	Let $X$ be the result of a die roll.
-	Plot the cumulative distribution function of $X$.
-\end{question}
-
-\begin{solution}
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}[scale = 1.5]
-			\def\xMIN{-1};
-			\def\xMAX{7};
-			\def\yMIN{-1};
-			\def\yMAX{2};
-
-			\begin{scope}[stealth-stealth]
-				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$x$};
-				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\cdf(X)$};
-			\end{scope}
-
-			\begin{scope}
-				\draw (-\xMIN,0) -- (1,0);
-				\draw (1,0) circle (1pt);
-			\end{scope}
-
-			\begin{scope}
-				\begin{scope}
-					\filldraw (1,1/6) circle (1pt);
-					\draw (1,1/6) -- (2,1/6);
-					\draw (2,1/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (2,2/6) circle (1pt);
-					\draw (2,2/6) -- (3,2/6);
-					\draw (3,2/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (3,3/6) circle (1pt);
-					\draw (3,3/6) -- (4,3/6);
-					\draw (4,3/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (4,4/6) circle (1pt);
-					\draw (4,4/6) -- (5,4/6);
-					\draw (5,4/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (5,5/6) circle (1pt);
-					\draw (5,5/6) -- (6,5/6);
-					\draw (6,5/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (6,6/6) circle (1pt);
-					\draw (6,6/6) -- (\xMAX,6/6);
-				\end{scope}
-			\end{scope}
-		\end{tikzpicture}
-		\caption{Cumulative Distribution Function for a Die Roll}
-		\label{fig:Cumulative_Distribution_Function_for_a_Die_Roll}
-	\end{figure}
 \end{solution}
 
 \section{Probability Mass Function}
@@ -1458,7 +1393,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 	the probability mass function is
 	\begin{align*}
-		\prob(X = i) & = \comb{n}{i} p^i (1 - p)^{n - i}
+		\prob(X = i) & = \binom{n}{i} p^i (1 - p)^{n - i}
 	\end{align*}
 \end{theorem}
 
@@ -1533,9 +1468,9 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 
 \begin{proof}
 	\begin{align*}
-		\expct\left[ X^k \right] & = \sum\limits_{i = 0}^{n} i_k \comb{n}{i} p^i (1 - p)^{n - i} \\
-                                         & = \sum\limits_{i = 1}^{n} i_k \comb{n}{i} p^i (1 - p)^{n - i} \\
-                                         & = n p \sum\limits_{i = 1}^{n} i^{k - 1} \comb{n - 1}{i - 1} p^{i - 1} (1 - p)^{n - 1}
+		\expct\left[ X^k \right] & = \sum\limits_{i = 0}^{n} i_k \binom{n}{i} p^i (1 - p)^{n - i} \\
+                                         & = \sum\limits_{i = 1}^{n} i_k \binom{n}{i} p^i (1 - p)^{n - i} \\
+                                         & = n p \sum\limits_{i = 1}^{n} i^{k - 1} \binom{n - 1}{i - 1} p^{i - 1} (1 - p)^{n - 1}
 	\end{align*}
 	Let
 	\begin{align*}
@@ -1543,7 +1478,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 	Therefore,
 	\begin{align*}
-		\expct\left[ X^k \right] & = n p \sum\limits_{j = 0}^{n - 1} (j + 1)^{k - 1} \comb{n - 1}{j} p^j (1 - p)^{n - 1 - j} \\
+		\expct\left[ X^k \right] & = n p \sum\limits_{j = 0}^{n - 1} (j + 1)^{k - 1} \binom{n - 1}{j} p^j (1 - p)^{n - 1 - j} \\
                                          & = \prob(Y = j)                                                                            \\
                                          & = n p \expct\left[ (Y + 1)^{k - 1} \right]
 	\end{align*}
@@ -1578,7 +1513,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 	Therefore,
 	\begin{align*}
-		\prob(X = i) & = \comb{n}{i} p^i (1 - p)^{n - i} \\
+		\prob(X = i) & = \binom{n}{i} p^i (1 - p)^{n - i} \\
                              & = \frac{n!}{(n - i)! i!} p^i (1 - p)^{n - i}
 	\end{align*}
 	Let
@@ -1852,5 +1787,358 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
                         & = \frac{1 - p}{p^2}
 	\end{align*}
 \end{proof}
+
+\section{Negative Binomial Random Variable}
+
+\begin{definition}[Negative binomial random variable]
+	Suppose that independent trials, each having probability of success $0 < p < 1$, are performed until a total of $r$ successes are accumulated.
+	If $X$ is the number of trials required, then $X$ is said to be a negative binomial random variable.\\
+	It is denoted as
+	\begin{align*}
+		X & \sim \nb(r,p)
+	\end{align*}
+	The last trial must necessarily result in a success, and there must be $r - 1$ more success in the first $n - 1$ trials.
+	Therefore, the probability distribution of $X$ is
+	\begin{align*}
+		\prob(X = n) & = \binom{n - 1}{r - 1} p^{r - 1} (1 - p)^{n - r} p \\
+                             & = \binom{n - 1}{r - 1} p^r (1 - p)^{n - r}
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	\begin{align*}
+		n \binom{n - 1}{r - 1} & = r \binom{n}{r}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \nb(r,p)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] & = \frac{r}{p}
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ X^k \right] & = \sum\limits_{n = r}^{\infty} n^k \binom{n - 1}{r - 1} p^r (1 - p)^{n - r}                                     \\
+                                         & = \frac{r}{p} \sum\limits_{n = r}^{\infty} n^{k - 1} \binom{n}{r} p^{r + 1} (1 - p)^{n - r}                     \\
+                                         & = \frac{r}{p} \sum\limits_{m = r + 1}^{\infty} (m - 1)^{k - 1} \binom{m - 1}{r} p^{r + 1} (1 - p)^{m - (r + 1)} \\
+	\end{align*}
+	Let
+	\begin{align*}
+		Y & \sim \nb(r + 1,p)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ X^k \right] & = \frac{r}{p} \expct\left[ (Y - 1)^{k - 1} \right]
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = \frac{r}{p}
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \nb(r,p)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] & = \frac{r}{p}
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ X^k \right] & = \sum\limits_{n = r}^{\infty} n^k \binom{n - 1}{r - 1} p^r (1 - p)^{n - r}                                     \\
+                                         & = \frac{r}{p} \sum\limits_{n = r}^{\infty} n^{k - 1} \binom{n}{r} p^{r + 1} (1 - p)^{n - r}                     \\
+                                         & = \frac{r}{p} \sum\limits_{m = r + 1}^{\infty} (m - 1)^{k - 1} \binom{m - 1}{r} p^{r + 1} (1 - p)^{m - (r + 1)} \\
+	\end{align*}
+	Let
+	\begin{align*}
+		Y & \sim \nb(r + 1,p)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ X^k \right] & = \frac{r}{p} \expct\left[ (Y - 1)^{k - 1} \right]
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X]                & = \frac{r}{p}               \\
+		\expct\left[ X^2 \right] & = \frac{r}{p} \expct[Y - 1] \\
+                                         & = \frac{r}{p} \left( \frac{r + 1}{p} - 1 \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) & = \expct\left[ X^2 \right] - \expct[X]^2 \\
+                        & = \frac{r (1 - p)}{p^2}
+	\end{align*}
+\end{proof}
+
+\begin{question}
+	Find the expected value and variance of the number of time one must throw a die until the outcome $1$ has occurred four times.
+\end{question}
+
+\begin{solution}
+	Let $X$ be the number of times the die must be thrown for $1$ to occur four times.
+	Therefore,
+	\begin{align*}
+		X & \sim \nb\left( 4,\frac{1}{6} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = \frac{r}{p}                                                           \\
+                          & = \frac{4}{\frac{1}{6}}                                                 \\
+                          & = 24                                                                    \\
+		\var(X)   & = \frac{r (1 - p)}{p^2}                                                 \\
+                          & = \frac{4 \left( 1 - \frac{1}{6} \right)}{\left( \frac{1}{6} \right)^2} \\
+                          & = 120
+	\end{align*}
+\end{solution}
+
+\section{Hypergeometric Random Variable}
+
+\begin{definition}[Hypergeometric random variable]
+	Suppose that a sample of size $n$ is to be chosen randomly and without replacement from a population of $N$, of which $m$ possess a particular characteristic, and the other $N - m$ do not.
+	If $X$ is the number of individuals in the selected sample, then $X$ is said to be a hypergeometric random variable.\\
+	It is denoted as
+	\begin{align*}
+		X & \sim \hg(n,N,m)
+	\end{align*}
+	The probability distribution of $X$ is
+	\begin{align*}
+		\prob(X = i) & = \frac{\binom{n}{i} \binom{N - m}{n - i}}{\binom{N}{n}}
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \hg(n,N,m)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] & = \frac{n m}{N}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \hg(n,N,m)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\var(X) & = n \frac{m}{N} \left( 1 - \frac{m}{N} \right) \left( \frac{N - n}{N - 1} \right)
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	A buyer of electrical component buys electrical components in lots of size $10$.
+	It is his policy to inspect $3$ components randomly from a lot, and to accept the lot only if all $3$ are non-defective.
+	If $30\%$ of the lots have $4$ defective components and $70\%$ of the lots have $1$ defective components, what is the proportion of the lots that the purchaser rejects.
+\end{question}
+
+\begin{solution}
+	Let $A$ be the event that the buyer accepts the lot.
+	Therefore,
+	\begin{align*}
+		\prob(A) & = \prob(\text{$4$ defective}) \prob(A|\text{$4$ defective}) + \prob(\text{$1$ defective}) \prob(A|\text{$1$ defective})                                                             \\
+                         & = \left( \frac{3}{10} \right) \left( \frac{\comb{4}{0} \comb{6}{3}}{\comb{10}{3}} \right) + \left( \frac{7}{10} \right) \left( \frac{\comb{1}{0} \comb{9}{3}}{\comb{10}{3}} \right) \\
+                         & = \frac{54}{100}
+	\end{align*}
+	Therefore, the buyer rejects $54\%$ of the lots, i.e., he rejects $46\%$ of the lots.
+\end{solution}
+
+\clearpage
+\part{Combination of Random Variables}
+
+\section{Expected Value of Sums of Random Variables}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & = \sum\limits_{i = 1}^{n} X_i
+	\end{align*}
+	where each $X_i$ is a random variable, possibly of different distributions.\\
+	Then,
+	\begin{align*}
+		\expct[X] & = \sum\limits_{i = 1}^{n} \expct[X_i]
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct[X] & = \sum\limits_{\omega \in \Omega} X(\omega) \prob(\omega)                                          \\
+                          & = \sum\limits_{\omega \in \Omega} \left( \sum\limits_{i = 1}^{n} X_i(\omega) \right) \prob(\omega) \\
+                          & = \sum\limits_{i = 1}^{n} \sum\limits_{\omega}^{\Omega} X_i(\omega) \prob(\omega)                  \\
+                          & = \sum\limits_{i = 1}^{n} \expct[X_i]
+	\end{align*}
+\end{proof}
+
+\begin{question}
+	$n$ people came to a winter party, carrying a coat each.
+	While leaving the party, each person took a coat randomly.
+	Let $X$ be the number of people that left with their own coat.
+	Find $\expct[X]$.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		X_i &=
+			\begin{cases}
+				1 & ;\quad \text{person $i$ got own coat} \\
+				0 & ;\quad \text{otherwise}               \\
+			\end{cases}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X_i = 1) & = \frac{1}{n}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = \sum\limits_{i = 1}^{n} \expct[X_i] \\
+                          & = \sum\limits_{i = 1}^{n} \frac{1}{n} \\
+                          & = 1
+	\end{align*}
+\end{solution}
+
+\clearpage
+\part{Continuous Random Variables}
+
+\section{Cumulative Distribution Function}
+
+\begin{definition}[Cumulative distribution function]
+	The function
+	\begin{align*}
+		\cdf{X} & = \prob(X \le x)
+	\end{align*}
+	for $-\infty < x \le x$, is called the cumulative distribution function of the variable $X$.
+\end{definition}
+
+\begin{question}
+	Let $X$ be the result of a die roll.
+	Plot the cumulative distribution function of $X$.
+\end{question}
+
+\begin{solution}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale = 1.5]
+			\def\xMIN{-1};
+			\def\xMAX{7};
+			\def\yMIN{-1};
+			\def\yMAX{2};
+
+			\begin{scope}[stealth-stealth]
+				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$x$};
+				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\cdf{X}$};
+			\end{scope}
+
+			\begin{scope}
+				\draw (-\xMIN,0) -- (1,0);
+				\draw (1,0) circle (1pt);
+			\end{scope}
+
+			\begin{scope}
+				\begin{scope}
+					\filldraw (1,1/6) circle (1pt);
+					\draw (1,1/6) -- (2,1/6);
+					\draw (2,1/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (2,2/6) circle (1pt);
+					\draw (2,2/6) -- (3,2/6);
+					\draw (3,2/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (3,3/6) circle (1pt);
+					\draw (3,3/6) -- (4,3/6);
+					\draw (4,3/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (4,4/6) circle (1pt);
+					\draw (4,4/6) -- (5,4/6);
+					\draw (5,4/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (5,5/6) circle (1pt);
+					\draw (5,5/6) -- (6,5/6);
+					\draw (6,5/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (6,6/6) circle (1pt);
+					\draw (6,6/6) -- (\xMAX,6/6);
+				\end{scope}
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Cumulative Distribution Function for a Die Roll}
+		\label{fig:Cumulative_Distribution_Function_for_a_Die_Roll}
+	\end{figure}
+\end{solution}
+
+\begin{theorem}
+	Let $\cdf{X}$ be the cumulative distribution function of a random variable $X$.
+	Then,
+	\begin{enumerate}
+		\item $\cdf{X}$ is a non-decreasing function.
+		\item $\lim\limits_{b \to \infty} \cdf{X}(b) = 1$.
+		\item $\lim\limits_{b \to -\infty} \cdf{X}(b) = 0$.
+		\item $\cdf{X}$ is right continuous, i.e., the function is equal to its right hand limit.
+	\end{enumerate}
+\end{theorem}
+
+\section{Continuous Random Variable}
+
+\begin{definition}[Continuous random variable]
+	A random variable $X$ is said to be a continuous random variable if there exists a function $f$ such that
+	\begin{align*}
+		\cdf{X}(x) & = \int\limits_{-\infty}^{x} \pdf(t) \dif t
+	\end{align*}
+\end{definition}
+
+\begin{definition}
+	Let
+	\begin{align*}
+		\cdf{X}(x) & = \int\limits_{-\infty}^{x} \pdf(t) \dif t
+	\end{align*}
+	Then, $\pdf(t)$ is called the probability density function of $x$.
+\end{definition}
+
+\begin{question}
+	The amount of time in hours that a computer functions before breaking down has the distribution
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				\lambda e^{-\frac{x}{100}} & ;\quad x \ge 0          \\
+				0                          & ;\quad \text{otherwise} \\
+			\end{cases}
+	\end{align*}
+	What is the probability that the computer functions for more than $50$ but less than $150$ hours?
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		1 & = \int\limits_{-\infty}^{\infty} \pdf(x) \dif x              \\
+                  & = \lambda \int\limits_{0}^{\infty} e^{-\frac{x}{100}} \dif x \\
+                  & = 100 \lambda
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\lambda & = \frac{1}{100}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(50 < x < 150) & = \int\limits_{50}^{150} \lambda e^{-\frac{x}{100}} \dif x       \\
+                                    & = \int\limits_{50}^{150} \frac{1}{100} e^{-\frac{x}{100}} \dif x \\
+                                    & \approx 0.384
+	\end{align*}
+\end{solution}
 
 \end{document}

@@ -58,7 +58,9 @@
 
 \DeclareMathOperator{\sd}{\mathrm{\sigma}}
 
-\DeclareMathOperator{\pdf}{\mathrm{F}}
+\DeclareMathOperator{\pdf}{\mathrm{f}}
+
+\DeclareMathOperator{\stdnormalcdf}{\mathrm{\Phi}}
 
 \DeclareMathOperator{\bin}{\mathrm{Bin}}
 
@@ -69,6 +71,8 @@
 \DeclareMathOperator{\nb}{\mathrm{NB}}
 
 \DeclareMathOperator{\hg}{\mathrm{HG}}
+
+\DeclareMathOperator{\uniform}{\mathrm{U}}
 
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
@@ -1357,6 +1361,252 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 \end{solution}
 
 \clearpage
+\part{Continuous Random Variables}
+
+\section{Cumulative Distribution Function}
+
+\begin{definition}[Cumulative distribution function]
+	The function
+	\begin{align*}
+		\cdf{X} & = \prob(X \le x)
+	\end{align*}
+	for $-\infty < x \le x$, is called the cumulative distribution function of the variable $X$.
+\end{definition}
+
+\begin{question}
+	Let $X$ be the result of a die roll.
+	Plot the cumulative distribution function of $X$.
+\end{question}
+
+\begin{solution}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale = 1.5]
+			\def\xMIN{-1};
+			\def\xMAX{7};
+			\def\yMIN{-1};
+			\def\yMAX{2};
+
+			\begin{scope}[stealth-stealth]
+				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$x$};
+				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\cdf{X}$};
+			\end{scope}
+
+			\begin{scope}
+				\draw (-\xMIN,0) -- (1,0);
+				\draw (1,0) circle (1pt);
+			\end{scope}
+
+			\begin{scope}
+				\begin{scope}
+					\filldraw (1,1/6) circle (1pt);
+					\draw (1,1/6) -- (2,1/6);
+					\draw (2,1/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (2,2/6) circle (1pt);
+					\draw (2,2/6) -- (3,2/6);
+					\draw (3,2/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (3,3/6) circle (1pt);
+					\draw (3,3/6) -- (4,3/6);
+					\draw (4,3/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (4,4/6) circle (1pt);
+					\draw (4,4/6) -- (5,4/6);
+					\draw (5,4/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (5,5/6) circle (1pt);
+					\draw (5,5/6) -- (6,5/6);
+					\draw (6,5/6) circle (1pt);
+				\end{scope}
+				\begin{scope}
+					\filldraw (6,6/6) circle (1pt);
+					\draw (6,6/6) -- (\xMAX,6/6);
+				\end{scope}
+			\end{scope}
+		\end{tikzpicture}
+		\caption{Cumulative Distribution Function for a Die Roll}
+		\label{fig:Cumulative_Distribution_Function_for_a_Die_Roll}
+	\end{figure}
+\end{solution}
+
+\begin{theorem}
+	Let $\cdf{X}$ be the cumulative distribution function of a random variable $X$.
+	Then,
+	\begin{enumerate}
+		\item $\cdf{X}$ is a non-decreasing function.
+		\item $\lim\limits_{b \to \infty} \cdf{X}(b) = 1$.
+		\item $\lim\limits_{b \to -\infty} \cdf{X}(b) = 0$.
+		\item $\cdf{X}$ is right continuous, i.e., the function is equal to its right hand limit.
+	\end{enumerate}
+\end{theorem}
+
+\section{Continuous Random Variable}
+
+\begin{definition}[Continuous random variable]
+	A random variable $X$ is said to be a continuous random variable if there exists a function $f$ such that
+	\begin{align*}
+		\cdf{X}(x) & = \int\limits_{-\infty}^{x} \pdf(t) \dif t
+	\end{align*}
+\end{definition}
+
+\begin{definition}
+	Let
+	\begin{align*}
+		\cdf{X}(x) & = \int\limits_{-\infty}^{x} \pdf(t) \dif t
+	\end{align*}
+	Then, $\pdf(t)$ is called the probability density function of $x$.
+\end{definition}
+
+\begin{question}
+	Let $X$ be a continuous variable whose probability density function is
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				c \left( 4 x - 2 x^2 \right) &;\quad 0 < x < 2\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	\begin{enumerate}
+		\item Find $c$.
+		\item Find $\prob(X > 1)$.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			As $\pdf(x)$ is a probability density function,
+			\begin{align*}
+				1 &= \int\limits_{-\infty}^{\infty} \pdf(x) \dif x\\
+				&= \int\limits_{0}^{2} c \left( 4 x^2 - 2 x^2 \right) \dif x\\
+				&= \frac{8 c}{3}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				c &= \frac{3}{8}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X > 1) &= \int\limits_{1}^{\infty} \pdf(x) \dif x\\
+				&= \int\limits_{1}^{2} \frac{3}{8} \left( 4 x - 2 x^2 \right) \dif x\\
+				&= \frac{1}{2}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	The amount of time in hours that a computer functions before breaking down has the distribution
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				\lambda e^{-\frac{x}{100}} & ;\quad x \ge 0          \\
+				0                          & ;\quad \text{otherwise} \\
+			\end{cases}
+	\end{align*}
+	What is the probability that the computer functions for more than $50$ but less than $150$ hours?
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		1 & = \int\limits_{-\infty}^{\infty} \pdf(x) \dif x              \\
+                  & = \lambda \int\limits_{0}^{\infty} e^{-\frac{x}{100}} \dif x \\
+                  & = 100 \lambda
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\lambda & = \frac{1}{100}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(50 < x < 150) & = \int\limits_{50}^{150} \lambda e^{-\frac{x}{100}} \dif x       \\
+                                    & = \int\limits_{50}^{150} \frac{1}{100} e^{-\frac{x}{100}} \dif x \\
+                                    & \approx 0.384
+	\end{align*}
+\end{solution}
+
+\section{Expectation and Variance}
+
+\begin{definition}
+	Let $X$ be a continuous random variable.
+	Then, the expectation is defined as
+	\begin{align*}
+		\expct[X] &= \int\limits_{-\infty}^{\infty} x f(x) \dif x
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	Find the expectation of $X$ is the probability density function is given to be
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				2 x &;\quad 0 < x < 1\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\expct[X] &= \int\limits_{-\infty}^{\infty} x \pdf(x) \dif x\\
+		&= \int\limits_{0}^{1} 2 x \dif x\\
+		&= \frac{2}{3}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	The probability density function of $X$ is given by
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				1 &;\quad 0 \le x \le 1\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	Find $\expct\left[ e^X \right]$.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		Y &= e^X
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\cdf{Y}(y) &= \prob(Y \le y)\\
+		&= \prob\left( e^X \le y \right)\\
+		&= \prob(X \le \ln y)\\
+		&= \int\limits_{-\infty}^{\ln y} \pdf_X(x) \dif x\\
+		&= \int\limits_{0}^{\ln y} \dif x\\
+		&= \ln y
+	\end{align*}
+	Therefore, differentiating,
+	\begin{align*}
+		\pdf_Y(y) &= \dod{\cdf{Y}(y)}{y}\\
+		&= \dod{\ln y}{y}\\
+		&= \frac{1}{y}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ e^X \right] &= \expct[Y]\\
+		&= \int\limits_{-\infty}^{\infty} y \pdf_Y(y) \dif y\\
+		&= \int\limits_{1}^{e} y \frac{1}{y} \dif y\\
+		&= e - 1
+	\end{align*}
+\end{solution}
+
+\begin{theorem}
+	If $X$ is a continuous random variable, then for any real function $g$,
+	\begin{align*}
+		\expct\left[ g(x) \right] &= \int\limits_{-\infty}^{\infty} g(x) f(x) \dif x
+	\end{align*}
+\end{theorem}
+
+\clearpage
 \part{Special Distributions}
 
 \section{Bernoulli and Binomial Random Variables}
@@ -1955,6 +2205,287 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	Therefore, the buyer rejects $54\%$ of the lots, i.e., he rejects $46\%$ of the lots.
 \end{solution}
 
+\section{Uniform Random Variable}
+
+\begin{definition}[Uniform Random Variable]
+	A random variable $X$ is said to be a uniform random variable over the interval $(a,b)$ if its probability density function is
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				\frac{1}{b - a} &;\quad a < x < b\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	It is denoted as
+	\begin{align*}
+		X &\sim \uniform(a,b)
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	The cumulative distribution function of a uniform random variable $X$ is
+	\begin{align*}
+		\cdf{X}(x) &=
+			\begin{cases}
+				0 &;\quad x < a\\
+				\frac{x - a}{b - a} &;\quad a \le x \le b\\
+				1 &;\quad b < x\\
+			\end{cases}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X &\sim \uniform(a,b)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] &= \frac{a + b}{2}
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct[X] &= \int\limits_{-\infty}^{\infty} x \pdf(x) \dif x\\
+		&= \int\limits_{a}^{b} x \frac{1}{b - a} \dif x\\
+		&= \frac{a + b}{2}
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X &\sim \uniform(a,b)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\var(X) &= \frac{(b - a)^2}{12}
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ X^2 \right] &= \int\limits_{-\infty}^{\infty} x^2 \pdf\left( x^2 \right) \dif x\\
+		&= \int\limits_{a}^{b} x^2 \frac{1}{b - a}\\
+		&= \frac{b^3 - a^3}{3 (b - a)}\\
+		&= \frac{a^2 + a b + b^2}{3}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) &= \expct\left[ X^2 \right] - \expct[X]^2\\
+		&= \frac{a^2 + a b + b^2}{3} - \left( \frac{a + b}{2} \right)^2\\
+		&= \frac{(b - a)^2}{12}
+	\end{align*}
+\end{proof}
+
+\section{Normal Distribution}
+
+\begin{definition}[Normal Random Variable]
+	A random variable $X$ is said to be a normal random variable if its probability density function is
+	\begin{align*}
+		\pdf(x) &= \frac{1}{\sqrt{2 \pi} \sigma} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}
+	\end{align*}
+	where $\mu$ and $\sigma^2$ are parameters.\\
+	If
+	\begin{align*}
+		\mu &= 0\\
+		\sigma^2 &= 1
+	\end{align*}
+	then $X$ is said to be a standard normal random variable.\\
+	The cumulative distribution function of a standard normal $X$ is denoted by $\stdnormalcdf(x)$.
+\end{definition}
+
+\begin{theorem}
+	Let $X$ be a standard normal random variable.
+	Then,
+	\begin{align*}
+		\stdnormalcdf(-x) &= 1 - \stdnormalcdf(x)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	If $X$ is normally distributed with parameters $\mu$ and $\sigma^2$, then $Y = a x + b$ where $a > 0$ is normally distributed with parameters $a \mu + b$ and $a^2 \sigma^2$.
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\cdf{Y}(y) &= \prob(Y \le y)\\
+		&= \prob(a x + b \le y)\\
+		&= \prob\left( x \le \frac{y - b}{a} \right)\\
+		&= \cdf{X}\left( \frac{y - b}{a} \right)
+	\end{align*}
+	Therefore, differentiating,
+	\begin{align*}
+		\pdf_Y(y) &= \frac{1}{a} \pdf_X\left( \frac{y - b}{a} \right)\\
+		&= \frac{1}{\sqrt{2 \pi} a \sigma} e^{-\frac{\left( \frac{y - b}{a} - \mu \right)^2}{2 \sigma^2}}\\
+		&= \frac{1}{\sqrt{2 \pi} a \sigma} e^{-\frac{(y - b - a \mu)^2}{2 (a \sigma)^2}}
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	If $X$ is normally distributed with parameters $\mu$ and $\sigma^2$, then $Z = \frac{X - \mu}{\sigma}$ is normally distributed with parameters $0$ and $1$.
+\end{theorem}
+
+\begin{question}
+	Let $X$ be a normal random variable with parameters
+	\begin{align*}
+		\mu &= 3\\
+		\sigma^2 &= 9
+	\end{align*}
+	Find
+	\begin{enumerate}
+		\item $\prob(2 < X < 5)$
+		\item $\prob(X > 3)$
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.\\
+			Therefore,
+			\begin{align*}
+				\prob(2 < X < 5) &= \prob\left( \frac{2 - 3}{3} < \frac{X - 3}{3} < \frac{5 - 3}{3} \right)\\
+				&= \prob\left( -\frac{1}{3} < Z < \frac{2}{3} \right)\\
+				&= \stdnormalcdf\left( \frac{2}{3} \right) - \stdnormalcdf\left( -\frac{1}{3} \right)\\
+				&= \stdnormalcdf\left( \frac{2}{3} \right) - \left( 1 - \Phi\left( \frac{1}{3} \right) \right)\\
+				&\approx 0.3779
+			\end{align*}
+		\item
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.\\
+			Therefore,
+			\begin{align*}
+				\prob(X > 3) &= \prob\left( \frac{X - 3}{3} > \frac{3 - 3}{3} \right)\\
+				&= \prob(Z > 0)\\
+				&= 0.5
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{theorem}
+	Let $Z$ be a standard normal random variable.
+	Then,
+	\begin{align*}
+		\expct[X] &= 0
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct[Z] &= \int\limits_{-\infty}^{\infty} z \pdf(z) \dif z\\
+		&= \frac{1}{\sqrt{2 \pi}} \int\limits_{-\infty}^{\infty} z e^{-\frac{z^2}{2}} \dif x\\
+		&= 0
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let $Z$ be a standard normal random variable.
+	Then,
+	\begin{align*}
+		\var(X) &= 1
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ Z^2 \right] &= \frac{1}{2 \pi} \int\limits_{-\infty}^{\infty} z^2 e^{-\frac{z^2}{2}} \dif z\\
+		&= 1
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) &= \expct\left[ X^2 \right] - \expct[X]^2\\
+		&= 1 - 0\\
+		&= 1
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let $X$ be a normal random variable.
+	Then,
+	\begin{align*}
+		\expct[X] &= \mu
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	Let
+	\begin{align*}
+		Z &= \frac{X - \mu}{\sigma}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		X &= Z \sigma + \mu
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] &= \expct[Z] \sigma + \mu\\
+		&= \mu
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let $X$ be a normal random variable.
+	Then,
+	\begin{align*}
+		\var(X) &= \sigma^2
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	Let
+	\begin{align*}
+		Z &= \frac{X - \mu}{\sigma}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		X &= Z \sigma + \mu
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) &= \sigma^2 \var(Z)\\
+		&= \sigma^2
+	\end{align*}
+\end{proof}
+
+\section{de Moivre-Laplace Limit Theorem}
+
+\begin{theorem}[de Moivre-Laplace Limit Theorem]
+	Let $S_n$ be the number of successes that occur when $n$ independent trials, each with probability of success $p$, are performed.
+	Then, for any $a < b$,
+	\begin{align*}
+		\lim\limits_{n \to \infty} \prob\left( a < \frac{S_n - n p}{\sqrt{n p (1 - p)}} < b \right) &= \stdnormalcdf(b) - \stdnormalcdf(a)
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	To determine the effectiveness of a certain diet in reducing the amount of cholesterol in the bloodstream, $100$ people are put on the diet.
+	A month later, the cholesterol is measured.\\
+	The nutritionist in charge of this experiment has decided to endorse this diet if at least $65\%$ of the people have lower cholesterol levels than before.\\
+	What is the probability to endorse the diet if it has no effect on cholesterol levels?
+\end{question}
+
+\begin{solution}
+	If the diet has no effect on cholesterol levels,
+	\begin{align*}
+		X &\sim \bin\left( 100,\frac{1}{2} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X \ge 65) &= \prob\left( \frac{X - (100) \left( \frac{1}{2} \right)}{\sqrt{(100) \left( \frac{1}{2} \right) \left( \frac{1}{2} \right)}} \ge \frac{65 - (100) \left( \frac{1}{2} \right)}{\sqrt{(100) \left( \frac{1}{2} \right) \left( \frac{1}{2} \right)}} \right)\\
+		&\approx (Z \ge 2.9)\\
+		&\approx 0.0019
+	\end{align*}
+\end{solution}
+
 \clearpage
 \part{Combination of Random Variables}
 
@@ -2006,138 +2537,6 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 		\expct[X] & = \sum\limits_{i = 1}^{n} \expct[X_i] \\
                           & = \sum\limits_{i = 1}^{n} \frac{1}{n} \\
                           & = 1
-	\end{align*}
-\end{solution}
-
-\clearpage
-\part{Continuous Random Variables}
-
-\section{Cumulative Distribution Function}
-
-\begin{definition}[Cumulative distribution function]
-	The function
-	\begin{align*}
-		\cdf{X} & = \prob(X \le x)
-	\end{align*}
-	for $-\infty < x \le x$, is called the cumulative distribution function of the variable $X$.
-\end{definition}
-
-\begin{question}
-	Let $X$ be the result of a die roll.
-	Plot the cumulative distribution function of $X$.
-\end{question}
-
-\begin{solution}
-	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}[scale = 1.5]
-			\def\xMIN{-1};
-			\def\xMAX{7};
-			\def\yMIN{-1};
-			\def\yMAX{2};
-
-			\begin{scope}[stealth-stealth]
-				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$x$};
-				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\cdf{X}$};
-			\end{scope}
-
-			\begin{scope}
-				\draw (-\xMIN,0) -- (1,0);
-				\draw (1,0) circle (1pt);
-			\end{scope}
-
-			\begin{scope}
-				\begin{scope}
-					\filldraw (1,1/6) circle (1pt);
-					\draw (1,1/6) -- (2,1/6);
-					\draw (2,1/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (2,2/6) circle (1pt);
-					\draw (2,2/6) -- (3,2/6);
-					\draw (3,2/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (3,3/6) circle (1pt);
-					\draw (3,3/6) -- (4,3/6);
-					\draw (4,3/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (4,4/6) circle (1pt);
-					\draw (4,4/6) -- (5,4/6);
-					\draw (5,4/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (5,5/6) circle (1pt);
-					\draw (5,5/6) -- (6,5/6);
-					\draw (6,5/6) circle (1pt);
-				\end{scope}
-				\begin{scope}
-					\filldraw (6,6/6) circle (1pt);
-					\draw (6,6/6) -- (\xMAX,6/6);
-				\end{scope}
-			\end{scope}
-		\end{tikzpicture}
-		\caption{Cumulative Distribution Function for a Die Roll}
-		\label{fig:Cumulative_Distribution_Function_for_a_Die_Roll}
-	\end{figure}
-\end{solution}
-
-\begin{theorem}
-	Let $\cdf{X}$ be the cumulative distribution function of a random variable $X$.
-	Then,
-	\begin{enumerate}
-		\item $\cdf{X}$ is a non-decreasing function.
-		\item $\lim\limits_{b \to \infty} \cdf{X}(b) = 1$.
-		\item $\lim\limits_{b \to -\infty} \cdf{X}(b) = 0$.
-		\item $\cdf{X}$ is right continuous, i.e., the function is equal to its right hand limit.
-	\end{enumerate}
-\end{theorem}
-
-\section{Continuous Random Variable}
-
-\begin{definition}[Continuous random variable]
-	A random variable $X$ is said to be a continuous random variable if there exists a function $f$ such that
-	\begin{align*}
-		\cdf{X}(x) & = \int\limits_{-\infty}^{x} \pdf(t) \dif t
-	\end{align*}
-\end{definition}
-
-\begin{definition}
-	Let
-	\begin{align*}
-		\cdf{X}(x) & = \int\limits_{-\infty}^{x} \pdf(t) \dif t
-	\end{align*}
-	Then, $\pdf(t)$ is called the probability density function of $x$.
-\end{definition}
-
-\begin{question}
-	The amount of time in hours that a computer functions before breaking down has the distribution
-	\begin{align*}
-		\pdf(x) &=
-			\begin{cases}
-				\lambda e^{-\frac{x}{100}} & ;\quad x \ge 0          \\
-				0                          & ;\quad \text{otherwise} \\
-			\end{cases}
-	\end{align*}
-	What is the probability that the computer functions for more than $50$ but less than $150$ hours?
-\end{question}
-
-\begin{solution}
-	\begin{align*}
-		1 & = \int\limits_{-\infty}^{\infty} \pdf(x) \dif x              \\
-                  & = \lambda \int\limits_{0}^{\infty} e^{-\frac{x}{100}} \dif x \\
-                  & = 100 \lambda
-	\end{align*}
-	Therefore,
-	\begin{align*}
-		\lambda & = \frac{1}{100}
-	\end{align*}
-	Therefore,
-	\begin{align*}
-		\prob(50 < x < 150) & = \int\limits_{50}^{150} \lambda e^{-\frac{x}{100}} \dif x       \\
-                                    & = \int\limits_{50}^{150} \frac{1}{100} e^{-\frac{x}{100}} \dif x \\
-                                    & \approx 0.384
 	\end{align*}
 \end{solution}
 

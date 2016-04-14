@@ -1,0 +1,295 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+\usepackage{exsheets}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+\usepackage{algpseudocode} %algorithms
+\usepackage{algorithm} %algorithms
+\usepackage{booktabs}
+\usepackage{xspace}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\DeclareMathOperator{\expct}{\mathrm{E}}
+
+\DeclareMathOperator{\var}{\mathrm{V}}
+
+\DeclareMathOperator{\bin}{\mathrm{Bin}}
+
+\DeclareMathOperator{\poi}{\mathrm{Poi}}
+
+\DeclareMathOperator{\geo}{\mathrm{Geo}}
+
+\DeclareMathOperator{\nb}{\mathrm{NB}}
+
+\DeclareMathOperator{\hg}{\mathrm{HG}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\newcommand{\A}{\text{Alice}\xspace}
+\newcommand{\B}{\text{Bob}\xspace}
+\newcommand{\C}{\text{Charlie}\xspace}
+\newcommand{\D}{\text{David}\xspace}
+\newcommand{\E}{\text{Eve}\xspace}
+\newcommand{\F}{\text{Frank}\xspace}
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title
+[
+	Introduction to Probability and Statistics : Assignment 5
+]
+{
+	Introduction to Probability and Statistics\\
+	Assignment 5
+}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{13}{3}{2016}}
+
+\begin{document}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	If $X$ is a binomial random variable with expected value $6$ and variance $2.4$, find $\prob(X = 5)$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\expct[X] &= 6\\
+		\therefore n p &= 6\\
+		\var(X) &= 2.4\\
+		\therefore n p (1 - p) &= 2.4
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		1 - p &= 0.4\\
+		\therefore p &= 0.6
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X = i) &= \comb{n}{i} (p)^i (1 - p)^{n - i}\\
+		\therefore (X = 5) &= \comb{10}{5} (0.6)^5 (0.4)^5
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	Each member of a seven judge panel independently makes a correct decision with probability $0.7$.
+	If the panel's decision is made by majority rule, what is the probability that the panel makes the correct decision?
+	Given that four of the judges agreed, what is the probability that the panel made the correct decision?
+\end{question}
+
+\begin{solution}
+	Let $A$ be the decision that the panel makes the correct decision.\\
+	Let $B$ be the decision that four of the judges agree.\\
+	Therefore,
+	\begin{align*}
+		\prob(A) &= \sum\limits_{i = 4}^{7} \comb{7}{i} (0.7)^i (0.3)^{7 - i}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(A|B) &= \frac{\prob(A \cap B)}{\prob(B)}\\
+		&= \frac{\comb{7}{4} (0.7)^4 (0.3)^3}{\comb{7}{4} (0.7)^4 (0.3)^3 + \comb{7}{4} (0.3)^4 (0.7)^3}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A player bets on a number from $1$ to $6$.
+	Three dice are then rolled, and if the number bet by the player appears $i$ times, where $i = 1,2,3$, then the player wins $i$ units.
+	If the number bet by the player does not appear on any of the dice, then the player loses $1$ unit.
+	Is this game fair to the player?
+\end{question}
+
+\begin{solution}
+	Let $X$ be the player's winnings.\\
+	Let $Y$ be the number of times the number the player bet on appeared.
+	Therefore,
+	\begin{align*}
+		Y & \sim \bin\left( 3,\frac{1}{6} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X = -1) & = \prob(Y = 0)                                                          \\
+                              & = \comb{3}{0} \left( \frac{1}{6} \right)^0 \left( \frac{5}{6} \right)^3 \\
+                              & = \frac{125}{216}                                                       \\
+		\prob(X = 1)  & = \prob(Y = 1)                                                          \\
+                              & = \comb{3}{1} \left( \frac{1}{6} \right)^1 \left( \frac{5}{6} \right)^2 \\
+                              & = \frac{75}{216}                                                        \\
+		\prob(X = 2)  & = \prob(Y = 2)                                                          \\
+                              & = \comb{3}{2} \left( \frac{1}{6} \right)^2 \left( \frac{5}{6} \right)^1 \\
+                              & = \frac{15}{216}                                                        \\
+		\prob(X = 3)  & = \prob(Y = 3)                                                          \\
+                              & = \comb{3}{3} \left( \frac{1}{6} \right)^3 \left( \frac{5}{6} \right)^0 \\
+                              & = \frac{1}{216}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = (-1) \left( \frac{125}{216} \right) + (1) \left( \frac{75}{216} \right) + (2) \left( \frac{15}{216} \right) + (3) \left( \frac{1}{216} \right) \\
+                          & = -\frac{17}{216}
+	\end{align*}
+	Therefore, as the expected value of the winnings is less than $0$, the game is not fair towards the player.
+\end{solution}
+
+\begin{question}
+	Surveys indicated that $40\%$ of the Zulu tribe members use the toothpaste `Zebra'.
+	A marketing company wants to interview a user of that toothpaste.
+	Let $X$ be the number of persons that the company would contact until a person who uses `Zebra' will be found.
+	\begin{enumerate}
+		\item
+			What is the distribution of $X$?
+		\item
+			What is the expectation and variance of $X$?
+		\item
+			What is the probability that the company will interview at most $3$ persons until a `Zebra' user is found?
+		\item
+			Let $Y$ be the number of clients that the company would contact until $2$ persons who `Zebra' will be found.
+			What is the distribution of $Y$?
+		\item
+			What is the expectation and variance of $Y$?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			$X$ is a geometric random variable, with probability $0.4$ for success.
+			Therefore,
+			\begin{align*}
+				X &\sim \geo(0.4)
+			\end{align*}
+		\item
+			\begin{align*}
+				X &\sim \geo(0.4)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\expct[X] &= \frac{1}{p}\\
+				&= \frac{1}{0.4}\\
+				&= 2.5\\
+				\var(X) &= \frac{1 - p}{p^2}\\
+				&= \frac{1 - 0.4}{(0.4)^2}\\
+				&= \frac{0.6}{0.16}\\
+				&= 3.75
+			\end{align*}
+		\item
+			\begin{align*}
+				X &\sim \geo(0.4)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X \le 3) &= 1 - \prob(X > 3)\\
+				&= 1 - \sum\limits_{k = 4}^{\infty} (1 - p)^{k - 1} p\\
+				&= 1 - (1 - p)^3\\
+				&= 1 - (0.6)^3\\
+				&= 1 - 0.216\\
+				&= 0.784
+			\end{align*}
+		\item
+			\begin{align*}
+				X &\sim \nb(2,0.4)
+			\end{align*}
+		\item
+			\begin{align*}
+				X &\sim \nb(2,0.4)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\expct[X] &= \frac{r}{p}\\
+				&= \frac{2}{0.4}\\
+				&= 5\\
+				\var(X) &= \frac{r (1 - p)}{p^2}\\
+				&= \frac{(2) (0.6)}{(0.4)^2}\\
+				&= \frac{0.12}{0.16}\\
+				&= 7.5
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	In the Israeli Parliament, the Knesset, $24$ out of $120$ MPs are women.
+	\begin{enumerate}
+		\item
+			If you randomly choose chairpersons for the $12$ parliamentary committees, what are the chances that exactly $3$ of them are women, given that
+			\begin{enumerate}
+				\item Each MP can be a chairperson of any number of committees.
+				\item Each MP can be a chairperson of at most one committee.
+			\end{enumerate}
+		\item
+			Which method is better for promoting gender equality?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let $X$ be the number of parliamentary committees which have women as chairpersons such that a MP can chair any number of committees.
+			Therefore,
+			\begin{align*}
+				X &\sim \bin\left( 12,\frac{24}{120} \right)\\
+				&\sim \bin\left( 12,\frac{1}{5} \right)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X = 3) &= \comb{12}{3} \left( \frac{1}{5} \right)^3 \left( \frac{4}{5} \right)^9\\
+				&= 0.2362232013
+			\end{align*}
+		\item
+			Let $X$ be the number of parliamentary committees which have women as chairpersons such that a MP can chair at most one committee.
+			Therefore,
+			\begin{align*}
+				X &\sim \hg\left( 12,120,24 \right)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X = 3) &= \frac{\comb{12}{3} \comb{120 - 24}{12 - 3}}{\comb{120}{12}}\\
+				&= \frac{\comb{12}{3} \comb{96}{9}}{\comb{120}{12}}\\
+				&= 0.02705523278
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	\A likes hippopotamuses and walks daily with \B to the zoo.
+	The walking time to the zoo is distributed uniformly between $15$ and $20$ minutes with intervals of $1$ minute.
+	\begin{enumerate}
+		\item What is the chance that on a random day, \A and \B would not walk more than $17$ minutes?
+		\item What is the expectation and variance of the walking time to the zoo?
+		\item What is the probability that today and tomorrow the walking time would exceed $19$ minutes?
+	\end{enumerate}
+\end{question}
+
+\end{document}

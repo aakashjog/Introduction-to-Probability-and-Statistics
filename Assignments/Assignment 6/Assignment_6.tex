@@ -1,0 +1,345 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+\usepackage{exsheets}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+\usepackage{algpseudocode} %algorithms
+\usepackage{algorithm} %algorithms
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{todonotes}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\DeclareMathOperator{\expct}{\mathrm{E}}
+
+\DeclareMathOperator{\var}{\mathrm{V}}
+
+\DeclareMathOperator{\pdf}{\mathrm{f}}
+
+\DeclareMathOperator{\bin}{\mathrm{Bin}}
+
+\DeclareMathOperator{\poi}{\mathrm{Poi}}
+
+\DeclareMathOperator{\geo}{\mathrm{Geo}}
+
+\DeclareMathOperator{\nb}{\mathrm{NB}}
+
+\DeclareMathOperator{\hg}{\mathrm{HG}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\newcommand*{\cdf}[1]{\mathrm{F}_{#1}}
+
+\newcommand{\A}{\text{Alice}\xspace}
+\newcommand{\B}{\text{Bob}\xspace}
+\newcommand{\C}{\text{Charlie}\xspace}
+\newcommand{\D}{\text{David}\xspace}
+\newcommand{\E}{\text{Eve}\xspace}
+\newcommand{\F}{\text{Frank}\xspace}
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title
+[
+	Introduction to Probability and Statistics : Assignment 6
+]
+{
+	Introduction to Probability and Statistics\\
+	Assignment 6
+}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{13}{3}{2016}}
+
+\begin{document}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	On average, $5.2$ hurricanes hit a certain region in a year. What is the probability that there will be $3$ or fewer hurricanes hitting this year?
+\end{question}
+
+\begin{solution}
+	Let $X$ be the number of hurricanes hitting the region in a year.
+	Therefore,
+	\begin{align*}
+		X &\sim \poi(5.2)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X \le 3) &= \sum\limits_{i = 0}^{3} \frac{e^{-\lambda} \lambda^i}{i!}\\
+		&= \sum\limits_{i = 0}^{3} \frac{e^{-5.2} (5.2)^i}{i!}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	The number of eggs laid on a tree leaf by an insect of a certain type is a Poisson random variable with parameter $\lambda$.
+	However, such a random variable can be observed only if it is positive, since if it is zero, then we cannot know that such an insect was on the leaf.
+	Let $Y$ denote the observed number of eggs, then
+	\begin{align*}
+		\prob(Y = i) &= \prob(X = i | X > 0)
+	\end{align*}
+	where $X$ is a Poisson random variable with parameter $\lambda$.
+	Find $\expct[Y]$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\expct[Y] &= \sum\limits_{i = 0}^{\infty} i \prob(X = i|X > 0)\\
+		&= \sum\limits_{i = 0}^{\infty} i \frac{\prob(X = i \cap X > 0)}{\prob(X > 0)}\\
+		&= \sum\limits_{i = 1}^{\infty} i \frac{\prob(X = i)}{\prob(X > 0)}\\
+		&= \frac{\expct[X]}{\prob(X > 0)}\\
+		&= \frac{\lambda}{1 - e^{-\lambda}}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A professor with ADHD never ends his classes on time.
+	Let $T$ be the time in minutes that the class continues beyond its scheduled end.
+	The probability distribution function of $T$ is
+	\begin{align*}
+		\pdf(t) &=
+			\begin{cases}
+				c t (5 - t)^2 &;\quad 0 \le t \le 5\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	\begin{enumerate}
+		\item
+			Find $c$.
+		\item
+			Find the cumulative distribution function of $T$.
+		\item
+			A student bets with her friends that in $12$ out of $13$ independent classes, the class will continue at least $2$ minutes after its scheduled end.
+			What are her chances to win the bet?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				1 &= \int\limits_{-\infty}^{\infty} \pdf(t) \dif t\\
+				&= \int\limits_{0}^{5} c t (5 - t)^2 \dif t\\
+				&= \frac{625 c}{12}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				c &= \frac{12}{625}
+			\end{align*}
+		\item
+			\begin{align*}
+				\cdf{T}(t) &= \int\limits_{-\infty}^{t} \pdf(s) \dif s\\
+				&=
+					\begin{cases}
+						0 &;\quad t < 0\\
+						\frac{12}{625} \left( \frac{25 t^2}{2} - \frac{10 t^3}{3} + \frac{t^4}{4} \right) &;\quad 0 \le t \le 5\\
+						1 &;\quad 5 < t\\
+					\end{cases}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(T \ge 2) &= \int\limits_{0}^{2} \pdf(t) \dif t\\
+				&= \int\limits_{0}^{2} \frac{12}{625} t (5 - t)^2 \dif t\\
+				&= \frac{328}{625}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	$X$, the percentage of correct answers of a student in a test is distributed according to
+	\begin{align*}
+		\pdf(t) &=
+			\begin{cases}
+				c t (100 - t) &;\quad 0 \le t \le 100\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	\begin{enumerate}
+		\item
+			What is the value of $c$, given that $\pdf(t)$ is a legitimate probability distribution function?
+		\item
+			Find $\cdf{X}(t)$.
+		\item
+			Calculate the probability that a student will fail, i.e. get less than $55$.
+		\item
+			Calculate the probability of failure in the test if
+			\begin{enumerate}
+				\item The student's grade is higher than $54$.
+				\item The student's grade is higher than $40$.
+			\end{enumerate}
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				1 &= \int\limits_{-\infty}^{\infty} \pdf(t) \dif t\\
+				&= \int\limits_{0}^{100} c t (100 - t)\\
+				&= \left. -c \left( -50 t^2 + \frac{t^3}{3} \right) \right|_{0}^{100}\\
+				&= \frac{500000 c}{3}
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				c &= \frac{3}{500000}
+			\end{align*}
+		\item
+			\begin{align*}
+				\cdf{X}(x) &= \int\limits_{-\infty}^{x} \cdf{X}(x) \dif x\\
+				&=
+					\begin{cases}
+						0 &\quad x < 0\\
+						-\frac{3}{500000} \left( -50 x^2 + \frac{x^3}{3} \right) &;\quad 0 \le t \le 100\\
+						1 &\quad 100 < x\\
+					\end{cases}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X < 55) &= \int\limits_{0}^{55} \pdf(t) \dif t\\
+				&= \int\limits_{0}^{55} \frac{3}{500000} t (100 - t) \dif t\\
+				&= \frac{2299}{4000}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X < 55 | X > 54) &= \frac{\prob(54 < X < 55)}{\prob(X > 54)}\\
+				&= \frac{\frac{7439}{500000}}{\frac{6877}{15625}}\\
+				&= \frac{7439}{220064}
+			\end{align*}
+			\begin{align*}
+				\prob(X < 55 | X > 40) &= \frac{\prob(40 < X < 55)}{\prob(X > 54)}\\
+				&= \frac{\frac{891}{4000}}{\frac{81}{125}}\\
+				&= \frac{11}{32}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	The number of minutes of playing time of a certain high school basketball player in a randomly chosen game is a random variable whose probability density function is given.
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[xscale = 0.2, yscale = 40]
+			\def\xMIN{0};
+			\def\xMAX{50};
+			\def\yMIN{0};
+			\def\yMAX{0.1};
+
+			\begin{scope}[-stealth]
+				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$t$};
+				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\pdf(T)$};
+			\end{scope}
+
+			\begin{scope}
+				\draw (10,0) -- (10,0.025) -- (20,0.025) -- (20,0.05) -- (30,0.05) -- (30,0.025) -- (40,0.025) -- (40,0);
+			\end{scope}
+
+			\begin{scope}
+				\node [left] at (0,0.025) {$0.025$};
+				\node [left] at (0,0.05) {$0.05$};
+				\node [below] at (10,0) {$10$};
+				\node [below] at (20,0) {$20$};
+				\node [below] at (30,0) {$30$};
+				\node [below] at (40,0) {$40$};
+			\end{scope}
+		\end{tikzpicture}
+	\end{figure}
+	Find the probability that the player plays
+	\begin{enumerate}
+		\item over $15$ minutes.
+		\item between $20$ and $35$ minutes.
+		\item less than $30$ minutes.
+		\item more than $36$ minutes.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				\prob(T > 15) &= \int\limits_{15}^{\infty} \pdf(T) \dif t\\
+				&= 0.875
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(20 < T < 35) &= \int\limits_{20}^{35} \pdf(T) \dif t\\
+				&= 0.625
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(T < 30) &= \int\limits_{30}^{\infty} \pdf(T) \dif t\\
+				&= 0.75
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(T > 36) &= \int\limits_{36}^{\infty} \pdf(T) \dif t\\
+				&= 0.1
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	For some constant $c$, the random variable $X$ has the following probability density function.
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				a x + b x^2 &;\quad 0 < x < 1\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	If
+	\begin{align*}
+		\expct[X] &= 0.6
+	\end{align*}
+	find
+	\begin{enumerate}
+		\item $\prob(X < 12)$.
+		\item $\var(X)$.
+	\end{enumerate}
+\end{question}
+
+\begin{question}
+	Your company must make a scaled bid for a construction project.
+	If you succeed in winning the contract by having the lowest bid, then you plan to pay another firm $\$100,000$ to do the work.
+	If you believe that the minimum bid of the other participating companies can be modelled as the value of a random variable that is uniformly distributed on $(70,140)$, how much should you bid to maximize your profit?
+\end{question}
+
+\begin{question}
+	At a certain bank, the amount of time that a customer spends being served by a teller is an exponential random variable with mean of $5$ minutes.
+	If there is a customer in service when you enter the bank, what is the probability that he will still be with the teller after an additional $4$ minutes?
+\end{question}
+
+\end{document}

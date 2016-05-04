@@ -1,0 +1,373 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+\usepackage{exsheets}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+	\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+\usepackage{algpseudocode} %algorithms
+\usepackage{algorithm} %algorithms
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{todonotes}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\DeclareMathOperator{\comp}{\textsc{c}}
+
+\DeclareMathOperator{\prob}{\mathrm{P}}
+
+\DeclareMathOperator{\expct}{\mathrm{E}}
+
+\DeclareMathOperator{\var}{\mathrm{V}}
+
+\DeclareMathOperator{\pdf}{\mathrm{f}}
+
+\DeclareMathOperator{\bin}{\mathrm{Bin}}
+
+\DeclareMathOperator{\poi}{\mathrm{Poi}}
+
+\DeclareMathOperator{\geo}{\mathrm{Geo}}
+
+\DeclareMathOperator{\nb}{\mathrm{NB}}
+
+\DeclareMathOperator{\hg}{\mathrm{HG}}
+
+\DeclareMathOperator{\uniform}{\mathrm{U}}
+
+\newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
+
+\newcommand*{\cdf}[1]{\mathrm{F}_{#1}}
+
+\newcommand{\A}{\text{Alice}\xspace}
+\newcommand{\B}{\text{Bob}\xspace}
+\newcommand{\C}{\text{Charlie}\xspace}
+\newcommand{\D}{\text{David}\xspace}
+\newcommand{\E}{\text{Eve}\xspace}
+\newcommand{\F}{\text{Frank}\xspace}
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title
+[
+	Introduction to Probability and Statistics : Assignment 6
+]
+{
+	Introduction to Probability and Statistics\\
+	Assignment 6
+}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{13}{3}{2016}}
+
+\begin{document}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	The number of minutes of playing time of a certain high school basketball player in a randomly chosen game is a random variable whose probability density function is given.
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[xscale = 0.2, yscale = 40]
+			\def\xMIN{0};
+			\def\xMAX{50};
+			\def\yMIN{0};
+			\def\yMAX{0.1};
+
+			\begin{scope}[-stealth]
+				\draw (\xMIN,0) -- (\xMAX,0) node [right] {$t$};
+				\draw (0,\yMIN) -- (0,\yMAX) node [above] {$\pdf(T)$};
+			\end{scope}
+
+			\begin{scope}
+				\draw (10,0) -- (10,0.025) -- (20,0.025) -- (20,0.05) -- (30,0.05) -- (30,0.025) -- (40,0.025) -- (40,0);
+			\end{scope}
+
+			\begin{scope}
+				\node [left] at (0,0.025) {$0.025$};
+				\node [left] at (0,0.05) {$0.05$};
+				\node [below] at (10,0) {$10$};
+				\node [below] at (20,0) {$20$};
+				\node [below] at (30,0) {$30$};
+				\node [below] at (40,0) {$40$};
+			\end{scope}
+		\end{tikzpicture}
+	\end{figure}
+	Find the probability that the player plays
+	\begin{enumerate}
+		\item over $15$ minutes.
+		\item between $20$ and $35$ minutes.
+		\item less than $30$ minutes.
+		\item more than $36$ minutes.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				\prob(T > 15) &= \int\limits_{15}^{\infty} \pdf(T) \dif t\\
+				&= 0.875
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(20 < T < 35) &= \int\limits_{20}^{35} \pdf(T) \dif t\\
+				&= 0.625
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(T < 30) &= \int\limits_{30}^{\infty} \pdf(T) \dif t\\
+				&= 0.75
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(T > 36) &= \int\limits_{36}^{\infty} \pdf(T) \dif t\\
+				&= 0.1
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	For some constant $c$, the random variable $X$ has probability density function
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				c x^4 &;\quad 0 < x < 2\\
+				0 &;\quad \text{otherwise}\\
+			\end{cases}
+	\end{align*}
+	Find $\expct[X]$ and $\var(X)$.
+\end{question}
+
+\begin{solution}
+	As $\pdf(x)$ is a probability density function,
+	\begin{align*}
+		1 &= \int\limits_{-\infty}^{\infty} \pdf(x) \dif x\\
+		&= \int\limits_{0}^{2} c x^4\\
+		&= c \left( \frac{32}{5} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		c &= \frac{5}{32}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] &= \int\limits_{-\infty}^{\infty} x \pdf(x) \dif x\\
+		&= \frac{5}{32} \int\limits_{0}^{2} x^5 \dif x\\
+		&= \frac{5}{32} \frac{64}{6}\\
+		&= \frac{5}{3}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ g(X) \right] &= \int\limits_{-\infty}^{\infty} g(x) \pdf(x) \dif x\\
+		\therefore \expct\left[ X^2 \right] &= \frac{5}{32} \int\limits_{0}^{2} x^2 x^4\\
+		&= \frac{5}{32} \int\limits_{0}^{2} x^6\\
+		&= \frac{5}{32} \frac{128}{7}\\
+		&= \frac{20}{7}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) &= \expct\left[ X^2 \right] - \expct[X]^2\\
+		&= \frac{20}{7} - \frac{25}{9}\\
+		&= \frac{5}{63}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	Your company must make a scaled bid for a construction project.
+	If you succeed in winning the contract by having the lowest bid, then you plan to pay another firm $\$100,000$ to do the work.
+	If you believe that the minimum bid of the other participating companies can be modelled as the value of a random variable that is uniformly distributed on $(70,140)$, how much should you bid to maximize your profit?
+\end{question}
+
+\begin{question}
+	At a certain bank, the amount of time that a customer spends being served by a teller is an exponential random variable with mean of $5$ minutes.
+	If there is a customer in service when you enter the bank, what is the probability that he will still be with the teller after an additional $4$ minutes?
+\end{question}
+
+\begin{question}
+	\A is leaving work in a uniformly distributed time between $7$ and $9$, i.e.
+	\begin{align*}
+		X &\sim \uniform(7,9)
+	\end{align*}
+	The time it takes her to commute home is
+	\begin{align*}
+		Y &= 1 + \frac{1}{X}
+	\end{align*}
+	Find the density and distribution of $Y$.
+\end{question}
+
+\begin{question}
+	A randomly chosen IQ test taker obtains a score that is approximately a normal random variable with mean $100$ and standard deviation $15$.
+	Find the probability that the score of such a person is
+	\begin{enumerate}
+		\item above $125$.
+		\item between $90$ and $110$.
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item 
+			Let $X$ be the obtained score.\\
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}\\
+				&= \frac{X - 100}{15}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.
+			Therefore,
+			\begin{align*}
+				\prob(X > 125) &= \prob\left( Z > \frac{125 - 100}{15} \right)\\
+				&= \prob\left( \frac{5}{3} \right)\\
+				&= 1 - \Phi\left( \frac{5}{3} \right)
+			\end{align*}
+		\item
+			Let $X$ be the obtained score.\\
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}\\
+				&= \frac{X - 100}{15}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.
+			Therefore,
+			\begin{align*}
+				\prob(90 < X < 100) &= \prob\left( \frac{90 - 100}{15} < Z < \frac{110 - 100}{15} \right)\\
+				&= \prob\left( \frac{-2}{3} < Z < \frac{2}{3} \right)\\
+				&= \Phi\left( \frac{2}{3} \right) - \Phi\left( -\frac{2}{3} \right)\\
+				&= \Phi\left( \frac{2}{3} \right) - \left( 1 - \Phi\left( \frac{2}{3} \right) \right)\\
+				&= 2 \Phi\left( \frac{2}{3} \right) - 1
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	The life of a certain type of automobile tyre is normally distributed with mean $34,000$ miles and standard deviation $4,000$ miles.
+	\begin{enumerate}
+		\item What is the probability that such a tyre lasts over $40,000$ miles?
+		\item What is the probability that such a tyre lasts between $30,000$ and $35,000$ miles?
+		\item Given that such a tyre has survived $30,000$ miles, what is the conditional probability that the tyre survives another $10,000$ miles?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let $X$ be the life of the tyre.\\
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}\\
+				&= \frac{X - 34000}{4000}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.
+			Therefore,
+			\begin{align*}
+				\prob(X > 40000) &= \prob\left( Z > \frac{40000 - 34000}{4000} \right)\\
+				&= \prob\left( Z > \frac{3}{2} \right)\\
+				&= 1 - \Phi\left( \frac{3}{2} \right)
+			\end{align*}
+		\item
+			Let $X$ be the life of the tyre.\\
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}\\
+				&= \frac{X - 34000}{4000}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.
+			Therefore,
+			\begin{align*}
+				\prob(30000 < X < 35000) &= \prob\left( \frac{30000 - 34000}{4000} < Z < \frac{35000 - 34000}{4000} \right)\\
+				&= \prob\left( -1 < Z < \frac{1}{4} \right)\\
+				&= \Phi\left( \frac{1}{4} \right) - \Phi(-1)\\
+				&= \Phi\left( \frac{1}{4} \right) - \left( 1 - \varphi(1) \right)\\
+				&= \Phi\left( \frac{1}{4} \right) + \Phi(1) - 1
+			\end{align*}
+		\item
+			Let $X$ be the life of the tyre.\\
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}\\
+				&= \frac{X - 34000}{4000}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.
+			Therefore,
+			\begin{align*}
+				\prob(X > 30000) &= \prob\left( Z > \frac{30000 - 34000}{4000} \right)\\
+				&= \prob(Z > -1)\\
+				&= 1 - \Phi(1)\\
+				\prob(X > 40000) &= \prob\left( Z > \frac{40000 - 34000}{4000} \right)\\
+				&= \prob\left( Z > \frac{3}{2} \right)\\
+				&= 1 - \Phi\left( \frac{3}{2} \right)
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				\prob(X > 40000 | X > 30000) &= \frac{\prob(X > 40000 \cap X > 30000}{\prob(X > 30000)}\\
+				&= \frac{\prob(X > 40000)}{\prob(X > 30000)}\\
+				&= \frac{1 - \Phi\left( \frac{3}{2} \right)}{1 - \Phi(1)}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	The annual rainfall in Cleveland, Ohio, is approximately a normal random variable with mean $40.2$ inches and standard deviation $8.4$ inches.
+	Let $A_i$ be the event that the rainfall in the next $i$th year exceeds $44$ inches, and fume that all $A_i$ are independent.
+	Find the probability that
+	\begin{enumerate}
+		\item next year's rainfall will exceed $44$ inches?
+		\item the yearly rainfall in exactly $3$ of the next $7$ years will exceed $44$ inches?
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			Let $X$ be the rainfall in a year.\\
+			Let
+			\begin{align*}
+				Z &= \frac{X - \mu}{\sigma}\\
+				&= \frac{X - 30.2}{8.4}
+			\end{align*}
+			Therefore, $Z$ is a standard normal random variable.
+			Therefore,
+			\begin{align*}
+				\prob(X > 44) &= \prob\left( Z > \frac{44 - 30.2}{8.4} \right)\\
+				&= \prob\left( Z > \frac{13.8}{8.4} \right)\\
+				&= \prob\left( Z > \frac{23}{14} \right)\\
+				&= 1 - \Phi\left( \frac{23}{14} \right)
+			\end{align*}
+		\item
+			For any year, as the rainfall in every year is independent of the previous years, the probability that the rainfall will exceed $44$ inches is
+			\begin{align*}
+				\prob(X > 44) &= 1 - \Phi\left( \frac{23}{14} \right)
+			\end{align*}
+			Therefore, the probability that the rainfall will exceed $44$ inches in exactly $3$ of the next $7$ years is $\frac{7}{3} \left( 1 - \Phi\left( \frac{23}{14} \right) \right)^3 \left( \Phi\left( \frac{23}{14} \right) \right)^4$.
+	\end{enumerate}
+\end{solution}
+
+\end{document}

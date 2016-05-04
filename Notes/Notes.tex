@@ -2540,4 +2540,191 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 \end{solution}
 
+\clearpage
+\part{Jointly Distributed Random Variables}
+
+\section{Joint Cumulative Probability Distribution Function}
+
+\begin{definition}
+	For any two random variables $X$ and $Y$, the joint cumulative probability distribution function of $X$ and $Y$ is defined to be
+	\begin{align*}
+		\cdf{X,Y}(a,b) & = \prob(X \le a , Y \le b)
+	\end{align*}
+	where $a \in \mathbb{R}$ and $b \in \mathbb{R}$.
+\end{definition}
+
+\begin{theorem}
+	If the joint cumulative probability distribution function of $X$ and $Y$ is $\cdf{X,Y}(a,b)$, then the probability distribution function of $X$ is
+	\begin{align*}
+		\cdf{X}(a) & = \lim\limits_{b \to \infty} \cdf{X,Y}(a,b)
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	$3$ balls are randomly selected from an urn containing $3$ red, $4$ white, and $5$ blue balls.\\
+	Let $X$ be the number of red balls chosen.\\
+	Let $Y$ be the number of white balls chosen.\\
+	Find the joint probability mass function of $X$ and $Y$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\prob(X = x , Y = y) & = \frac{\comb{3}{x} \comb{4}{y} \comb{5}{3 - x - y}}{\comb{12}{3}}
+	\end{align*}
+	Therefore,
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c c c c c c}
+                            & $0$              & $1$               & $2$              & $3$             &                  \\
+			$0$ & $\frac{10}{220}$ & $\frac{40}{220}$  & $\frac{30}{220}$ & $\frac{4}{220}$ & $\frac{10}{220}$ \\
+			$1$ & $\frac{30}{220}$ & $\frac{60}{220}$  & $\frac{18}{220}$ & $0$             & $\frac{10}{220}$ \\
+			$2$ & $\frac{15}{220}$ & $\frac{12}{220}$  & $0$              & $0$             & $\frac{10}{220}$ \\
+			$3$ & $\frac{1}{220}$  & $0$               & $0$              & $0$             & $\frac{10}{220}$ \\
+                            & $\frac{56}{220}$ & $\frac{112}{220}$ & $\frac{48}{220}$ & $\frac{4}{220}$ &                  \\
+		\end{tabular}
+	\end{table}
+\end{solution}
+
+\section{Joint Continuous Variables}
+
+\begin{definition}[Joint continuity and joint probability density function]
+	$X$ and $Y$ are said to be jointly continuous if there exists a function $\pdf(x,y)$ defined for all real $x$ and $y$, such that for every set $C$ of pairs of real numbers,
+	\begin{align*}
+		\prob\left( (x,y) \in C \right) & = \iint\limits_{(x,y) \in C} \pdf(x,y) \dif x \dif y
+	\end{align*}
+	The function $\pdf(x,y)$ is called the joint probability density function of $X$ and $Y$.\\
+	The joint cumulative probability distribution function is
+	\begin{align*}
+		\cdf{X,Y}(a,b) & = \prob(-\infty \le X \le a , -\infty \le Y \le b) \\
+                               & = \int\limits_{-\infty}^{b} \int\limits_{-\infty}^{a} \pdf(x,y) \dif x \dif y
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\pdf(a,b) & = \frac{\partial^2}{\partial a \partial b} F(a,b)
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	The joint density function of $X$ and $Y$ is given by
+	\begin{align*}
+		\pdf(x,y) &=
+			\begin{cases}
+				2 e^{-x} e^{-2 y} & ;\quad 0 < x < \infty , 0 < y < \infty \\
+				0                 & ;\quad \text{otherwise}                \\
+			\end{cases}
+	\end{align*}
+	Compute
+	\begin{enumerate}
+		\item $\prob(X > 1 , Y < 1)$
+		\item $\prob(X < Y)$
+		\item $\prob(X < a)$
+	\end{enumerate}
+\end{question}
+
+\begin{solution}
+	\begin{enumerate}[leftmargin=*]
+		\item
+			\begin{align*}
+				\prob(X > 1 , Y < 1) & = \int\limits_{-\infty}^{1} \int\limits_{1}^{\infty} \pdf(x,y) \dif x \dif y        \\
+                                                     & = \int\limits_{0}^{1} \int\limits_{1}^{\infty} 2 e^{-x} e^{-2 y} \dif x \dif y      \\
+                                                     & = \int\limits_{0}^{1} 2 e^{-2 y} \left. -e^{-x} \right|_{x = 1}^{x = \infty} \dif y \\
+                                                     & = e^{-1} \int\limits_{0}^{1} 2 e^{-2 y} \dif y                                      \\
+                                                     & = e^{-1} \left( 1 - e^{-2} \right)
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X < Y) & = \iint\limits_{(x,y) : x < y} \pdf(x,y) \dif x \dif y                                    \\
+                                             & = \iint\limits_{(x,y) : x < y} 2 e^{-x} e^{-2 y} \dif x \dif y                            \\
+                                             & = \int\limits_{0}^{\infty} \int\limits_{0}^{y} 2 e^{-x} e^{-2 y} \dif x \dif y            \\
+                                             & = \int\limits_{0}^{\infty} 2 e^{-2 y} \left( 1 - e^{-y} \right) \dif y                    \\
+                                             & = \int\limits_{0}^{\infty} 2 e^{-2 y} \dif y - \int\limits_{0}^{\infty} 2 e^{-3 y} \dif y \\
+                                             & = 1 - \frac{2}{3}                                                                         \\
+                                             & = \frac{1}{3}
+			\end{align*}
+		\item
+			\begin{align*}
+				\prob(X < a) & = \int\limits_{-\infty}^{a} \int\limits_{-\infty}^{\infty} \pdf(x,y) \dif y \dif x \\
+                                             & = \int\limits_{0}^{a} \int\limits_{0}^{\infty} 2 e^{-2 y} e^{-x} \dif y \dif x     \\
+                                             & = \int\limits_{0}^{a} e^{-x} \dif x                                                \\
+                                             & = 1 - e^{-a}
+			\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{question}
+	The joint density function of $X$ and $Y$ is given by
+	\begin{align*}
+		\pdf(x,y) &=
+			\begin{cases}
+				e^{-(x + y)} & ;\quad 0 < x < \infty , 0 < y < \infty \\
+				0            & ;\quad \text{otherwise}                \\
+			\end{cases}
+	\end{align*}
+	Find the density function of the random variable $\frac{X}{Y}$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\cdf{\frac{X}{Y}}(a) & = \prob\left( \frac{X}{Y} \le a \right)                                     \\
+                                     & = \iint\limits_{(x,y) : \frac{x}{y} \le a} \pdf(x,y) \dif x \dif y          \\
+                                     & = \iint\limits_{(x,y) : \frac{x}{y} \le a} e^{-(x + y)} \dif x \dif y       \\
+                                     & = \int\limits_{0}^{\infty} \int\limits_{0}^{a y} e^{-(x + y)} \dif x \dif y \\
+                                     & = \int\limits_{0}^{\infty} \left( 1 - e^{-a y} \right) e^{-y} \dif y        \\
+                                     & = \left. -e^{-y} + \frac{e^{-(a + 1) y}}{a + 1} \right|_{0}^{\infty}        \\
+                                     & = 1 - \frac{1}{a + 1}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\pdf_{\frac{X}{Y}}(a) & = \dod{\cdf{\frac{X}{Y}}(a)}{a} \\
+                                      & = \frac{1}{(a + 1)^2}
+	\end{align*}
+\end{solution}
+
+\section{Independent Random Variables}
+
+\begin{definition}[Independent random variables]
+	Two random variables $X$ and $Y$ are said to be independent if
+	\begin{align*}
+		\prob(X \in A , Y \in B) & = \prob(X \in A) \prob(Y \in B)
+	\end{align*}
+	where $A \subseteq \mathbb{R}$, $B \subseteq \mathbb{R}$.
+\end{definition}
+
+\begin{theorem}
+	$X$ and $Y$ are independent random variables if and only if
+	\begin{align*}
+		\cdf{X,Y}(a,b) & = \cdf{X}(a) \cdf{Y}(a)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	Let
+	\begin{align*}
+		A & = (-\infty,a] \\
+		B & = (-\infty,b]
+	\end{align*}
+	$X$ and $Y$ are independent if and only if
+	\begin{align*}
+		\prob(X \in A , Y \in B)      & = \prob(X \in A) \prob(Y \in B) \\
+		\iff \prob(X \le a , Y \le b) & = \prob(X \le a) \prob(Y \le b) \\
+		\iff \cdf{X,Y}(a,b)           & = \cdf{X}(a) \cdf{Y}(b)
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	If $X$ and $Y$ are discrete, then
+	\begin{align*}
+		\prob(X = x , Y = y) & = \prob(X = x) \prob(Y = y)
+	\end{align*}
+	for all $(x,y$, if and only if $X$ and $Y$ are independent.
+\end{theorem}
+
+\begin{theorem}
+	If $X$ and $Y$ are continuous, then
+	\begin{align*}
+		\pdf(x,y) & = \pdf_X(x) \pdf_Y(y)
+	\end{align*}
+	for all $(x,y$, if and only if $X$ and $Y$ are independent.
+\end{theorem}
+
 \end{document}

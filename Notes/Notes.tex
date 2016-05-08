@@ -18,9 +18,11 @@
 \usepackage{enumerate, enumitem} %numbered lists
 \usepackage{float} %inserting floats
 \usepackage{microtype} %micro-typography
+\usepackage{lmodern}
 \usepackage{todonotes}
 \usepackage{booktabs}
 \usepackage{xspace}
+\usepackage{multirow}
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
 
@@ -74,6 +76,8 @@
 
 \DeclareMathOperator{\uniform}{\mathrm{U}}
 
+\DeclareMathOperator{\exponential}{\mathrm{Exp}}
+
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
 
@@ -85,6 +89,17 @@
 \newcommand{\D}{\text{David}\xspace}
 \newcommand{\E}{\text{Eve}\xspace}
 \newcommand{\F}{\text{Frank}\xspace}
+
+\newcommand\diag[4]{%
+  \multicolumn{1}{p{#2}|}{\hskip-\tabcolsep
+  $\vcenter{\begin{tikzpicture}[baseline=0,anchor=south west,inner sep=#1]
+  \path[use as bounding box] (0,0) rectangle (#2+2\tabcolsep,\baselineskip);
+  \node[minimum width={#2+2\tabcolsep-\pgflinewidth},
+        minimum  height=\baselineskip+\extrarowheight-\pgflinewidth] (box) {};
+  \draw[line cap=round] (box.north west) -- (box.south east);
+  \node[anchor=south west] at (box.south west) {#3};
+  \node[anchor=north east] at (box.north east) {#4};
+ \end{tikzpicture}}$\hskip-\tabcolsep}}
 
 \SetupExSheets{solution/print = true} %prints all solutions by default
 
@@ -2279,6 +2294,67 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 \end{proof}
 
+\section{Exponential Random Variable}
+
+\begin{definition}[Uniform Random Variable]
+	A random variable $X$ is said to be a exponential random variable over the interval $(a,b)$ if its probability density function is
+	\begin{align*}
+		\pdf(x) &=
+			\begin{cases}
+				\lambda e^{-\lambda x} &;\quad x \ge 0\\
+				0 &;\quad x < 0\\
+			\end{cases}
+	\end{align*}
+	It is denoted as
+	\begin{align*}
+		X &\sim \exponential(\lambda)
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	The cumulative distribution function of a exponential random variable $X$ with parameter $\lambda$ is
+	\begin{align*}
+		\cdf{X}(x) &=
+			\begin{cases}
+				1 - e^{-\lambda x} &;\quad x \ge 0\\
+				0 &;\quad x < 0\\
+			\end{cases}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X &\sim \exponential(\lambda)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct[X] &= \frac{1}{\lambda}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X &\sim \exponential(\lambda)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\expct\left[ X^n \right] &= \frac{n!}{\lambda^n}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X &\sim \exponential(\lambda)
+	\end{align*}
+	Then,
+	\begin{align*}
+		\var(X) &= \frac{1}{\lambda^2}
+	\end{align*}
+\end{theorem}
+
 \section{Normal Distribution}
 
 \begin{definition}[Normal Random Variable]
@@ -2716,7 +2792,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\begin{align*}
 		\prob(X = x , Y = y) & = \prob(X = x) \prob(Y = y)
 	\end{align*}
-	for all $(x,y$, if and only if $X$ and $Y$ are independent.
+	for all $(x,y)$, if and only if $X$ and $Y$ are independent.
 \end{theorem}
 
 \begin{theorem}
@@ -2724,7 +2800,211 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\begin{align*}
 		\pdf(x,y) & = \pdf_X(x) \pdf_Y(y)
 	\end{align*}
-	for all $(x,y$, if and only if $X$ and $Y$ are independent.
+	for all $(x,y)$, if and only if $X$ and $Y$ are independent.
 \end{theorem}
+
+\begin{question}
+	Let
+	\begin{align*}
+		X & \sim \uniform(0,1) \\
+		Y & \sim \uniform(0,1)
+	\end{align*}
+	Calculate the probability density function of $X + Y$
+\end{question}
+
+\begin{solution}
+	Therefore,
+	\begin{align*}
+		\cdf{X + Y}(t) &= \prob(X + Y \le t)\\
+		&=
+			\begin{cases}
+				\frac{t^2}{2}           & ;\quad 0 \le t \le 1 \\
+				1 - \frac{(2 - t)^2}{2} & ;\quad 1 \le t \le 2 \\
+			\end{cases}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\pdf_{X + Y}(t) &=
+			\begin{cases}
+				t     & ;\quad 0 \le t \le 1 \\
+				2 - t & ;\quad 1 < t < 2     \\
+				0     & ;\quad 2 \le t       \\
+			\end{cases}
+	\end{align*}
+\end{solution}
+
+\begin{theorem}
+	If $X_i$, for $i \in \mathbb{N}$ are independent normal random variables, with parameters $\mu_i$ and ${\sigma_i}^2$ respectively, then $\sum\limits_{i = 1}^{n} x_i$ is a normal random variable with parameters $\sum\limits_{i = 1}^{n} \mu_i$ and $\sum\limits_{i = 1}^{n} {\sigma_i}^2$.
+\end{theorem}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & = \poi(\lambda_1) \\
+		Y & = \poi(\lambda_2)
+	\end{align*}
+	be independent random variables.
+	Then,
+	\begin{align*}
+		X + Y & \sim \poi(\lambda_1 + \lambda_2)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\prob(X + Y = n) & = \sum\limits_{k = 0}^{n} \prob(X = k , Y = n - k)                                                                         \\
+                                 & = \sum\limits_{k = 0}^{n} \prob(X = k) \prob(Y = n - k)                                                                    \\
+                                 & = \sum\limits_{k = 0}^{n} \frac{e^{-\lambda_1} {\lambda_1}^k}{k!} \frac{e^{-\lambda_2} {\lambda_2}^{n - k}}{(n - k)!}      \\
+                                 & = e^{-\lambda_1 - \lambda_2} \sum\limits_{k = 0}^{n} \frac{{\lambda_1}^k {\lambda_2}^{n - k}}{k! (n - k)!}                 \\
+                                 & = \frac{e^{-(\lambda_1 + \lambda_2)}}{n!} \sum\limits_{k = 0}^{n} \frac{n!}{k! (n - k)!} {\lambda_1}^k {\lambda_2}^{n - k} \\
+                                 & = \frac{e^{-(\lambda_1 + \lambda_2)}}{n!} \sum\limits_{k = 0}^{n} \comb{n}{k} {\lambda_1}^k {\lambda_2}^{n - k}            \\
+                                 & = \frac{e^{-(\lambda_1 + \lambda_2)}}{n!} (\lambda_1 + \lambda_2)^n
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		X + Y & \sim \poi(\lambda_1 + \lambda_2)
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X & \sim \bin(n,p) \\
+		Y & \sim \bin(m,p)
+	\end{align*}
+	be independent random variables.
+	Then,
+	\begin{align*}
+		X + Y & \sim \bin(n + m , p)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\prob(X + Y = k) & = \sum\limits_{i = 0}^{n} \prob(X = i , Y = k - i)                                                        \\
+                                 & = \sum\limits_{i = 0}^{n} \prob(X = i) \prob(X = i) \prob(Y = k - i)                                      \\
+                                 & = \sum\limits_{i = 0}^{n} \binom{n}{i} p^i (1 - p)^{n - i} \binom{m}{k - i} p^{k - i} (1 - p)^{m - k + i} \\
+                                 & = p^k (1 - p)^{n + m - k} \sum\limits_{i = 0}^{n} \binom{n}{i} \binom{m}{k - i}                           \\
+                                 & = p^k (1 - p)^{n + m - k} \binom{n + m}{k}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		X + Y & \sim \bin(n + m , p)
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	Let
+	\begin{align*}
+		X_i & \sim \geo(p)
+	\end{align*}
+	be independent random variables, for $i \in \mathbb{N}$.
+	Then,
+	\begin{align*}
+		\sum\limits_{i = 1}^{n} X_i & \sim \nb(n,p)
+	\end{align*}
+\end{theorem}
+
+\section{Conditional Random Variables}
+
+\begin{theorem}
+	The conditional probability mass function of two discrete random variables $X$ and $Y$ is
+	\begin{align*}
+		\prob(X = x | Y = y) & = \frac{\prob(X = x , Y = y)}{\prob(Y = y)}
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	The conditional probability density function of two continuous random variables $X$ and $Y$ is
+	\begin{align*}
+		\pdf_{X|Y}(x|y) & = \frac{\pdf(x,y)}{\pdf_Y(y)}
+	\end{align*}
+	and the cumulative distribution function is
+	\begin{align*}
+		\cdf{X|Y}(a|y) & = \int\limits_{-\infty}^{a} \pdf_{X|Y}(x|y) \dif x
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	\begin{align*}
+		\pdf(x,y) &=
+			\begin{cases}
+				\frac{e^{-\frac{x}{y}} e^{-y}}{y} & ;\quad 0 < x < \infty , 0 < y < \infty \\
+				0                                 & ;\quad \text{otherwise}                \\
+			\end{cases}
+	\end{align*}
+	Find $\prob(X > 1 | Y = y)$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\pdf_{X|Y}(x|y) & = \frac{\pdf(x,y)}{\pdf_Y(y)}                                                                                                  \\
+                                & = \frac{\frac{e^{-\frac{x}{y}} e^{-y}}{y}}{e^{-y} \int\limits_{0}^{\infty} \left( \frac{1}{y} \right) e^{-\frac{x}{y}} \dif x} \\
+                                & = \frac{e^{-\frac{x}{y}}}{y}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X > 1 | Y = y) & = \int\limits_{1}^{\infty} \frac{1}{y} e^{-\frac{x}{y}} \dif x \\
+                                     & = e^{-\frac{1}{y}}
+	\end{align*}
+\end{solution}
+
+\section{Properties of Expectation}
+
+\begin{theorem}
+	If $X$ and $Y$ have a joint probability mass function $\prob(X = x , Y = y)$, then
+	\begin{align*}
+		\expct\left[ g(X,Y) \right] & = \sum\limits_{x = -\infty}^{\infty} \sum\limits_{y = -\infty}^{\infty} g(x,y) \prob(X = x , Y = y)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	If $X$ and $Y$ have a joint probability density function $\pdf(x,y)$, then
+	\begin{align*}
+		\expct\left[ g(X,Y) \right] & = \int\limits_{-\infty}^{\infty} \int\limits_{-\infty}^{\infty} g(x,y) \pdf(x,y)
+	\end{align*}
+\end{theorem}
+
+\begin{question}
+	An accident occurs at a point $X$ that is uniformly distributed on a road of length $L$.
+	At the time of the accident, and ambulance is at a location $Y$ that is also uniformly distributed on the same road.\\
+	Assuming that $X$ and $Y$ are independent, find the expected distance between the point of occurrence of the accident, and the position of the ambulance.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		X & \sim \uniform(0,L) \\
+		Y & \sim \uniform(0,L)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\pdf_X(x) &=
+			\begin{cases}
+				\frac{1}{L} & ;\quad 0 < x < L        \\
+				0           & ;\quad \text{otherwise} \\
+			\end{cases}\\
+		\pdf_Y(y) &=
+			\begin{cases}
+				\frac{1}{L} & ;\quad 0 < x < L        \\
+				0           & ;\quad \text{otherwise} \\
+			\end{cases}
+	\end{align*}
+	Therefore, as the variables are independent,
+	\begin{align*}
+		\pdf_{X,Y}(x,y) &= \pdf_X(x) \pdf_Y(y)\\
+		&=
+			\begin{cases}
+				\frac{1}{L^2} & ;\quad 0 < x < L , 0 < y < L \\
+				0             & ;\quad \text{otherwise}      \\
+			\end{cases}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ |X - Y| \right] & = \frac{1}{L^2} \int\limits_{0}^{L} \int\limits_{0}^{L} |x - y| \dif y \dif x                                                     \\
+                                             & = \frac{1}{L^2} \int\limits_{0}^{L} \left( \int\limits_{0}^{x} (x - y) \dif y + \int\limits_{x}^{L} (y - x) \dif y \right) \dif x \\
+                                             & = \frac{1}{L^2} \int\limits_{0}^{L} \left( \frac{L^2}{2} + x^2 - x L \right) \dif x                                               \\
+                                             & = \frac{L}{3}
+	\end{align*}
+\end{solution}
 
 \end{document}

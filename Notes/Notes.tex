@@ -58,6 +58,8 @@
 
 \DeclareMathOperator{\var}{\mathrm{V}}
 
+\DeclareMathOperator{\cov}{\mathrm{Cov}}
+
 \DeclareMathOperator{\sd}{\mathrm{\sigma}}
 
 \DeclareMathOperator{\pdf}{\mathrm{f}}
@@ -3004,6 +3006,294 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
                                              & = \frac{1}{L^2} \int\limits_{0}^{L} \left( \int\limits_{0}^{x} (x - y) \dif y + \int\limits_{x}^{L} (y - x) \dif y \right) \dif x \\
                                              & = \frac{1}{L^2} \int\limits_{0}^{L} \left( \frac{L^2}{2} + x^2 - x L \right) \dif x                                               \\
                                              & = \frac{L}{3}
+	\end{align*}
+\end{solution}
+
+\begin{definition}[Sample]
+	Let $X_1,\dots,X_n$ be independent and identically distributed random variables having distribution function function $\cdf{}$, and expected value $\mu$.
+	Such a sequence of random variables is said to constitute a sample from the distribution $\cdf{}$.
+\end{definition}
+
+\begin{definition}[Sample mean]
+	Let $X_1,\dots,X_n$ be a sample with $\cdf{}$ and $\mu$.
+	\begin{align*}
+		\overline{X} & = \sum\limits_{i = 1}^{n} \frac{X_i}{n}
+	\end{align*}
+	is called the sample mean of the sample.
+\end{definition}
+
+\begin{theorem}
+	Let $X_1,\dots,X_n$ be a sample with $\cdf{}$ and $\mu$.
+	Then
+	\begin{align*}
+		\expct\left[ \overline{X} \right] & = \mu
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\expct\left[ \overline{X} \right] & = \expct\left[ \frac{\sum\limits_{i = 1}^{n} X_i}{n} \right]   \\
+                                                  & = \frac{1}{n} \expct\left[ \sum\limits_{i = 1}^{n} X_i \right] \\
+                                                  & = \frac{1}{n} \sum\limits_{i = 1}^{n} \expct[X_i]              \\
+                                                  & = \frac{1}{n} n \mu                                            \\
+                                                  & = \mu
+	\end{align*}
+\end{proof}
+
+\begin{question}
+	Suppose that there are $N$ different types of coupons, and each time one obtains a coupon, it is equally likely to be any one of the $N$ types.
+	Find the expected number of coupons that one needs to collect before obtaining a complete set.
+\end{question}
+
+\begin{solution}
+	Let $X$ be the number of coupons collected.\\
+	Let $X_i$ be the number of additional coupons that need to be collected after $i$ distinct types have been collected in order to obtain another distinct type.\\
+	The probability that a coupon will be of a new type, when $i$ distinct types have already been collected is $\frac{N - i}{N}$.
+	Therefore,
+	\begin{align*}
+		\prob(X_i = k) & = \left( \frac{i}{N} \right)^{k - 1} \frac{N - i}{k}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		X_i & \sim \geo\left( \frac{N - i}{N} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X_i] & = \frac{N}{N - i}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[X] & = \sum\limits_{i = 0}^{n} \expct[X_i]       \\
+                          & = \sum\limits_{i = 0}^{n} \frac{N}{N - i}   \\
+                          & = 1 + \frac{N}{N - 1} + \dots + \frac{N}{1} \\
+                          & = N \left( 1 + \dots + \frac{1}{N - 1} + \frac{1}{N} \right)
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	A sequence of $n$ $1$s and $m$ $0$s is randomly permuted.
+	Any consecutive string of $1$s is said to constitute a run of $1$s.
+	Compute the mean number of such runs.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		I_i               & =
+			\begin{cases}
+				1 & ;\quad \text{run of $1$s starts at the $i$th position} \\
+				0 & ;\quad \text{otherwise}                                \\
+			\end{cases}
+	\end{align*}
+	Let
+	\begin{align*}
+		R(1) & = \sum\limits_{i = 1}^{n + m} I_i
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ R(1) \right] & = \expct\left[ \sum\limits_{i = 1}^{n + m} I_i \right] \\
+                                          & = \sum\limits_{i = 1}^{n + m} \expct[I_i]
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct[I_1] & = \prob(\text{$1$ in position $1$})                          \\
+                            & = \frac{n}{n + m}                                            \\
+		\expct[I_i] & = \prob(\text{$0$ in position $i - 1$, $1$ in position $i$}) \\
+                            & = \frac{m}{n + m} \frac{n}{n + m - 1}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ R(1) \right] & = \expct[I_1] + (n + m - 1) \expct[I_i] \\
+                                          & = \frac{n}{n + m} + (n + m - 1) \left( \frac{n m}{(n + m) (n + m - 1)} \right)
+	\end{align*}
+\end{solution}
+
+\section{Properties of Variance}
+
+\begin{definition}[Covariance]
+	Let $X$ and $Y$ be random variables.
+	Then
+	\begin{align*}
+		\cov(X,Y) & = \expct\left[ \left( X - \expct[X] \right) \left( Y - \expct[Y] \right) \right]
+	\end{align*}
+	is defined to be the covariance of $X$ and $Y$.
+\end{definition}
+
+\begin{theorem}
+	\begin{align*}
+		\cov(X,Y) & = \expct[X Y] - \expct[X] \expct[Y]
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\cov(X,Y) & = \expct\left[ \left( X - \expct[X] \right) \left( Y - \expct[Y] \right) \right] \\
+                          & = \expct\left[ X Y - \expct[X] Y - X \expct[Y] + \expct[X] \expct[Y] \right]     \\
+                          & = \expct[X Y] - \expct[X] \expct[Y] - \expct[X] \expct[Y] + \expct[X] \expct[Y]  \\
+                          & = \expct[X Y] - \expct[X] \expct[Y]
+	\end{align*}
+\end{proof}
+
+\begin{theorem}
+	\begin{align*}
+		\var(X + Y) & = \var(X) + \cov(X,Y) + \var(Y)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\var(X) & = \expct\left[ \left( X - \expct[X] \right)^2 \right]
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X + Y) & = \expct\left[ \left( X + Y - \expct[X + Y] \right)^2 \right]                                                                                                                                  \\
+                            & = \expct\left[ \left( X + Y - \expct[X] - \expct[Y] \right)^2 \right]                                                                                                                          \\
+                            & = \expct\left[ \left( X - \expct[X] \right)^2 + 2 \left( X - \expct[X] \right) \left( Y - \expct[Y] \right) + \left( Y - \expct[Y] \right)^2 \right]                                           \\
+                            & = \expct\left[ \left( X - \expct[X] \right)^2 \right] + 2 \expct\left[ \left( X - \expct[X] \right) \left( Y - \expct[Y] \right) \right] + \expct\left[ \left( Y - \expct[Y] \right)^2 \right] \\
+                            & = \var(X) + \cov(X,Y) + \var(Y)
+	\end{align*}
+\end{proof}
+
+\begin{definition}[Pearson corellation coefficient]
+	\begin{align*}
+		\rho(X,Y) & = \frac{\cov(X,Y)}{\sqrt{\var(X) \var(Y)}}
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	If $X$ and $Y$ are independent, then, for any function $g$ and $h$,
+	\begin{align*}
+		\expct\left[ g(X) h(Y) \right] & = \expct\left[ g(X) \right] \expct\left[ h(Y) \right]
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	Let $X$ and $Y$ be jointly continuous with joint density function $\pdf{x,y}$.
+	Then,
+	\begin{align*}
+		\expct\left[ g(X) h(Y) \right] & = \int\limits_{-\infty}^{\infty} \int\limits_{-\infty}^{\infty} g(x) h(y) \pdf_{X,Y}(x,y) \dif x \dif y
+	\end{align*}
+	As $X$ and $Y$ are independent,
+	\begin{align*}
+		\expct\left[ g(X) h(Y) \right] & = \int\limits_{-\infty}^{\infty} g(x) h(y) \pdf_X(x) \pdf_Y(y) \dif x \dif y                                \\
+                                               & = \int\limits_{-\infty}^{\infty} g(x) \pdf_X(x) \dif x \int\limits_{-\infty}^{\infty} h(y) \pdf_Y(y) \dif y \\
+                                               & = \expct\left[ g(X) \right] \expct\left[ h(Y) \right]
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	If $X$ and $Y$ are independent, then
+	\begin{align*}
+		\cov(X,Y) & = 0
+	\end{align*}
+	However, the converse is not true.
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\cov(X,Y) & = \expct[X Y] - \expct[X] \expct[Y]
+	\end{align*}
+	As $X$ and $Y$ are independent,
+	\begin{align*}
+		\cov(X,Y) & = \expct[X] \expct[Y] - \expct[X] \expct[Y] \\
+                          & = 0
+	\end{align*}
+\end{proof}
+
+\begin{definition}[Uncorrelated random variables]
+	$X$ and $Y$ are said to uncorrelated if and only if
+	\begin{align*}
+		\cov(X,Y) & = 0
+	\end{align*}
+\end{definition}
+
+\begin{theorem}
+	\begin{align*}
+		\cov(X,Y) & = \cov(Y,X)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	\begin{align*}
+		\cov(X,X) & = \var(X)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	\begin{align*}
+		\cov(a X,Y) & = \var(X)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	\begin{align*}
+		\cov\left( \sum\limits_{i = 1}^{n} X_i , \sum\limits_{j = 1}^{m} Y_j \right) & = \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{m} \cov(X_i,Y_j)
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	\begin{align*}
+		\var\left( \sum\limits_{i = 1}^{n} X_i \right) & = \sum\limits_{i = 1}^{n} \var(X_i) + 2 \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{i} \cov(X_i,X_j)
+	\end{align*}
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+		\var\left( \sum\limits_{i = 1}^{n} X_i \right) & = \cov(\sum\limits_{i = 1}^{n} X_i , \sum\limits_{j = 1}^{n} X_j)                                  \\
+                                                               & = \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{n} \cov\left( X_i,X_j \right)                       \\
+                                                               & = \sum\limits_{i = 1}^{n} \var(X_i) + \sum\limits_{i = 1}^{n} \sum\limits_{j \neq i} \cov(X_i,X_j) \\
+                                                               & = \var\left( \sum\limits_{i = 1}^{n} X_i \right)                                                    & = \sum\limits_{i = 1}^{n} \var(X_i) + 2 \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{i} \cov(X_i,X_j)
+	\end{align*}
+\end{proof}
+
+\begin{definition}[Sample variance]
+	Let $X_1,\dots,X_n$ be a sample with expected value $\mu$ and variation $\sigma^2$.
+	\begin{align*}
+		S^2 & = \sum\limits_{i = 1}^{n} \frac{\left( X_i - \overline{X} \right)^2}{n - 1}
+	\end{align*}
+	is called the sample variance of the sample.
+\end{definition}
+
+\begin{question}
+	Let $X_1,\dots,X_n$ be independent and identically distributed random variables having expected value $\mu$, and variance $\sigma^2$.\\
+	Let
+	\begin{align*}
+		\overline{X} & = \frac{\sum\limits_{i = 1}^{n} X_i}{n}
+	\end{align*}
+	Find $V\left( \overline{X} \right)$ and $\expct\left[ S^2 \right]$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\var\left( \overline{X} \right) & = \var\left( \frac{1}{n} \sum\limits_{i = 1}^{n} X_i \right) \\
+                                                & = \left( \frac{1}{n} \right)^2 \var\left( \sum\limits_{i = 1}^{n} X_i \right)
+	\end{align*}
+	As all $X_i$ are independent,
+	\begin{align*}
+		\var\left( \overline{X} \right) & = \left( \frac{1}{n} \right)^2 \sum\limits_{i = 1}^{n} \var(X_i) \\
+                                                & = \left( \frac{1}{n} \right)^2 n \sigma^2                        \\
+                                                & = \frac{\sigma^2}{n}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		(n - 1) S^2 & = \sum\limits_{i = 1}^{n} \left( X_i - \mu + \mu + \overline{X} \right)^2                                                                                                                                 \\
+                            & = \sum\limits_{i = 1}^{n} (X_i - \mu)^2 + \sum\limits_{i = 1}^{n} \left( \overline{X} - \mu \right)^2 - 2 \left( \overline{X} - \mu \right) \sum\limits_{i = 1}^{n} (X_i - \mu)                           \\
+                            & = \sum\limits_{i = 1}^{n} (X_i - \mu)^2 + \sum\limits_{i = 1}^{n} \left( \overline{X} - \mu \right)^2 - 2 \left( \overline{X} - \mu \right) \sum\limits_{i = 1}^{n} \left( n \overline{X} - n \mu \right) \\
+                            & = \sum\limits_{i = 1}^{n} (X_i - \mu)^2 + \sum\limits_{i = 1}^{n} \left( \overline{X} - \mu \right)^2 - 2 \left( \overline{X} - \mu \right) \sum\limits_{i = 1}^{n} n \left( \overline{X} - \mu \right)   \\
+                            & = \sum\limits_{i = 1}^{n} (X_i - \mu)^2 - n \left( \overline{X} - \mu \right)^2
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\expct\left[ (n - 1) S^2 \right] & = \expct\left[ \sum\limits_{i = 1}^{n} (X_i - \mu)^2 \right] - n \expct\left[ \left( \overline{X} - \mu \right)^2 \right] \\
+                                                 & = \sum\limits_{i = 1}^{n} \var(X_i) - n \var\left( \overline{X} \right)                                                   \\
+                                                 & = n \sigma^2 - n \var\left( \overline{X} \right)                                                                          \\
+                                                 & = n \sigma^2 - n \frac{\sigma^2}{n}                                                                                       \\
+                                                 & = (n - 1) \sigma^2
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var\left( S^2 \right) & = \expct\left[ \left( S^2 - \expct\left[ S^2 \right] \right)^2 \right] \\
+                                       & = \sigma^2
 	\end{align*}
 \end{solution}
 

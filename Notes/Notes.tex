@@ -80,6 +80,8 @@
 
 \DeclareMathOperator{\exponential}{\mathrm{Exp}}
 
+\DeclareMathOperator{\normal}{\mathrm{N}}
+
 \newcommand*{\perm}[2]{{}^{#1}\mathrm{P}_{#2}}%
 \newcommand*{\comb}[2]{{}^{#1}\mathrm{C}_{#2}}%
 
@@ -132,7 +134,7 @@
 %\setlength{\mathindent}{0pt}
 
 \blfootnote
-{	
+{
 	\begin{figure}[H]
 		\includegraphics[height = 12pt]{cc.pdf}
 		\includegraphics[height = 12pt]{by.pdf}
@@ -268,13 +270,13 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 			0 \le \prob(E) \le 1
 		\end{equation*}
 	\end{axiom}
-	
+
 	\begin{axiom}
 		\begin{align*}
 			\prob(\Omega) & = 1
 		\end{align*}
 	\end{axiom}
-	
+
 	\begin{axiom}
 		For any sequence of mutually exclusive events $A_1$, $\dots$,
 		\begin{align*}
@@ -770,7 +772,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 	\end{align*}
 	Let $A$ be the event that each stack has exactly one ace.
 	Therefore, each stack has one ace, and $12$ non-ace cards.
-	Therefore, 
+	Therefore,
 	\begin{align*}
 		|A| & = \left( \binom{4}{1} \binom{48}{12} \right) \left( \binom{3}{1} \binom{36}{12} \right) \left( \binom{2}{1} \binom{24}{12} \right) \left( \binom{1}{1} \binom{12}{12} \right)
 	\end{align*}
@@ -950,7 +952,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 							edge from parent
 							node[prob] {$\frac{2}{9}$}
 						}
-						edge from parent 
+						edge from parent
 						node[prob] {$\frac{7}{9}$}
 					}
 					child
@@ -968,10 +970,10 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 							edge from parent
 							node[prob] {$\frac{2}{9}$}
 						}
-						edge from parent 
+						edge from parent
 						node[prob] {$\frac{2}{9}$}
 					}
-				edge from parent 
+				edge from parent
 				node[prob] {$\frac{8}{10}$}
 			}
 			child
@@ -992,7 +994,7 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 							edge from parent
 							node[prob] {$\frac{1}{9}$}
 						}
-						edge from parent 
+						edge from parent
 						node[prob] {$\frac{8}{9}$}
 					}
 					child
@@ -1010,10 +1012,10 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 							edge from parent
 							node[prob] {$\frac{1}{9}$}
 						}
-						edge from parent 
+						edge from parent
 						node[prob] {$\frac{1}{9}$}
 					}
-				edge from parent 
+				edge from parent
 				node[prob] {$\frac{2}{10}$}
 			};
 		\end{tikzpicture}
@@ -3242,7 +3244,8 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
 		\var\left( \sum\limits_{i = 1}^{n} X_i \right) & = \cov(\sum\limits_{i = 1}^{n} X_i , \sum\limits_{j = 1}^{n} X_j)                                  \\
                                                                & = \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{n} \cov\left( X_i,X_j \right)                       \\
                                                                & = \sum\limits_{i = 1}^{n} \var(X_i) + \sum\limits_{i = 1}^{n} \sum\limits_{j \neq i} \cov(X_i,X_j) \\
-                                                               & = \var\left( \sum\limits_{i = 1}^{n} X_i \right)                                                    & = \sum\limits_{i = 1}^{n} \var(X_i) + 2 \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{i} \cov(X_i,X_j)
+                                                               & = \var\left( \sum\limits_{i = 1}^{n} X_i \right)\\
+							       & = \sum\limits_{i = 1}^{n} \var(X_i) + 2 \sum\limits_{i = 1}^{n} \sum\limits_{j = 1}^{i} \cov(X_i,X_j)
 	\end{align*}
 \end{proof}
 
@@ -3296,5 +3299,264 @@ E-mail: \href{mailto:liran.mendel@gmail.com}{liran.mendel@gmail.com}\\
                                        & = \sigma^2
 	\end{align*}
 \end{solution}
+
+\begin{question}
+	$n$ people came to a winter party, carrying a coat each.
+	While leaving the party, each person took a coat randomly.
+	Let $X$ be the number of people that left with their own coat.
+	Find $\var(X)$.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		X_i &=
+			\begin{cases}
+				1 & ;\quad \text{person $i$ got own coat} \\
+				0 & ;\quad \text{otherwise}               \\
+			\end{cases}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		X &= \sum\limits_{i = 1}^{n} I_i
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		V(I_i) &= \expct\left[ {X_i}^2 \right] - \expct[X_i]^2\\
+		&= \left( \frac{1}{n} \right) \left( 1^2 \right) + \left( 1 - \frac{1}{n} \right) \left( 0^2 \right) - \left( \left( \frac{1}{n} \right) (1) + \left( 1 - \frac{1}{n} \right) (0) \right)^2\\
+		&= \frac{1}{n} - \frac{1}{n^2}\\
+		&= \left( \frac{1}{n} \right) \left( 1 - \frac{1}{n} \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\cov(X_i,X_j) &= \expct[X_i X_j] - \expct[X_i] \expct[X_j]\\
+		&= \prob(X_i = 1 \cap X_j = 1) (1) - \left( \frac{1}{n} \right) \left( \frac{1}{n} \right)\\
+		&= \left( \frac{1}{n} \right) \left( \frac{1}{n - 1} \right) - \left( \frac{1}{n} \right)^2\\
+		&= \frac{1}{n} \left( \frac{1}{n - 1} - \frac{1}{n} \right)\\
+		&= \frac{1}{n^2 (n - 1)}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\var(X) &= \var\left( \sum\limits_{i = 1}^{n} X_i \right)\\
+		&= \sum\limits_{i = 1}^{n} \var(X_i) + \sum\limits_{i = 1}^{n} \sum\limits_{j = i}^{n} 2 \cov(X_i,X_j)\\
+		&= (n) \left( \frac{1}{n} \right) \left( 1 - \frac{1}{n} \right) + 2 \binom{n}{2} \left( \frac{1}{n^2 (n - 1)} \right)\\
+		&= 1 - \frac{1}{n} + \frac{1}{n}\\
+		&= 1
+	\end{align*}
+\end{solution}
+
+\section{Conditional Expectation}
+
+\begin{definition}[Conditional expectation for discrete random variables]
+	Let $X$ and $Y$ be discrete random variables.\\
+	The conditional expectation of $X$, given that $Y = y$ is
+	\begin{align*}
+		\expct[X | Y = y] &= \sum\limits_{x} \prob(X = x | Y = y)
+	\end{align*}
+	\begin{align*}
+		\pdf_{X|Y}(X | Y = y) &= \frac{\pdf_{X,Y}(x,y)}{\pdf_Y(y)}
+	\end{align*}
+\end{definition}
+
+\begin{definition}[Conditional expectation for continuous random variables]
+	Let $X$ and $Y$ be continuous random variables.\\
+	The conditional expectation of $X$, given that $Y = y$ is
+	\begin{align*}
+		\pdf_{X|Y}(X | Y = y) &= \frac{\pdf_{X,Y}(x,y)}{\pdf_Y(y)}
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	If $X$ and $Y$ are independent binomial random variables with identical parameters $n$ and $p$, calculate the conditional expected value of $X$, given that $X + Y = m$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		\prob(X = k | X + Y = m) &= \frac{\prob(X = k , X + Y = m)}{\prob(X + Y = m)}\\
+		&= \frac{\prob(X = k , Y = m - k)}{\prob(X + Y = m)}\\
+		&= \frac{\prob(X = k) \prob(Y = m - k)}{\prob(X + Y = m)}\\
+		&= \frac{\left( \binom{n}{k} p^k (1 - p)^{n - k} \right) \left( \binom{n}{m - k} p^{m - k} (1 - p)^{n - m + k} \right)}{\binom{2 n}{m} p^m (1 - p)^{2 n - m}}\\
+		&= \frac{\binom{n}{k} \binom{n}{m - k}}{\binom{2 n}{m}}
+	\end{align*}
+	Therefore, the conditional distribution of $X$, given that $X + Y = m$ is hypergeometric, i.e.
+	\begin{align*}
+		(X | X + Y) &\sim \hg(m, 2 n, n)
+	\end{align*}
+	Therefore, the expectation is
+	\begin{align*}
+		\expct[X | X + Y = m] &= \frac{m}{2}
+	\end{align*}
+\end{solution}
+
+\section{Central Limit Theorem}
+
+\begin{theorem}[Central Limit Theorem]
+	Let $X_1, \dots, X_n$ be a sequence of independent and identically distributed random variables, each having mean $\mu$ and variance $\sigma^2$.
+	Then, as $n \to \infty$, the distribution of $\frac{X_1 + \dots + X_n + n \mu}{\sigma \sqrt{n}}$ tends to the standard normal distribution, i.e. for $a \in \mathbb{R}$,
+	\begin{align*}
+		\lim\limits_{n \to \infty} \left( \frac{X_1 + \dots + X_n + n \mu}{\sigma \sqrt{n}} \le a \right) &= \frac{1}{\sqrt{2 \pi}} \int\limits_{-\infty}^{a} e^{-\frac{x^2}{2}} \dif x
+	\end{align*}
+	\label{thm:Central_Limit_Theorem}
+\end{theorem}
+
+\begin{question}
+	The number of students who enroll in a psychology course is a Poisson random variable with mean $100$.
+	The professor in charge of the course has decided that if the number of students enroll in the course if $120$ or more, he will teach the course in two separate sections, whereas if it is less than $120$, he will teach all of the students in a single section.
+	What is the probability that the professor will have to teach two sections?
+\end{question}
+
+\begin{solution}
+	The Poisson random variable with mean $100$ is the sum of $100$ independent Poisson random variables with mean $1$ each.
+	Also,
+	\begin{align*}
+		\expct[X] &= \lambda\\
+		&= 100\\
+		\var(X) &= \lambda\\
+		&= 100
+	\end{align*}
+	Therefore, by \nameref{thm:Central_Limit_Theorem},
+	\begin{align*}
+		X &\sim \normal(100,100)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\prob(X \ge 120) &= \prob\left( \frac{X - 100}{\sqrt{100}} \ge \frac{120 - 100}{\sqrt{100}} \right)\\
+		&= \approx 1 - \Phi(2)
+	\end{align*}
+\end{solution}
+
+\clearpage
+\part{Hypothesis Testing}
+
+\section{Types of Errors}
+
+\begin{definition}[Type $\mathrm{I}$ error]
+	An error in which a correct null hypothesis is rejected is called a type $\mathrm{I}$ error.
+\end{definition}
+
+\begin{definition}[Type $\mathrm{II}$ error]
+	An error in which an incorrect null hypothesis is accepted is called a type $\mathrm{II}$ error.
+\end{definition}
+
+\begin{definition}[Test statistic]
+	A function of a sample of observations which provides a basis for testing the validity of the null hypothesis is called a test statistic.
+\end{definition}
+
+\begin{definition}[Critical region]
+	The region such that the null hypothesis is rejected when a caluclated value of the test statistic lies within this region is called the critical region.
+\end{definition}
+
+\begin{definition}[Critical value]
+	The value which determines the boundary of the critical region is called the critical value.
+\end{definition}
+
+\begin{definition}[Significance level]
+	The size of the critical region, i.e. the probability of type $\mathrm{I}$ error is called the significance level.
+	It is denoted by $\alpha$.
+\end{definition}
+
+\begin{definition}[$p$-value]
+	The smallest significance value which allows the null hypothesis to be rejected is called the $p$-value.
+\end{definition}
+
+\begin{definition}[Sample variance]
+	Let $\overline{X}$ be the sample mean.
+	The sample variance is defined to be
+	\begin{align*}
+		s^2 &= \frac{\sum\limits_{i = 1}^{n} \left( X_i - \overline{X} \right)^2}{n - 1}\\
+		&= \frac{\sum\limits_{i = 1}^{n} {X_i}^2 - n \overline{X}^2}{n - 1}
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	A consumer group, concerned about the mean fat content of a certain grade of steakburger submits to an independent laboratory, a random sample of $12$ steakburgers for analysis.
+	The percentage of fat in each of the steakburgers is $21\%$, $18\%$, $19\%$, $16\%$, $18\%$, $24\%$, $22\%$, $19\%$, $24\%$, $14\%$, $18\%$, $15\%$.
+	The manufacturer claims that the mean fat content of this grade of steakburger is less than $20\%$.
+	Assuming that the percentage of fat content is normally distributed with standard deviation $3$, test the hypothesis.
+	Assume the significance level to be $5\%$.
+\end{question}
+
+\begin{solution}
+	Let $X$ be the percentage of fat content in the particular grade of steakburger.\\
+	Therefore,
+	\begin{align*}
+		X &\sim \normal(\mu, 9)
+	\end{align*}
+	Let the null hypothesis, $H_0$, be that the mean fat content is $20\%$.\\
+	Let the new hypothesis, $H_1$, be that the mean fat content is less than $20\%$.\\
+	Therefore,
+	\begin{align*}
+		\overline{X} &\sim \normal\left( \mu, \frac{9}{12} \right)
+	\end{align*}
+	Standardizing $X$ and solving for the critical value,
+	\begin{align*}
+		\frac{k - 20}{\frac{3}{\sqrt{12}}} &= \Phi(0.05)\\
+		&= -1.645
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		k &= 20 - 1.645 \frac{3}{\sqrt{12}}\\
+		&= 18.575
+	\end{align*}
+	Therefore, as the $\overline{X}$ is $19$, it is not in the critical region.
+	Therefore, the null hypothesis can be accepted.
+\end{solution}
+
+%8 Jun 16
+
+\begin{definition}
+	\begin{align*}
+		t &= \frac{\overline{X} - \mu_0}{\frac{s}{\sqrt{n}}}
+	\end{align*}
+\end{definition}
+
+\begin{question}
+	A consumer group, concerned about the mean fat content of a certain grade of steakburger submits to an independent laboratory, a random sample of $12$ steakburgers for analysis.
+	The percentage of fat in each of the steakburgers is $21\%$, $18\%$, $19\%$, $16\%$, $18\%$, $24\%$, $22\%$, $19\%$, $24\%$, $14\%$, $18\%$, $15\%$.
+	The manufacturer claims that the mean fat content of this grade of steakburger is less than $20\%$.
+	Assuming that the percentage of fat content is normally distributed with standard deviation $3$, test the hypothesis.
+	Assume the significance level to be $5\%$.
+\end{question}
+
+\begin{solution}
+	Let $X$ be the percentage of fat content in the particular grade of steakburger.\\
+	Therefore,
+	\begin{align*}
+		X &\sim \normal(\mu, 9)
+	\end{align*}
+	Let the null hypothesis, $H_0$, be that the mean fat content is $20\%$.\\
+	Let the new hypothesis, $H_1$, be that the mean fat content is less than $20\%$.\\
+	Therefore,
+	\begin{align*}
+		\overline{X} &\sim \normal\left( \mu, \frac{9}{12} \right)
+	\end{align*}
+	Therefore, the sample variance is
+	\begin{align*}
+		s^2 = \frac{\sum {x_i}^2 - n \overline{x}^2}{n - 1}\\
+		&= \frac{4448 - 12.192}{11}\\
+		&= 10.545
+	\end{align*}
+	Therefore, the test statistic is
+	\begin{align*}
+		t &= \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}}\\
+		&= \frac{19 - 20}{\frac{\sqrt{10.545}}{\sqrt{12}}}\\
+		&= -1.07
+	\end{align*}
+	Therefore, as $t$ is not in the critical region, the null hypothesis cannot be rejected for $\alpha = 0.05$.
+\end{solution}
+
+\section{Confidence Interval}
+
+\begin{definition}[Confidence interval]
+	An interval such that the parameter lies inside the interval with probability $1 - \alpha$ is called a confidence interval.
+	Therefore,
+	\begin{align*}
+		\prob\left( Z_{\frac{\alpha}{2}} \le \frac{\overline{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \le X_{1 - \frac{\alpha}{2}} \right) &= 1 - \alpha\\
+		\therefore \prob\left( \frac{\sigma}{\sqrt{n}} Z_{1 - \frac{\alpha}{2}} \le \overline{X} - \mu \le \frac{\sigma}{\sqrt{n}} Z_{1 - \frac{\alpha}{2}} \right) &= 1 - \alpha\\
+		\therefore \prob\left( \left| \overline{X} - \mu \right| \le \frac{\sigma}{\sqrt{n}} Z_{1 - \frac{\alpha}{2}} \right) &= 1 - \alpha
+	\end{align*}
+	Therefore, the confidence interval is $\overline{X} \pm Z_{1 - \frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}$.\\
+	Similarly, for $t$, the confidence interval is $\overline{X} \pm t_{n - 1 , 1 - \frac{\alpha}{2}} \frac{s}{\sqrt{n}}$.
+\end{definition}
 
 \end{document}
